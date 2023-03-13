@@ -1,0 +1,64 @@
+﻿<Window x:Class="ExamManagement.CreateExamWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Create Exam" Height="500" Width="600">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Create Exam" FontSize="20" Margin="0 0 0 10"/>
+
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+            <TextBlock Text="Name:" Margin="0 0 10 0"/>
+            <TextBox x:Name="NameTextBox" Width="300"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+            <TextBlock Text="Date:" Margin="0 0 10 0"/>
+            <DatePicker x:Name="DatePicker"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+            <TextBlock Text="Starting hour:" Margin="0 0 10 0"/>
+            <TextBox x:Name="StartingHourTextBox" Width="100"/>
+        </StackPanel>
+
+        <StackPanel Margin="0 0 0 10">
+            <TextBlock Text="Questions:" FontSize="16"/>
+            <ItemsControl ItemsSource="{Binding Questions}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Text}" Margin="0 0 10 0"/>
+                            <Button Content="Edit" Click="EditQuestionButton_Click"/>
+                            <Button Content="Delete" Click="DeleteQuestionButton_Click"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="4" HorizontalAlignment="Right">
+            <Button x:Name="AddQuestionButton" Content="Add Question" Click="AddQuestionButton_Click" Margin="0 0 10 0"/>
+            <Button x:Name="CreateExamButton" Content="Create Exam" Click="CreateExamButton_Click"/>
+        </StackPanel>
+
+        <Popup x:Name="EditQuestionPopup" IsOpen="False" PlacementTarget="{Binding ElementName=EditQuestionButton}" Placement="Bottom">
+            <StackPanel Margin="10">
+                <TextBlock Text="Edit Question" FontSize="16" Margin="0 0 0 10"/>
+                <TextBox x:Name="EditQuestionTextBox" Text="{Binding SelectedQuestion.Text, Mode=TwoWay}" Margin="0 0 0 10"/>
+                <ComboBox x:Name="EditQuestionImageComboBox" ItemsSource="{Binding Images}" SelectedItem="{Binding SelectedQuestion.ImageUrl}" DisplayMemberPath="Name" Margin="0 0 0 10"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="SaveQuestionButton" Content="Save" Click="SaveQuestionButton_Click" Margin="0 0 10"/>
+                    <Button x:Name="CancelEditQuestionButton" Content="Cancel" Click="CancelEditQuestionButton_Click" Margin="10 0 0 0"/>
+                </StackPanel>
+            </StackPanel>
+        </Popup>
+    </Grid>
+</Window>
+
