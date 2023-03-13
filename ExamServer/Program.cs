@@ -24,8 +24,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseEndpoints(s=> s.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}"));
 
-app.UseAuthorization();
 
 app.MapRazorPages();
 
