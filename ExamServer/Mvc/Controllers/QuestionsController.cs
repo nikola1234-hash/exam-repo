@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ExamServer
+namespace ExamServer.Mvc.Controllers
 {
     [Route("api/exams/{examId}/questions")]
     [ApiController]
@@ -70,7 +70,7 @@ namespace ExamServer
             exam.Questions.Add(question);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetQuestion), new { examId = examId, id = question.Id }, question);
+            return CreatedAtAction(nameof(GetQuestion), new { examId, id = question.Id }, question);
         }
 
         // PUT api/exams/{examId}/questions/{id}

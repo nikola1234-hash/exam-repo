@@ -1,8 +1,12 @@
+using ExamServer.EntityFramework;
+using ExamServer.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-
+builder.Services.AddDbContext<ExamDbContext>();
+builder.Services.AddTransient(typeof(ICrudService<>), typeof(CrudService<>));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,0 +1,8 @@
+C:\Users\Branislav Stanic\Desktop\Exam\exam-repo\ExamServer\obj\Debug\net6.0\ExamServer.csproj.AssemblyReference.cache
+C:\Users\Branislav Stanic\Desktop\Exam\exam-repo\ExamServer\obj\Debug\net6.0\ExamServer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Branislav Stanic\Desktop\Exam\exam-repo\ExamServer\obj\Debug\net6.0\ExamServer.AssemblyInfoInputs.cache
+C:\Users\Branislav Stanic\Desktop\Exam\exam-repo\ExamServer\obj\Debug\net6.0\ExamServer.AssemblyInfo.cs
+C:\Users\Branislav Stanic\Desktop\Exam\exam-repo\ExamServer\obj\Debug\net6.0\ExamServer.csproj.CoreCompileInputs.cache
+C:\Users\Branislav Stanic\Desktop\Exam\exam-repo\ExamServer\obj\Debug\net6.0\ExamServer.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Branislav Stanic\Desktop\Exam\exam-repo\ExamServer\obj\Debug\net6.0\ExamServer.RazorAssemblyInfo.cache
+C:\Users\Branislav Stanic\Desktop\Exam\exam-repo\ExamServer\obj\Debug\net6.0\ExamServer.RazorAssemblyInfo.cs

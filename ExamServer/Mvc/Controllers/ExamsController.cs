@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ExamServer.EntityFramework.Entities;
+using ExamServer.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ExamServer
+namespace ExamServer.Mvc.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ExamsController : ControllerBase
     {
-        private readonly ExamManagementContext _context;
+        private readonly ICrudService<Exam> _context;
 
-        public ExamsController(ExamManagementContext context)
+        public ExamsController(ICrudService<Exam> context)
         {
             _context = context;
         }
@@ -18,14 +19,14 @@ namespace ExamServer
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Exam>>> GetExams()
         {
-            return await _context.Exams.ToListAsync();
+           return _context.GetAll().ToList();
         }
 
         // GET api/exams/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Exam>> GetExam(int id)
         {
-            var exam = await _context.Exams.FindAsync(id);
+            var exam = await _context.GetById(id);
 
             if (exam == null)
             {
