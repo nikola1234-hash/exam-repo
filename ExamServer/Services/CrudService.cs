@@ -29,12 +29,13 @@ namespace ExamServer.Services
             return null;
         }
 
-        public async Task<T> Update(T entity)
+        public async Task<T> Update(int id, T entity)
         {
-            var fromDb = await _context.Set<T>().FirstOrDefaultAsync(s => s.Id == entity.Id);
+            var fromDb = await _context.Set<T>().FirstOrDefaultAsync(s => s.Id == id);
             if (fromDb != null)
             {
                 _context.Entry(fromDb).CurrentValues.SetValues(entity);
+                _context.Entry(fromDb).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
             return null;
@@ -59,6 +60,17 @@ namespace ExamServer.Services
             }
             return 0;
 
+        }
+
+        public async Task<int> Remove(int id)
+        {
+            var entity = await _context.Set<T>().FirstOrDefaultAsync(s => s.Id == id);
+            if (entity != null)
+            {
+                _context.Set<T>().Remove(entity);
+                return await _context.SaveChangesAsync();
+            }
+            return 0;
         }
     }
 }

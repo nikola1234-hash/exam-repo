@@ -19,7 +19,8 @@ namespace ExamServer.Mvc.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Exam>>> GetExams()
         {
-           return _context.GetAll().ToList();
+           var result =  await _context.GetAll();
+           return result.ToList();
         }
 
         // GET api/exams/{id}
@@ -40,8 +41,7 @@ namespace ExamServer.Mvc.Controllers
         [HttpPost]
         public async Task<ActionResult<Exam>> CreateExam(Exam exam)
         {
-            _context.Exams.Add(exam);
-            await _context.SaveChangesAsync();
+            await _context.Add(exam);
 
             return CreatedAtAction(nameof(GetExam), new { id = exam.Id }, exam);
         }
@@ -54,9 +54,7 @@ namespace ExamServer.Mvc.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(exam).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            await _context.Update(id, exam);
 
             return NoContent();
         }
@@ -65,17 +63,13 @@ namespace ExamServer.Mvc.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteExam(int id)
         {
-            var exam = await _context.Exams.FindAsync(id);
-
-            if (exam == null)
+            int output = await _context.Remove(id);
+            if(output > 0)
             {
-                return NotFound();
+                return Ok();
             }
 
-            _context.Exams.Remove(exam);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return BadRequest();
         }
     }
 
