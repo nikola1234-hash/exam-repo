@@ -1,11 +1,14 @@
 using ExamServer.EntityFramework;
 using ExamServer.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<ExamDbContext>();
+builder.Services.AddDbContext<ExamDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("ExamDB")));
 builder.Services.AddTransient(typeof(ICrudService<>), typeof(CrudService<>));
 var app = builder.Build();
 

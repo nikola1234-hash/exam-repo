@@ -23,5 +23,30 @@ namespace ExamManagement
         {
             InitializeComponent();
         }
+
+        private void AddQuestionButton_Click(object sender, RoutedEventArgs e)
+        {
+            // do something
+        }
+        private void CreateExamButton_Click(object sender, RoutedEventArgs e)
+        {
+            // do something
+        }
+        private void EditQuestionButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+        } 
+        private void DeleteQuestionButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+        } 
+        private void SaveQuestionButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }    
+        private void CancelEditQuestionButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }

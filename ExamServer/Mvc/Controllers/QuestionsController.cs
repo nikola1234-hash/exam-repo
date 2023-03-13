@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ExamServer.EntityFramework.Entities;
+using ExamServer.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExamServer.Mvc.Controllers
@@ -7,40 +9,38 @@ namespace ExamServer.Mvc.Controllers
     [ApiController]
     public class QuestionsController : ControllerBase
     {
-        private readonly ExamManagementContext _context;
+        private readonly ICrudService<Question> _context;
+        private readonly ICrudService<Exam> _examContext;
 
-        public QuestionsController(ExamManagementContext context)
+        public QuestionsController(ICrudService<Question> context, ICrudService<Exam> examContext)
         {
             _context = context;
+            _examContext = examContext;
         }
 
+  
         // GET api/exams/{examId}/questions
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Question>>> GetQuestions(int examId)
         {
-            var exam = await _context.Exams.FindAsync(examId);
 
-            if (exam == null)
+
+
+            var exam = await _examContext.GetById(examId);
+
+            if (exam.Questions == null)
             {
                 return NotFound();
             }
 
-            var questions = exam.Questions.ToList();
-
-            if (exam.RandomizeQuestions)
-            {
-                questions = questions.OrderBy(q => Guid.NewGuid()).ToList();
-            }
-
-            return questions;
+            return exam.Questions.ToList();
         }
 
         // GET api/exams/{examId}/questions/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Question>> GetQuestion(int examId, int id)
         {
-            var exam = await _context.Exams.FindAsync(examId);
-
+            var exam = await _examContext.GetById(examId);
             if (exam == null)
             {
                 return NotFound();
@@ -60,7 +60,7 @@ namespace ExamServer.Mvc.Controllers
         [HttpPost]
         public async Task<ActionResult<Question>> CreateQuestion(int examId, Question question)
         {
-            var exam = await _context.Exams.FindAsync(examId);
+            var exam = await _examContext.GetById(examId);
 
             if (exam == null)
             {
@@ -68,55 +68,53 @@ namespace ExamServer.Mvc.Controllers
             }
 
             exam.Questions.Add(question);
-            await _context.SaveChangesAsync();
-
             return CreatedAtAction(nameof(GetQuestion), new { examId, id = question.Id }, question);
         }
 
         // PUT api/exams/{examId}/questions/{id}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateQuestion(int examId, int id, Question question)
-        {
-            if (id != question.Id)
-            {
-                return BadRequest();
-            }
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> UpdateQuestion(int examId, int id, Question question)
+        //{
+        //    if (id != question.Id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            var exam = await _context.Exams.FindAsync(examId);
+        //    var exam = await _examContext.GetById(examId);
 
-            if (exam == null)
-            {
-                return NotFound();
-            }
+        //    if (exam == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var questionToUpdate = exam.Questions.Where(q => q.Id == id).FirstOrDefault();
+        //    var q = 
+        //    await _context.SaveChangesAsync();
 
-            _context.Entry(question).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
         // DELETE api/exams/{examId}/questions/{id}
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteQuestion(int examId, int id)
-        {
-            var exam = await _context.Exams.FindAsync(examId);
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteQuestion(int examId, int id)
+        //{
+        //var exam = await _context.Exams.FindAsync(examId);
 
-            if (exam == null)
-            {
-                return NotFound();
-            }
+        //if (exam == null)
+        //{
+        //    return NotFound();
+        //}
 
-            var question = exam.Questions.FirstOrDefault(q => q.Id == id);
+        //var question = exam.Questions.FirstOrDefault(q => q.Id == id);
 
-            if (question == null)
-            {
-                return NotFound();
-            }
+        //if (question == null)
+        //{
+        //    return NotFound();
+        //}
 
-            exam.Questions.Remove(question);
-            await _context.SaveChangesAsync();
+        //exam.Questions.Remove(question);
+        //await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
+        //return NoContent();
     }
 }
+

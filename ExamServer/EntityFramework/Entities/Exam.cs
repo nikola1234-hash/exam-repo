@@ -10,7 +10,7 @@ namespace ExamServer.EntityFramework.Entities
         public TimeSpan StartingHour { get; set; }
         public int TotalTime { get; set; }
         public bool RandomizeQuestions { get; set; }
-        public List<Question> Questions { get; set; }
+        public ICollection<Question> Questions { get; set; }
 
     }
 }

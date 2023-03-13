@@ -17,8 +17,8 @@ namespace ExamManagement
 
         private void SearchExamsButton_Click(object sender, RoutedEventArgs e)
         {
-            var searchExamsWindow = new SearchExamsWindow();
-            searchExamsWindow.ShowDialog();
+            //var searchExamsWindow = new SearchExamsWindow();
+            //searchExamsWindow.ShowDialog();
         }
     }
 }

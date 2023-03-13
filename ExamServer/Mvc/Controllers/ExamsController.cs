@@ -24,17 +24,19 @@ namespace ExamServer.Mvc.Controllers
         }
 
         // GET api/exams/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Exam>> GetExam(int id)
+        [HttpGet("{name}")]
+        public async Task<ActionResult<Exam>> GetExam(string name)
         {
-            var exam = await _context.GetById(id);
+            var exam = await _context.GetAll();
 
             if (exam == null)
             {
                 return NotFound();
             }
 
-            return exam;
+            Exam filetered = exam.FirstOrDefault(s => s.Name == name);
+
+            return filetered;
         }
 
         // POST api/exams

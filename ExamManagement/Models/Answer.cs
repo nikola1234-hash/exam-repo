@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExamManagement
+namespace ExamManagement.Models
 {
-    class Answer
+    public class Answer
     {
         public int Id { get; set; }
         public string Text { get; set; }
