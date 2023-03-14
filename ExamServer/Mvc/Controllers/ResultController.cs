@@ -3,6 +3,7 @@ using ExamServer.EntityFramework.Entities;
 using ExamServer.Mvc.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExamServer.Mvc.Controllers
 {
@@ -19,7 +20,7 @@ namespace ExamServer.Mvc.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            var result = _context.Results.ToList();
+            var result = _context.Results.Include(s=> s.Results).ThenInclude(s=> s.Questions).ThenInclude(s=> s.Answers);
             return Ok(result);
         }
         [HttpPost]
