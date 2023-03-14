@@ -41,14 +41,18 @@ namespace ExamManagement
                 MessageBox.Show($"Exam starts on {exam.Date.Date.ToShortDateString()}");
                 this.Close();
             }
-            else
+            else if(exam.Date.Date > DateTime.Now.Date)
             {
                 MessageBox.Show("Exam has passed");
                 this.Close();
             }
-            Exam = exam;
-            Exams.Add(exam);
-            resultList.ItemsSource = Exams;
+            else
+            {
+                Exam = exam;
+                Exams.Add(exam);
+                resultList.ItemsSource = Exams;
+            }
+        
         }
         private void OpenExam_Click(object sender, RoutedEventArgs e)
         {

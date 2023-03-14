@@ -58,7 +58,7 @@ namespace ExamManagement.Services
 
             var response = await _httpClient.PostAsJsonAsync<T>($"{_baseUrl}/api/{_resource}", exam);
             var t = await  response.Content.ReadAsStringAsync();
-            var l = JsonConvert.DeserializeObject<ProblemsWithDetails>(t);
+
             if (response.IsSuccessStatusCode)
             {
                 return true;

@@ -51,7 +51,7 @@ namespace ExamServer.Mvc.Controllers
         {
             await _context.Add(exam);
 
-            return CreatedAtAction(nameof(GetExam), new { id = exam.Id }, exam);
+            return Ok();
         }
 
         // PUT api/exams/{id}
