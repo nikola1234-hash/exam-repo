@@ -53,13 +53,20 @@ namespace ExamManagement.Services
             }
             return false;
         }
-        public async Task<T> CreateExamAsync(T exam)
+        public async Task<bool> CreateExamAsync(T exam)
         {
 
             var response = await _httpClient.PostAsJsonAsync<T>($"{_baseUrl}/api/{_resource}", exam);
             var t = await  response.Content.ReadAsStringAsync();
             var l = JsonConvert.DeserializeObject<ProblemsWithDetails>(t);
-            return default;
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
 
         }
 

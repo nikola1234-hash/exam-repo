@@ -101,10 +101,10 @@ namespace ExamManagement
             question.Text = exam.Questions[_i].Text;
             radioListBoxEdit.ItemsSource = exam.Questions[_i].Answers;
         }
-        public void SubmitExam_Click(object sender, RoutedEventArgs e)
+        public async void SubmitExam_Click(object sender, RoutedEventArgs e)
         {
-            ResultViewModel model = new ResultViewModel("Test", Results);
-            bool success = _apiService.AddResults(model).Result;
+            ResultViewModel model = new ResultViewModel(Storage.Storage.User, Results);
+            bool success = await _apiService.AddResults(model);
             if (success)
             {
                 MessageBox.Show("Successfully submited");

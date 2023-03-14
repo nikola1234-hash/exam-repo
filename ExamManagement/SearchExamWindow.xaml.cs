@@ -44,6 +44,7 @@ namespace ExamManagement
         {
             var examWindow = new ExamWindow(Exam);
             examWindow.Show();
+            this.Close();
         }
      
     }

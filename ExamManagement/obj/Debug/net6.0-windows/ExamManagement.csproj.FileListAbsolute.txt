@@ -65,3 +65,5 @@ C:\Users\nikol\source\repos\exam-repo\ExamManagement\bin\Debug\net6.0-windows\Sy
 C:\Users\nikol\source\repos\exam-repo\ExamManagement\bin\Debug\net6.0-windows\System.ServiceModel.dll
 C:\Users\nikol\source\repos\exam-repo\ExamManagement\obj\Debug\net6.0-windows\ExamWindow.baml
 C:\Users\nikol\source\repos\exam-repo\ExamManagement\obj\Debug\net6.0-windows\ExamWindow.g.cs
+C:\Users\nikol\source\repos\exam-repo\ExamManagement\obj\Debug\net6.0-windows\Login.g.cs
+C:\Users\nikol\source\repos\exam-repo\ExamManagement\obj\Debug\net6.0-windows\Login.baml

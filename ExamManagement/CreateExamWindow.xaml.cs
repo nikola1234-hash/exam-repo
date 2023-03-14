@@ -85,7 +85,7 @@ namespace ExamManagement
             Questions.Add(new Question());
             SetField(ref _questions, Questions, nameof(Questions));
         }
-        private void CreateExamButton_Click(object sender, RoutedEventArgs e)
+        private async void CreateExamButton_Click(object sender, RoutedEventArgs e)
         {
             foreach(var q in Questions)
             {
@@ -104,7 +104,16 @@ namespace ExamManagement
             exam.LecturerName = "Test";
             exam.Date = (DateTime)DatePicker.SelectedDate;
 
-            _apiService.CreateExamAsync(exam);
+           var success = await _apiService.CreateExamAsync(exam);
+            if (success)
+            {
+                MessageBox.Show("Success");
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Fail");
+            }
             
 
             // do something

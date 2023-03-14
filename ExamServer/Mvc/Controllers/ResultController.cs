@@ -27,7 +27,7 @@ namespace ExamServer.Mvc.Controllers
         public ActionResult AddResult(ResultViewModel result)
         {
             ExamResult examResults = new ExamResult();
-            examResults.User = result.UserId.ToString();
+            examResults.User = result.User;
             examResults.Results = new List<QuestionResult>();
             foreach(var r in result.Results) 
             {
