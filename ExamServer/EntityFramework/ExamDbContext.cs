@@ -13,8 +13,8 @@ namespace ExamServer.EntityFramework
         public DbSet<Exam> Exams { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
-        public DbSet<ExamResult> Results { get; set; }
-        public DbSet<QuestionResult> QuestionResults { get; set; }
+        public DbSet<GradeEntity> Grades { get; set; }
+        public DbSet<Error> Errors { get; set; }
         public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

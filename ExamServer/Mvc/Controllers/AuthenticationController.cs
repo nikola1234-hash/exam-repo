@@ -24,7 +24,7 @@ namespace ExamServer.Mvc.Controllers
             {
                 return Unauthorized();
             }
-            return Ok();
+            return Ok(dbUser);
         }
     }
 }

@@ -43,9 +43,9 @@ namespace ExamManagement.Services
 
             return exam;
         }
-        public async Task<bool> AddResults(ResultViewModel model)
+        public async Task<bool> AddResults(GradeEntity model)
         {
-            var response = await _httpClient.PostAsJsonAsync<ResultViewModel>($"{_baseUrl}/api/result", model);
+            var response = await _httpClient.PostAsJsonAsync<GradeEntity>($"{_baseUrl}/api/grade", model);
             var t = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
@@ -83,9 +83,11 @@ namespace ExamManagement.Services
         {
             var response = await _httpClient.PostAsJsonAsync<User>($"{_baseUrl}/api/Authentication", user);
             var t = await response.Content.ReadAsStringAsync();
-            var l = JsonConvert.DeserializeObject<ProblemsWithDetails>(t);
+            var l = JsonConvert.DeserializeObject<User>(t);
+            
             if (response.IsSuccessStatusCode)
             {
+                Storage.Storage.UserId = l.Id;
                 return true;
             }
             else

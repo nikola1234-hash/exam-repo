@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Timers;
 using System.Windows;
 using ExamManagement.Models;
 using ExamManagement.Services;
+using ExamManagement.Storage;
 
 namespace ExamManagement
 {
@@ -28,7 +30,7 @@ namespace ExamManagement
                 SetField(ref _isChecked, value, nameof(IsChecked));
             }
         }
-
+        public GradeEntity Grade { get; set; }
         private Answer _selectedAnswer;
 
         public Answer SelectedAnswer
@@ -70,12 +72,17 @@ namespace ExamManagement
             _apiService = new APIService<Result>("https://localhost:7129");
 
             Results = new List<Result>();
-
+            
             UnsolvedQuestions = exam.GetTotalNumberOfQuestions();
             exam.ShuffleQuestions();
             question.Text = exam.Questions[_i].Text;
             radioListBoxEdit.ItemsSource = exam.Questions[_i].Answers;
 
+            Grade = new GradeEntity();
+            Grade.StudentId = Storage.Storage.UserId;
+            Grade.StudentName = Storage.Storage.User;
+            Grade.Exam = exam;
+            Grade.NumberOfQuestions = NumberOfQuestions;
         }
 
 
@@ -83,7 +90,11 @@ namespace ExamManagement
         {
             SolvedQuestions++;
             UnsolvedQuestions--;
-            SelectedAnswer.IsChecked = true;
+            if (!SelectedAnswer.IsCorrect)
+            {
+                Grade.Errors.Add(new Error(exam.Questions[_i].Text, SelectedAnswer.Text, exam.Questions[_i].Answers.Where(s => s.IsCorrect).FirstOrDefault().Text));
+            }
+            
             Results.Add(new Result(exam.Questions[_i], SelectedAnswer));
             SelectedAnswer = new Answer();
             if(_i < exam.Questions.Count - 1)
@@ -102,8 +113,8 @@ namespace ExamManagement
         }
         public async void SubmitExam_Click(object sender, RoutedEventArgs e)
         {
-            ResultViewModel model = new ResultViewModel(Storage.Storage.User, Results);
-            bool success = await _apiService.AddResults(model);
+
+            bool success = await _apiService.AddResults(Grade);
             if (success)
             {
                 MessageBox.Show("Successfully submited");

@@ -9,5 +9,6 @@ namespace ExamManagement.Storage
     public static class Storage
     {
         public static string User { get; set; }
+        public static int UserId { get; set; }
     }
 }

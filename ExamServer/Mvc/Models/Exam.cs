@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ExamServer.Mvc.Models
 {
-    class Exam
+    public class Exam
     {
         public int Id { get; set; }
         public string Name { get; set; }
