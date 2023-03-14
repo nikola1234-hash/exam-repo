@@ -9,17 +9,6 @@ namespace ExamManagement.Models
 {
     public class Question : BaseObject
     {
-        private int _id;
-
-        public int Id
-            
-        {
-            get { return _id; }
-            set
-                {
-                SetField(ref _id, value, nameof(Id));
-                }
-        }
 
         private string _text;
 
@@ -56,8 +45,8 @@ namespace ExamManagement.Models
                 SetField(ref _randomizeAnswers, value, nameof(RandomizeAnswers));
                 }
         }
+   
 
-        
         private List<Answer> _answers;
 
         public List<Answer> Answers

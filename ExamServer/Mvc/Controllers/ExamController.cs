@@ -42,7 +42,8 @@ namespace ExamServer.Mvc.Controllers
         // POST api/exam
         [HttpPost]
         [ProducesResponseType(201)]
-        public async Task<ActionResult<Exam>> CreateExam(Exam exam)
+
+        public async Task<ActionResult<Exam>> CreateExam([FromBody]Exam exam)
         {
             await _context.Add(exam);
 

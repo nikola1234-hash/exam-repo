@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using System.Net.Http.Json;
 using ExamManagement.Models;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace ExamManagement.Services
 {
@@ -27,7 +29,6 @@ namespace ExamManagement.Services
         public async Task<IEnumerable<T>> GetAllExamsAsync()
         {
             var response = await _httpClient.GetAsync($"{_baseUrl}/api/{_resource}");
-            response.EnsureSuccessStatusCode();
 
             var exams = await response.Content.ReadFromJsonAsync<IEnumerable<T>>();
             
@@ -37,7 +38,6 @@ namespace ExamManagement.Services
         public async Task<T> GetExamAsync(string name)
         {
             var response = await _httpClient.GetAsync($"{_baseUrl}/api/{_resource}/{name}");
-            response.EnsureSuccessStatusCode();
             
             var exam = await response.Content.ReadFromJsonAsync<T>();
 
@@ -46,24 +46,22 @@ namespace ExamManagement.Services
 
         public async Task<T> CreateExamAsync(T exam)
         {
-            var response = await _httpClient.PostAsJsonAsync($"{_baseUrl}/api/{_resource}", exam);
-            response.EnsureSuccessStatusCode();
 
-            var createdExam = await response.Content.ReadFromJsonAsync<T>();
+            var response = await _httpClient.PostAsJsonAsync<T>($"{_baseUrl}/api/{_resource}", exam);
+            var t = await  response.Content.ReadAsStringAsync();
+            var l = JsonConvert.DeserializeObject<ProblemsWithDetails>(t);
+            return default;
 
-            return createdExam;
         }
 
         public async Task UpdateExamAsync(int id, Task exam)
         {
             var response = await _httpClient.PutAsJsonAsync($"{_baseUrl}/api/{_resource}/{id}", exam);
-            response.EnsureSuccessStatusCode();
         }
 
         public async Task DeleteExamAsync(int id)
         {
             var response = await _httpClient.DeleteAsync($"{_baseUrl}/api/{_resource}/{id}");
-            response.EnsureSuccessStatusCode();
         }
     }
 }
