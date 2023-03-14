@@ -36,6 +36,16 @@ namespace ExamManagement
         {
             string text = SearchBox.Text;
             Exam exam = await _apiService.GetExamAsync(text);
+            if(exam.Date.Date > DateTime.Now.Date)
+            {
+                MessageBox.Show($"Exam starts on {exam.Date.Date.ToShortDateString()}");
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Exam has passed");
+                this.Close();
+            }
             Exam = exam;
             Exams.Add(exam);
             resultList.ItemsSource = Exams;
