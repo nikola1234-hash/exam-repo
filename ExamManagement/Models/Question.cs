@@ -54,19 +54,14 @@ namespace ExamManagement.Models
             get { return _answers; }
             set
             {
+                var random = new Random();
+                value = value.OrderBy(x => random.Next()).ToList();
                 SetField(ref _answers, value, nameof(Answers));
             }
         }
 
         // Example function to shuffle the answers list if randomizeAnswers is true
-        public void ShuffleAnswers()
-        {
-            if (RandomizeAnswers)
-            {
-                var random = new Random();
-                Answers = Answers.OrderBy(x => random.Next()).ToList();
-            }
-        }
+     
 
         // Example function to check if the given answer is correct
         public bool IsCorrectAnswer(Answer selectedAnswer)
