@@ -46,7 +46,7 @@ namespace ExamManagement
                 }
         }
 
-        private IEventAggregator eventAggregator = new EventAggregator();
+        
         private readonly APIService<Exam> _apiService;
 
 
@@ -70,7 +70,6 @@ namespace ExamManagement
             _apiService = new APIService<Exam>("https://localhost:7129");
             Questions = new ObservableCollection<Question>();
             Answers = new ObservableCollection<Answer>();
-            eventAggregator.GetEvent<AnswersEvent>().Subscribe(AddAnswers, true);
             
 
         }

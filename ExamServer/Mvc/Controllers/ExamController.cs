@@ -1,6 +1,8 @@
-﻿using ExamServer.EntityFramework.Entities;
+﻿using ExamServer.EntityFramework;
+using ExamServer.EntityFramework.Entities;
 using ExamServer.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExamServer.Mvc.Controllers
 {
@@ -9,34 +11,36 @@ namespace ExamServer.Mvc.Controllers
     public class ExamController : ControllerBase
     {
         private readonly ICrudService<Exam> _context;
-
-        public ExamController(ICrudService<Exam> context)
+        private readonly ExamDbContext _dbContext;
+        public ExamController(ICrudService<Exam> context, ExamDbContext dbContext)
         {
             _context = context;
+            _dbContext = dbContext;
         }
 
         // GET api/exams
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Exam>>> GetExams()
         {
-           var result =  await _context.GetAll();
-           return result.ToList();
+       
+           var exams = _dbContext.Exams.Include(s => s.Questions).ThenInclude(s => s.Answers).ToList();
+       
+          
+           return exams;
         }
 
         // GET api/exams/{id}
         [HttpGet("{name}")]
         public async Task<ActionResult<Exam>> GetExam(string name)
         {
-            var exam = await _context.GetAll();
+            var exam = _dbContext.Exams.Include(s => s.Questions).ThenInclude(s => s.Answers).FirstOrDefault(s => s.Name == name);
 
             if (exam == null)
             {
                 return NotFound();
             }
-
-            Exam filetered = exam.FirstOrDefault(s => s.Name == name);
-
-            return filetered;
+           
+            return exam;
         }
 
         // POST api/exam
