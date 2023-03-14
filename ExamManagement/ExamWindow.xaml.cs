@@ -11,7 +11,7 @@ namespace ExamManagement
     /// <summary>
     /// Interaction logic for ExamWindow.xaml
     /// </summary>
-    public partial class ExamWindow : ThemedWindow, INotifyPropertyChanged
+    public partial class ExamWindow : Window, INotifyPropertyChanged
     {
         private int _i = 0;
         private int unsolvedQuestions;
