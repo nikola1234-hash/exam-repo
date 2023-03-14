@@ -9,19 +9,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using DevExpress.Xpf.DXBinding;
-using DevExpress.Xpf.Editors;
-using DevExpress.Xpf.Editors.DataPager;
-using DevExpress.Xpf.Editors.DateNavigator;
-using DevExpress.Xpf.Editors.ExpressionEditor;
-using DevExpress.Xpf.Editors.Filtering;
-using DevExpress.Xpf.Editors.Flyout;
-using DevExpress.Xpf.Editors.Popups;
-using DevExpress.Xpf.Editors.Popups.Calendar;
-using DevExpress.Xpf.Editors.RangeControl;
-using DevExpress.Xpf.Editors.Settings;
-using DevExpress.Xpf.Editors.Settings.Extension;
-using DevExpress.Xpf.Editors.Validation;
 using ExamManagement.Models;
 using System;
 using System.Diagnostics;
@@ -32,7 +19,6 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Controls.Ribbon;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Forms.Integration;
 using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Markup;
