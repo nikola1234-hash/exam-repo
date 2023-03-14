@@ -43,7 +43,16 @@ namespace ExamManagement.Services
 
             return exam;
         }
-
+        public async Task<bool> AddResults(ResultViewModel model)
+        {
+            var response = await _httpClient.PostAsJsonAsync<ResultViewModel>($"{_baseUrl}/api/result", model);
+            var t = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            return false;
+        }
         public async Task<T> CreateExamAsync(T exam)
         {
 

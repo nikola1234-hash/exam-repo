@@ -80,6 +80,23 @@ namespace ExamServer.Migrations
                     b.ToTable("Exams");
                 });
 
+            modelBuilder.Entity("ExamServer.EntityFramework.Entities.ExamResult", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("User")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Results");
+                });
+
             modelBuilder.Entity("ExamServer.EntityFramework.Entities.Question", b =>
                 {
                     b.Property<int>("Id")
@@ -109,6 +126,29 @@ namespace ExamServer.Migrations
                     b.ToTable("Questions");
                 });
 
+            modelBuilder.Entity("ExamServer.EntityFramework.Entities.QuestionResult", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ExamResultId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuestionsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExamResultId");
+
+                    b.HasIndex("QuestionsId");
+
+                    b.ToTable("QuestionResults");
+                });
+
             modelBuilder.Entity("ExamServer.EntityFramework.Entities.Answer", b =>
                 {
                     b.HasOne("ExamServer.EntityFramework.Entities.Question", null)
@@ -123,9 +163,29 @@ namespace ExamServer.Migrations
                         .HasForeignKey("ExamId");
                 });
 
+            modelBuilder.Entity("ExamServer.EntityFramework.Entities.QuestionResult", b =>
+                {
+                    b.HasOne("ExamServer.EntityFramework.Entities.ExamResult", null)
+                        .WithMany("Results")
+                        .HasForeignKey("ExamResultId");
+
+                    b.HasOne("ExamServer.EntityFramework.Entities.Question", "Questions")
+                        .WithMany()
+                        .HasForeignKey("QuestionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Questions");
+                });
+
             modelBuilder.Entity("ExamServer.EntityFramework.Entities.Exam", b =>
                 {
                     b.Navigation("Questions");
+                });
+
+            modelBuilder.Entity("ExamServer.EntityFramework.Entities.ExamResult", b =>
+                {
+                    b.Navigation("Results");
                 });
 
             modelBuilder.Entity("ExamServer.EntityFramework.Entities.Question", b =>

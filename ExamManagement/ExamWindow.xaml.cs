@@ -4,6 +4,7 @@ using System.Timers;
 using System.Windows;
 using DevExpress.Xpf.Core;
 using ExamManagement.Models;
+using ExamManagement.Services;
 
 namespace ExamManagement
 {
@@ -16,7 +17,7 @@ namespace ExamManagement
         private int unsolvedQuestions;
         private int solvedQuestions;
 
-        public Timer Timer { get; set; }
+     
 
         private bool _isChecked;
 
@@ -57,7 +58,7 @@ namespace ExamManagement
             }
         }
         Exam exam { get; set; }
-
+        private readonly APIService<Result> _apiService;
         public ExamWindow(Exam exam)
         {
             if (exam is null)
@@ -67,7 +68,7 @@ namespace ExamManagement
             this.exam = exam;
             InitializeComponent();
             submitExam.Visibility = Visibility.Hidden;
-
+            _apiService = new APIService<Result>("https://localhost:7129");
 
             Results = new List<Result>();
 
@@ -75,17 +76,9 @@ namespace ExamManagement
             exam.ShuffleQuestions();
             question.Text = exam.Questions[_i].Text;
             radioListBoxEdit.ItemsSource = exam.Questions[_i].Answers;
-            Timer = new Timer(exam.TotalTime);
-            Timer.Start();
-            Timer.Elapsed += Timer_Elapsed;
+
         }
 
-        private void Timer_Elapsed(object? sender, ElapsedEventArgs e)
-        {
-            MessageBox.Show("Time elapse");
-
-            this.Close();
-        }
 
         public void SubmitQuestion_Click(object sender, RoutedEventArgs e)
         {
@@ -93,7 +86,7 @@ namespace ExamManagement
             UnsolvedQuestions--;
             SelectedAnswer.IsChecked = true;
             Results.Add(new Result(exam.Questions[_i], SelectedAnswer));
-            
+            SelectedAnswer = new Answer();
             if(_i < exam.Questions.Count - 1)
             {
                 _i++;
@@ -107,14 +100,20 @@ namespace ExamManagement
             }
             question.Text = exam.Questions[_i].Text;
             radioListBoxEdit.ItemsSource = exam.Questions[_i].Answers;
-            
-
-
-
         }
         public void SubmitExam_Click(object sender, RoutedEventArgs e)
         {
-
+            ResultViewModel model = new ResultViewModel("Test", Results);
+            bool success = _apiService.AddResults(model).Result;
+            if (success)
+            {
+                MessageBox.Show("Successfully submited");
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Failed to submit");
+            }
         }
 
 

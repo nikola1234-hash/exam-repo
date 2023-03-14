@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ExamServer.Mvc.Models
 {
-    class Question
+    public class Question
     {
         public int Id { get; set; }
         public string Text { get; set; }
