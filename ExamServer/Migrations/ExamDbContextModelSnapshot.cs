@@ -30,10 +30,6 @@ namespace ExamServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("bit");
 
@@ -73,8 +69,8 @@ namespace ExamServer.Migrations
                     b.Property<bool>("RandomizeQuestions")
                         .HasColumnType("bit");
 
-                    b.Property<TimeSpan>("StartingHour")
-                        .HasColumnType("time");
+                    b.Property<long>("TickCount")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("TotalTime")
                         .HasColumnType("int");

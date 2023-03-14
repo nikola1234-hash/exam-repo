@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Branislav Stanic\Desktop\Exam\ExamManagement\obj\Debug\net6.0-windows\
+C:\Users\nikol\Source\Repos\exam-repo\ExamManagement\obj\Debug\net6.0-windows\
 ExamManagement
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-C:\Users\Branislav Stanic\Desktop\Exam\ExamManagement\App.xaml
-4-248225722
+C:\Users\nikol\Source\Repos\exam-repo\ExamManagement\App.xaml
+5-1997885975
 
-111493647487
-194237474483
-CreateExamWindow.xaml;LecturerDashboardPage.xaml;LoginPage.xaml;MainWindow.xaml;
+18-1465788756
+1961518745582
+AddAnswersWindow.xaml;CreateExamWindow.xaml;LecturerDashboardPage.xaml;LoginPage.xaml;MainWindow.xaml;
 
-False
+True
 

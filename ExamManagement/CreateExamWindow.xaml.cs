@@ -1,9 +1,12 @@
 ﻿using ExamManagement.Models;
 using ExamManagement.Services;
+using Microsoft.Win32;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +27,14 @@ namespace ExamManagement
     public partial class CreateExamWindow : Window, INotifyPropertyChanged
     {
         private ObservableCollection<Question> _questions;
+        private ObservableCollection<Answer> _answers;
 
+        public ObservableCollection<Answer> Answers
+        {
+            get { return _answers; }
+            set => SetField(ref _answers, value, nameof(Answers));
+        }
+        private Question selectedQuestion { get; set; }
         public ObservableCollection<Question> Questions
         {
             get { return _questions; }
@@ -36,7 +46,7 @@ namespace ExamManagement
                 }
         }
 
-
+        private IEventAggregator eventAggregator = new EventAggregator();
         private readonly APIService<Exam> _apiService;
 
 
@@ -59,7 +69,15 @@ namespace ExamManagement
             InitializeComponent();
             _apiService = new APIService<Exam>("https://localhost:7129");
             Questions = new ObservableCollection<Question>();
+            Answers = new ObservableCollection<Answer>();
+            eventAggregator.GetEvent<AnswersEvent>().Subscribe(AddAnswers, true);
+            
 
+        }
+
+        private void AddAnswers(object obj)
+        {
+            selectedQuestion.Answers = ((ObservableCollection<Answer>) obj).ToList();
         }
 
         private void AddQuestionButton_Click(object sender, RoutedEventArgs e)
@@ -70,13 +88,23 @@ namespace ExamManagement
         }
         private void CreateExamButton_Click(object sender, RoutedEventArgs e)
         {
+            foreach(var q in Questions)
+            {
+                if (string.IsNullOrEmpty(q.ImageUrl))
+                {
+                    q.ImageUrl = string.Empty;
+              
+                }
+            }
             Exam exam = new Exam();
-            exam.Name = "Test";
-            exam.StartingHour = TimeSpan.FromMilliseconds(1000000);
-            exam.Questions = new List<Question>();
-            exam.RandomizeQuestions = true;
-            exam.TotalTime = 100;
+            exam.Name = NameTextBox.Text;
+            exam.StartingHour = TimeSpan.Parse(StartingHourTextBox.Text);
+            exam.Questions = Questions.ToList();
+            exam.RandomizeQuestions = (bool)rendomizeQuestions.IsChecked;
+            exam.TotalTime = Convert.ToInt32(totalTimeTextBox.Text);
             exam.LecturerName = "Test";
+            exam.Date = (DateTime)DatePicker.SelectedDate;
+
             _apiService.CreateExamAsync(exam);
             
 
@@ -88,7 +116,9 @@ namespace ExamManagement
         } 
         private void DeleteQuestionButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            var toRemove = Questions.FirstOrDefault(s => s.Text == (string)(((Button)sender).CommandParameter));
+            Questions.Remove(toRemove);
+            SetField(ref _questions, Questions, nameof(Questions));
         } 
         private void SaveQuestionButton_Click(object sender, RoutedEventArgs e)
         {
@@ -97,6 +127,49 @@ namespace ExamManagement
         private void CancelEditQuestionButton_Click(object sender, RoutedEventArgs e)
         {
             
+        }
+        private void AddFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                var file = File.ReadAllText(openFileDialog.FileName);
+
+            }
+                
+        }
+
+   
+        private void AddAnswers_Click (object sender, RoutedEventArgs e)
+        {
+            var question = Questions.FirstOrDefault(s => s.Text == (string)(((Button)sender).CommandParameter));
+            selectedQuestion = question;
+            var window = new AddAnswersWindow();
+            window.RaiseCustomEvent += Window_RaiseCustomEvent;
+            window.Show();
+
+
+            if(Answers == null)
+            {
+                Answers = new ObservableCollection<Answer>();
+
+            }
+            var answer = new Answer();
+
+            Answers.Add(new Answer());
+            SetField(ref _questions, Questions, nameof(Questions));
+            SetField(ref _answers, Answers, nameof(Answers));
+
+        }
+
+        private void Window_RaiseCustomEvent(object? sender, CustomEventArgs e)
+        {
+            selectedQuestion.Answers = ((ObservableCollection<Answer>)e.Args).ToList();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

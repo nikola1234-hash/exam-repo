@@ -1,5 +1,6 @@
 ﻿using ExamServer.EntityFramework.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ExamServer.EntityFramework
 {
@@ -12,5 +13,7 @@ namespace ExamServer.EntityFramework
         public DbSet<Exam> Exams { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
+
+     
     }
 }
