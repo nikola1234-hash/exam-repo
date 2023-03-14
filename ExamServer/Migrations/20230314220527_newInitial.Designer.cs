@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExamServer.Migrations
 {
     [DbContext(typeof(ExamDbContext))]
-    [Migration("20230314162457_grades")]
-    partial class grades
+    [Migration("20230314220527_newInitial")]
+    partial class newInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,7 +36,7 @@ namespace ExamServer.Migrations
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("QuestionId")
+                    b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -62,20 +62,20 @@ namespace ExamServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("GradeEntityId")
+                    b.Property<int>("ExamResultId")
                         .HasColumnType("int");
 
                     b.Property<string>("QuestionName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("WrongAnswerSelected")
+                    b.Property<string>("WrongAnswer")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GradeEntityId");
+                    b.HasIndex("ExamResultId");
 
                     b.ToTable("Errors");
                 });
@@ -99,11 +99,12 @@ namespace ExamServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("RandomizeQuestions")
+                    b.Property<bool>("RandomSorting")
                         .HasColumnType("bit");
 
-                    b.Property<long>("TickCount")
-                        .HasColumnType("bigint");
+                    b.Property<string>("StartingHour")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TotalTime")
                         .HasColumnType("int");
@@ -113,7 +114,7 @@ namespace ExamServer.Migrations
                     b.ToTable("Exams");
                 });
 
-            modelBuilder.Entity("ExamServer.EntityFramework.Entities.GradeEntity", b =>
+            modelBuilder.Entity("ExamServer.EntityFramework.Entities.ExamResult", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -124,21 +125,19 @@ namespace ExamServer.Migrations
                     b.Property<int>("ExamId")
                         .HasColumnType("int");
 
-                    b.Property<double>("Grade")
-                        .HasColumnType("float");
+                    b.Property<int>("Grade")
+                        .HasColumnType("int");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
-
-                    b.Property<string>("StudentName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ExamId");
 
-                    b.ToTable("Grades");
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("ExamResults");
                 });
 
             modelBuilder.Entity("ExamServer.EntityFramework.Entities.Question", b =>
@@ -156,7 +155,10 @@ namespace ExamServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("RandomizeAnswers")
+                    b.Property<bool>("IsImageQuestion")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("RandomSorting")
                         .HasColumnType("bit");
 
                     b.Property<string>("Text")
@@ -168,6 +170,23 @@ namespace ExamServer.Migrations
                     b.HasIndex("ExamId");
 
                     b.ToTable("Questions");
+                });
+
+            modelBuilder.Entity("ExamServer.EntityFramework.Entities.Student", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("ExamServer.EntityFramework.Entities.User", b =>
@@ -207,19 +226,27 @@ namespace ExamServer.Migrations
 
             modelBuilder.Entity("ExamServer.EntityFramework.Entities.Answer", b =>
                 {
-                    b.HasOne("ExamServer.EntityFramework.Entities.Question", null)
+                    b.HasOne("ExamServer.EntityFramework.Entities.Question", "Question")
                         .WithMany("Answers")
-                        .HasForeignKey("QuestionId");
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("ExamServer.EntityFramework.Entities.Error", b =>
                 {
-                    b.HasOne("ExamServer.EntityFramework.Entities.GradeEntity", null)
+                    b.HasOne("ExamServer.EntityFramework.Entities.ExamResult", "ExamResult")
                         .WithMany("Errors")
-                        .HasForeignKey("GradeEntityId");
+                        .HasForeignKey("ExamResultId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ExamResult");
                 });
 
-            modelBuilder.Entity("ExamServer.EntityFramework.Entities.GradeEntity", b =>
+            modelBuilder.Entity("ExamServer.EntityFramework.Entities.ExamResult", b =>
                 {
                     b.HasOne("ExamServer.EntityFramework.Entities.Exam", "Exam")
                         .WithMany()
@@ -227,7 +254,15 @@ namespace ExamServer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ExamServer.EntityFramework.Entities.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Exam");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("ExamServer.EntityFramework.Entities.Question", b =>
@@ -242,7 +277,7 @@ namespace ExamServer.Migrations
                     b.Navigation("Questions");
                 });
 
-            modelBuilder.Entity("ExamServer.EntityFramework.Entities.GradeEntity", b =>
+            modelBuilder.Entity("ExamServer.EntityFramework.Entities.ExamResult", b =>
                 {
                     b.Navigation("Errors");
                 });

@@ -18,5 +18,6 @@ namespace ExamServer.Mvc.Models
             double result = (correctAnswers / Errors.Count()) * 100;
             Grade = result;
         }
+
     }
 }

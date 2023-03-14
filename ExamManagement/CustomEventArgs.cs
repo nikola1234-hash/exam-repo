@@ -3,9 +3,11 @@
     public class CustomEventArgs
     {
         public object Args;
-        public CustomEventArgs(object args)
+        public int Index { get; set; }
+        public CustomEventArgs(object args, int index)
         {
             Args = args;
+            Index = index;
         }
     }
 }

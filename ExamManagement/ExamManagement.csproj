@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Temp\img\" />
+    <Folder Include="Temp\file\" />
     <Folder Include="Views\" />
   </ItemGroup>
 

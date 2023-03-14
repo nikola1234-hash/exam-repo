@@ -25,6 +25,15 @@ namespace ExamManagement
 
         public ObservableCollection<Exam> Exams { get; set; }
         private readonly APIService<Exam> _apiService;
+
+        private string _studentName;
+
+        public string  StudentName
+        {
+            get { return _studentName; }
+            set { _studentName = value; }
+        }
+
         public Exam Exam { get; set; }
         public SearchExamWindow()
         {
@@ -54,9 +63,14 @@ namespace ExamManagement
             }
         
         }
-        private void OpenExam_Click(object sender, RoutedEventArgs e)
+        private async void OpenExam_Click(object sender, RoutedEventArgs e)
         {
-            var examWindow = new ExamWindow(Exam);
+            StudentService studentService = new StudentService();
+            Student st = new Student();
+            st.Name = StudentName;
+            var student =  await studentService.UpdateStudentInformation(st);
+
+            var examWindow = new ExamWindow(Exam, student);
             examWindow.Show();
             this.Close();
         }

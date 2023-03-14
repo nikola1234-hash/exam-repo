@@ -41,7 +41,7 @@
                             <StackPanel Margin="20" Orientation="Vertical">
                                 <TextBox Text="{Binding Text}" MinWidth="200" Height="20" Margin="0 0 10 0"/>
                                 <StackPanel>
-                                    <CheckBox Content="Is Correct?" IsChecked="{Binding IsCorrect}"></CheckBox>
+                                    <CheckBox Content="Is Correct?" Click="CheckBox_Click" x:Name="checkboxAnswer"></CheckBox>
                                 </StackPanel>
                    
                             </StackPanel>

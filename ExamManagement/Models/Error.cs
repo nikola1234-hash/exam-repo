@@ -8,15 +8,15 @@ namespace ExamManagement.Models
 {
     public class Error
     {
-        public Error(string questionName, string wrongAnswerSelected, string correctAnswer)
+        public Error(string questionName, string selectedAnswer, string correctAnswer)
         {
             QuestionName = questionName;
-            WrongAnswerSelected = wrongAnswerSelected;
+            SelectedAnswer = selectedAnswer;
             CorrectAnswer = correctAnswer;
         }
 
         public string QuestionName { get; set; }
-            public string WrongAnswerSelected { get; set; }
-            public string CorrectAnswer { get; set; }
+        public string SelectedAnswer { get; set; }
+        public string CorrectAnswer { get; set; }
     }
 }

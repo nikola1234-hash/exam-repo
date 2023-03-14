@@ -46,10 +46,11 @@ namespace ExamManagement
                 }
         }
 
-        
+ 
+
         private readonly APIService<Exam> _apiService;
 
-
+        private ExamService examService;
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -70,6 +71,7 @@ namespace ExamManagement
             _apiService = new APIService<Exam>("https://localhost:7129");
             Questions = new ObservableCollection<Question>();
             Answers = new ObservableCollection<Answer>();
+            examService = new ExamService();
             
 
         }
@@ -95,26 +97,17 @@ namespace ExamManagement
               
                 }
             }
-            Exam exam = new Exam();
-            exam.Name = NameTextBox.Text;
-            exam.StartingHour = TimeSpan.Parse(StartingHourTextBox.Text);
-            exam.Questions = Questions.ToList();
-            exam.RandomizeQuestions = (bool)rendomizeQuestions.IsChecked;
-            exam.TotalTime = Convert.ToInt32(totalTimeTextBox.Text);
-            exam.LecturerName = "Test";
-            exam.Date = (DateTime)DatePicker.SelectedDate;
+            //Exam exam = new Exam();
+            //exam.Name = NameTextBox.Text;
+            //exam.StartingHour =(StartingHourTextBox.Text);
+            //exam.Questions = Questions.ToList();
+            //exam.RandomSorting = (bool)rendomizeQuestions.IsChecked;
+            //exam.TotalTime = Convert.ToInt32(totalTimeTextBox.Text);
+            //exam.LecturerName = ;
+            //exam.Date = (DateTime)DatePicker.SelectedDate;
 
-           var success = await _apiService.CreateExamAsync(exam);
-            if (success)
-            {
-                MessageBox.Show("Success");
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Fail");
-            }
-            
+            //examService.AddExam(exam);
+          
 
             // do something
         }
@@ -173,6 +166,7 @@ namespace ExamManagement
         private void Window_RaiseCustomEvent(object? sender, CustomEventArgs e)
         {
             selectedQuestion.Answers = ((ObservableCollection<Answer>)e.Args).ToList();
+            selectedQuestion.CorrectAnswerIndex = (int)e.Index;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

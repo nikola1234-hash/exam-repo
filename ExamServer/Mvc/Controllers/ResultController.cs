@@ -9,27 +9,26 @@ namespace ExamServer.Mvc.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GradeController : ControllerBase
+    public class ResultController : ControllerBase
     {
         private readonly ExamDbContext _context;
 
-        public GradeController(ExamDbContext context)
+        public ResultController(ExamDbContext context)
         {
             _context = context;
         }
         [HttpGet]
         public ActionResult Get()
         {
-            var result = _context.Grades.Include(s => s.Errors).Include(s=> s.Exam).ThenInclude(s=> s.Questions);
+            var result = _context.ExamResults.Include(s => s.Errors);
             return Ok(result);
         }
         [HttpPost]
-        public ActionResult AddResult(GradingModel result)
+        public ActionResult AddResult(ExamResult result)
         {
 
-            result.CalculateGrade();
-            var grade = new GradeEntity(result);
-            _context.Grades.Add(grade);
+           
+            _context.ExamResults.Add(result);
             var i = _context.SaveChanges();
             return i > 0 ? Ok() : BadRequest();
         }

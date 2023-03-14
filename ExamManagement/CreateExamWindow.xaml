@@ -35,14 +35,14 @@
 
         <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0 10 0 0">
             <TextBlock Text="Starting hour:"/>
-            <TextBox x:Name="StartingHourTextBox" Text="Yo" Width="150" Height="20" HorizontalAlignment="Center" VerticalAlignment="Top"></TextBox>
+            <TextBox x:Name="StartingHourTextBox" Text="" Width="150" Height="20" HorizontalAlignment="Center" VerticalAlignment="Top"></TextBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="4" Margin="0 10 0 0">
             <TextBlock Text="Total time:"/>
             <TextBox x:Name="totalTimeTextBox" Text="" Width="150" Height="20" HorizontalAlignment="Center" VerticalAlignment="Top"></TextBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="6" Margin="0 10 0 0">
-            <TextBlock Text="Randomiz Questions:"/>
+            <TextBlock Text="Randomize Questions:"/>
             <CheckBox x:Name="rendomizeQuestions" Width="150" Height="20" HorizontalAlignment="Center" VerticalAlignment="Top"></CheckBox>
         </StackPanel>
 

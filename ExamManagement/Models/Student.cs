@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExamManagement.Services
+namespace ExamManagement.Models
 {
-    internal class FileService
+    public class Student
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

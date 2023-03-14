@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:models="clr-namespace:ExamManagement.Models" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     Title="ExamWindow" Height="800" Width="1000"
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        WindowStartupLocation="CenterScreen"
       DataContext="{Binding RelativeSource={RelativeSource Self}}"
     >
 

@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:ExamManagement"
         mc:Ignorable="d"
         Title="SearchExamWindow" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen"
            DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
         <Grid.RowDefinitions>

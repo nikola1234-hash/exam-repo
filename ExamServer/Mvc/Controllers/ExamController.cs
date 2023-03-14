@@ -47,9 +47,10 @@ namespace ExamServer.Mvc.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
 
-        public async Task<ActionResult<Exam>> CreateExam([FromBody]Exam exam)
+        public async Task<ActionResult<List<Exam>>> CreateExams([FromBody]List<Exam> exams)
         {
-            await _context.Add(exam);
+            await _dbContext.Exams.AddRangeAsync(exams);
+            await _dbContext.SaveChangesAsync();
 
             return Ok();
         }
@@ -67,18 +68,6 @@ namespace ExamServer.Mvc.Controllers
             return NoContent();
         }
 
-        // DELETE api/exams/{id}
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteExam(int id)
-        {
-            int output = await _context.Remove(id);
-            if(output > 0)
-            {
-                return Ok();
-            }
-
-            return BadRequest();
-        }
     }
 
 }

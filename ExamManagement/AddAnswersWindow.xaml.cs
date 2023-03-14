@@ -25,7 +25,7 @@ namespace ExamManagement
     {
 
         private ObservableCollection<Answer> _answers;
-
+        public int Index { get; set; }
         public ObservableCollection<Answer> Answers
         {
             get { return _answers; }
@@ -56,7 +56,7 @@ namespace ExamManagement
         public event EventHandler<CustomEventArgs> RaiseCustomEvent;
         private void AddAnswers_Click (object sender, RoutedEventArgs e)
         {
-            RaiseCustomEvent(this, new CustomEventArgs(Answers));
+            RaiseCustomEvent(this, new CustomEventArgs(Answers, Index));
             this.Close();
         }
 
@@ -64,6 +64,19 @@ namespace ExamManagement
         {
             var answer = new Answer();
             Answers.Add(answer);
+        }
+
+        private void CheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox box = (CheckBox)sender;
+            if ((bool)box.IsChecked)
+            {
+                Index = Answers.IndexOf(Answers.Last());
+            }
+            else
+            {
+                Index = 0;
+            }
         }
     }
 }

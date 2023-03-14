@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Timers;
@@ -18,8 +19,8 @@ namespace ExamManagement
         private int unsolvedQuestions;
         private int solvedQuestions;
 
-     
 
+        public Student Student { get; set; }
         private bool _isChecked;
 
         public bool IsChecked
@@ -44,8 +45,7 @@ namespace ExamManagement
         }
 
 
-        public List<Result> Results { get; set; }
-        public int NumberOfQuestions => exam.GetTotalNumberOfQuestions();
+        public int NumberOfQuestions => exam.Questions.Count();
         public int SolvedQuestions { get => solvedQuestions;
             set
             {
@@ -59,43 +59,49 @@ namespace ExamManagement
             }
         }
         Exam exam { get; set; }
-        private readonly APIService<Result> _apiService;
-        public ExamWindow(Exam exam)
+        private readonly ExamService examService;
+        private readonly ExamResult examResult;
+        private readonly StudentService studentService;
+        private StudentExam studentExam;
+        public ExamWindow(Exam exam, Student student)
         {
             if (exam is null)
             {
                 this.Close();
             }
-            this.exam = exam;
+            Student = student;
+
+            examService = new ExamService();
+            examResult = new ExamResult();
+            studentService = new StudentService();
+            StartExam(exam);
+            studentExam = new StudentExam();
             InitializeComponent();
             submitExam.Visibility = Visibility.Hidden;
-            _apiService = new APIService<Result>("https://localhost:7129");
-
-            Results = new List<Result>();
             
-            UnsolvedQuestions = exam.GetTotalNumberOfQuestions();
-            exam.ShuffleQuestions();
+            UnsolvedQuestions = exam.Questions.Count();
+
+            if (exam.RandomSorting)
+            {
+                var random = new Random();
+                exam.Questions.OrderBy(x => random.Next()).ToList();
+            
+            }
+           
             question.Text = exam.Questions[_i].Text;
             radioListBoxEdit.ItemsSource = exam.Questions[_i].Answers;
 
-            Grade = new GradeEntity();
-            Grade.StudentId = Storage.Storage.UserId;
-            Grade.StudentName = Storage.Storage.User;
-            Grade.Exam = exam;
-            Grade.NumberOfQuestions = NumberOfQuestions;
         }
 
-
+        private async void StartExam(Exam exam)
+        {
+            this.exam = await studentService.StartExam(exam.Id);
+        }
         public void SubmitQuestion_Click(object sender, RoutedEventArgs e)
         {
             SolvedQuestions++;
             UnsolvedQuestions--;
-            if (!SelectedAnswer.IsCorrect)
-            {
-                Grade.Errors.Add(new Error(exam.Questions[_i].Text, SelectedAnswer.Text, exam.Questions[_i].Answers.Where(s => s.IsCorrect).FirstOrDefault().Text));
-            }
-            
-            Results.Add(new Result(exam.Questions[_i], SelectedAnswer));
+            studentExam.SelectedAnswers.Add(exam.Questions[_i].Answers.IndexOf(SelectedAnswer));
             SelectedAnswer = new Answer();
             if(_i < exam.Questions.Count - 1)
             {
@@ -113,8 +119,8 @@ namespace ExamManagement
         }
         public async void SubmitExam_Click(object sender, RoutedEventArgs e)
         {
-
-            bool success = await _apiService.AddResults(Grade);
+            await studentService.SubmitExamAnswers(exam, Student.Id, studentExam);
+            bool success = true;
             if (success)
             {
                 MessageBox.Show("Successfully submited");

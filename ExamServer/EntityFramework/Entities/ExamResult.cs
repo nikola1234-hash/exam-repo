@@ -2,7 +2,15 @@
 {
     public class ExamResult : BaseObject
     {
-        public string User { get; set; }  
-        public List<QuestionResult> Results { get; set; }
+        public int ExamId { get; set; }
+        public Exam Exam { get; set; }
+        public int StudentId { get; set; }
+        public Student Student { get; set; }
+        public int Grade { get; set; }
+        public ICollection<Error> Errors { get; set; }
+        public ExamResult()
+        {
+            Errors = new List<Error>();
+        }
     }
 }
