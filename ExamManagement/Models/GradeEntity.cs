@@ -13,9 +13,11 @@ namespace ExamManagement.Models
         public Exam Exam { get; set; }
         public int NumberOfQuestions { get; set; }
         public List<Error> Errors { get; set; }
+        public string Grade { get; set; }  
         public GradeEntity()
         {
             Errors = new List<Error>();
+            Grade = string.Empty;
         }
     }
 }

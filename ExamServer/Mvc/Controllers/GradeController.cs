@@ -20,7 +20,7 @@ namespace ExamServer.Mvc.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            var result = _context.Grades.Include(s=> s.Errors);
+            var result = _context.Grades.Include(s => s.Errors).Include(s=> s.Exam).ThenInclude(s=> s.Questions);
             return Ok(result);
         }
         [HttpPost]

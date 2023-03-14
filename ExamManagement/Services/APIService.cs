@@ -11,6 +11,7 @@ using System.Net.Http.Json;
 using ExamManagement.Models;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using System.Collections.ObjectModel;
 
 namespace ExamManagement.Services
 {
@@ -40,6 +41,14 @@ namespace ExamManagement.Services
             var response = await _httpClient.GetAsync($"{_baseUrl}/api/{_resource}/{name}");
             
             var exam = await response.Content.ReadFromJsonAsync<T>();
+
+            return exam;
+        }
+        public async Task<ObservableCollection<GradeEntity>> GetExamsStatisticsAsync()
+        {
+            var response = await _httpClient.GetAsync($"{_baseUrl}/api/grade");
+
+            var exam = await response.Content.ReadFromJsonAsync<ObservableCollection<GradeEntity>>();
 
             return exam;
         }

@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 C:\Users\nikol\source\repos\exam-repo\ExamManagement\App.xaml
-72113623454
+8526677020
 
-24-1318645339
+251885868975
 1961518745582
-AddAnswersWindow.xaml;CreateExamWindow.xaml;ExamWindow.xaml;LecturerDashboardPage.xaml;Login.xaml;MainWindow.xaml;SearchExamWindow.xaml;
+AddAnswersWindow.xaml;CreateExamWindow.xaml;ExamWindow.xaml;LecturerDashboardPage.xaml;Login.xaml;MainWindow.xaml;SearchExamWindow.xaml;StatisticsWindow.xaml;
 
 False
 

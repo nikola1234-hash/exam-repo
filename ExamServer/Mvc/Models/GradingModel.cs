@@ -15,7 +15,7 @@ namespace ExamServer.Mvc.Models
         {
             var correctAnswers = NumberOfQuestions - Errors.Count();
 
-            double result = (Errors.Count() / correctAnswers) * 100;
+            double result = (correctAnswers / Errors.Count()) * 100;
             Grade = result;
         }
     }

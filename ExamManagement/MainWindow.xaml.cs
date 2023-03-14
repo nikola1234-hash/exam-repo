@@ -10,6 +10,9 @@ namespace ExamManagement
             if(Storage.Storage.User != "Lector")
             {
                 createButton.Visibility = Visibility.Hidden;
+                searchLectorhButton.Visibility = Visibility.Hidden;
+                statisticsShow.Visibility = Visibility.Hidden;
+
             }
         }
 
@@ -23,6 +26,15 @@ namespace ExamManagement
         {
             var searchExamsWindow = new SearchExamWindow();
             searchExamsWindow.ShowDialog();
+        }
+        private void ShowStatisctics(object sender, RoutedEventArgs e)
+        {
+            var statisticsWindow = new StatisticsWindow();
+            statisticsWindow.Show();
+        }
+        private void searchExamsLectorButton(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

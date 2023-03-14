@@ -25,6 +25,9 @@
     <Compile Update="SearchExamWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="StatisticsWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="AddAnswersWindow.xaml">
@@ -46,6 +49,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="SearchExamWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="StatisticsWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
