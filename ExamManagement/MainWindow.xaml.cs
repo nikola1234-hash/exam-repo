@@ -7,6 +7,10 @@ namespace ExamManagement
         public MainWindow()
         {
             InitializeComponent();
+            if(Storage.Storage.User != "Lector")
+            {
+                createButton.Visibility = Visibility.Hidden;
+            }
         }
 
         private void CreateExamButton_Click(object sender, RoutedEventArgs e)

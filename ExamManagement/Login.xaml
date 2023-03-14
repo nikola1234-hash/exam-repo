@@ -19,6 +19,8 @@
         <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="60" Width="200" HorizontalAlignment="Center">
             <TextBlock Text="User"></TextBlock>
             <TextBox x:Name="username"></TextBox>
+            <TextBlock Text="Password"></TextBlock>
+            <TextBox x:Name="password"></TextBox>
             <Button Click="Button_Click">Login</Button>
         </StackPanel>
     </Grid>

@@ -79,5 +79,19 @@ namespace ExamManagement.Services
         {
             var response = await _httpClient.DeleteAsync($"{_baseUrl}/api/{_resource}/{id}");
         }
+        public async Task<bool> Login(User user)
+        {
+            var response = await _httpClient.PostAsJsonAsync<User>($"{_baseUrl}/api/Authentication", user);
+            var t = await response.Content.ReadAsStringAsync();
+            var l = JsonConvert.DeserializeObject<ProblemsWithDetails>(t);
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

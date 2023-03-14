@@ -5,8 +5,8 @@
     <Grid>
         <StackPanel Margin="20">
             <TextBlock Text="Welcome to Exam Management" Margin="0 0 0 15" FontSize="20"/>
-            <Button Content="Create Exam" Click="CreateExamButton_Click" Margin="0 0 0 15"/>
-            <Button Content="Search Exams" Click="SearchExamsButton_Click"/>
+            <Button Content="Create Exam" Click="CreateExamButton_Click" x:Name="createButton" Margin="0 0 0 15"/>
+            <Button Content="Search Exams" Click="SearchExamsButton_Click" x:Name="searchButton"/>
         </StackPanel>
     </Grid>
 </Window>

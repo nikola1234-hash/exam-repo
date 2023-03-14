@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ExamManagement.Models;
+using ExamManagement.Services;
 using ExamManagement.Storage;
 namespace ExamManagement
 {
@@ -19,17 +21,30 @@ namespace ExamManagement
     /// </summary>
     public partial class Login : Window
     {
+        private APIService<User> _apiService;
+
         public Login()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            Storage.Storage.User = username.Text;
-            MainWindow mw = new MainWindow();
-            mw.Show();
-            this.Close();
+            _apiService = new APIService<User>("https://localhost:7129");
+            User user = new User(username.Text, password.Text);
+            bool success = await _apiService.Login(user);
+            if (success)
+            {
+                Storage.Storage.User = username.Text;
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Wrong username or password");
+            }
+          
         }
     }
 }

@@ -15,11 +15,26 @@ namespace ExamServer.EntityFramework
         public DbSet<Answer> Answers { get; set; }
         public DbSet<ExamResult> Results { get; set; }
         public DbSet<QuestionResult> QuestionResults { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Exam>().HasMany(i => i.Questions);
             modelBuilder.Entity<Question>().HasMany(i => i.Answers);
+            modelBuilder.Entity<User>().HasData(
+           new User
+           {
+               Id = 1,
+               Username = "Lector",
+               Password = "123",
+           });
+            modelBuilder.Entity<User>().HasData(
+              new User
+              {
+                  Id = 2,
+                  Username = "Student",
+                  Password = "123",
+              });
         }
      
     }
