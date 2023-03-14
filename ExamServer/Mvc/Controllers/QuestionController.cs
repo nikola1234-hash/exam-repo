@@ -7,12 +7,12 @@ namespace ExamServer.Mvc.Controllers
 {
     [Route("api/exams/{examId}/questions")]
     [ApiController]
-    public class QuestionsController : ControllerBase
+    public class QuestionController : ControllerBase
     {
         private readonly ICrudService<Question> _context;
         private readonly ICrudService<Exam> _examContext;
 
-        public QuestionsController(ICrudService<Question> context, ICrudService<Exam> examContext)
+        public QuestionController(ICrudService<Question> context, ICrudService<Exam> examContext)
         {
             _context = context;
             _examContext = examContext;

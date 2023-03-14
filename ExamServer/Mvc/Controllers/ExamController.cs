@@ -6,11 +6,11 @@ namespace ExamServer.Mvc.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ExamsController : ControllerBase
+    public class ExamController : ControllerBase
     {
         private readonly ICrudService<Exam> _context;
 
-        public ExamsController(ICrudService<Exam> context)
+        public ExamController(ICrudService<Exam> context)
         {
             _context = context;
         }
@@ -39,8 +39,9 @@ namespace ExamServer.Mvc.Controllers
             return filetered;
         }
 
-        // POST api/exams
+        // POST api/exam
         [HttpPost]
+        [ProducesResponseType(201)]
         public async Task<ActionResult<Exam>> CreateExam(Exam exam)
         {
             await _context.Add(exam);

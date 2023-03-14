@@ -7,97 +7,63 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
+using System.Net.Http.Json;
+using ExamManagement.Models;
 
 namespace ExamManagement.Services
 {
-    public class APIService<ExternalData>
+    public class APIService<T>
     {
         private readonly HttpClient _httpClient;
         private readonly string _baseUrl;
         private readonly string _resource;
         public APIService(string baseUrl)
         {
-            _baseUrl = baseUrl;
             _httpClient = new HttpClient();
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            _resource = nameof(ExternalData);
+            _baseUrl = baseUrl;
+            _resource = typeof(T).Name;
         }
 
-        public async Task<List<ExternalData>> GetData()
+        public async Task<IEnumerable<T>> GetAllExamsAsync()
         {
             var response = await _httpClient.GetAsync($"{_baseUrl}/api/{_resource}");
+            response.EnsureSuccessStatusCode();
 
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception($"External API returned {response.StatusCode} status code.");
-            }
-
-            var content = await response.Content.ReadAsStringAsync();
-
-            return JsonSerializer.Deserialize<List<ExternalData>>(content);
+            var exams = await response.Content.ReadFromJsonAsync<IEnumerable<T>>();
+            
+            return exams;
         }
 
-        public async Task<ExternalData> GetDataById(int id)
+        public async Task<T> GetExamAsync(string name)
         {
-            var response = await _httpClient.GetAsync($"{_baseUrl}/api/{_resource}/{id}");
+            var response = await _httpClient.GetAsync($"{_baseUrl}/api/{_resource}/{name}");
+            response.EnsureSuccessStatusCode();
+            
+            var exam = await response.Content.ReadFromJsonAsync<T>();
 
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception($"External API returned {response.StatusCode} status code.");
-            }
-
-            var content = await response.Content.ReadAsStringAsync();
-
-            return JsonSerializer.Deserialize<ExternalData>(content);
+            return exam;
         }
 
-        public async Task<int> AddData(ExternalData data)
+        public async Task<T> CreateExamAsync(T exam)
         {
-            var json = JsonSerializer.Serialize(data);
-            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsJsonAsync($"{_baseUrl}/api/{_resource}", exam);
+            response.EnsureSuccessStatusCode();
 
-            var response = await _httpClient.PostAsync($"{_baseUrl}/api/{_resource}", content);
+            var createdExam = await response.Content.ReadFromJsonAsync<T>();
 
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception($"External API returned {response.StatusCode} status code.");
-            }
-
-            var result = await response.Content.ReadAsStringAsync();
-
-            return int.Parse(result);
+            return createdExam;
         }
 
-        public async Task<int> UpdateData(int id, ExternalData data)
+        public async Task UpdateExamAsync(int id, Task exam)
         {
-            var json = JsonSerializer.Serialize(data);
-            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-
-            var response = await _httpClient.PutAsync($"{_baseUrl}/api/{_resource}/{id}", content);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception($"External API returned {response.StatusCode} status code.");
-            }
-
-            var result = await response.Content.ReadAsStringAsync();
-
-            return int.Parse(result);
+            var response = await _httpClient.PutAsJsonAsync($"{_baseUrl}/api/{_resource}/{id}", exam);
+            response.EnsureSuccessStatusCode();
         }
 
-        public async Task<int> RemoveData(int id)
+        public async Task DeleteExamAsync(int id)
         {
             var response = await _httpClient.DeleteAsync($"{_baseUrl}/api/{_resource}/{id}");
-
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception($"External API returned {response.StatusCode} status code.");
-            }
-
-            var result = await response.Content.ReadAsStringAsync();
-
-            return int.Parse(result);
+            response.EnsureSuccessStatusCode();
         }
     }
 }
