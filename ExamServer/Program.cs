@@ -1,5 +1,6 @@
 using ExamServer.EntityFramework;
 using ExamServer.Services;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -10,6 +11,14 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ExamDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("ExamDB")));
 builder.Services.AddTransient(typeof(ICrudService<>), typeof(CrudService<>));
+builder.Services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
+{
+    builder.WithOrigins("https://localhost:7129").AllowAnyMethod().AllowAnyHeader();
+}));
+
+
+builder.Services.AddControllersWithViews();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -21,10 +30,20 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        ctx.Context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+    }
+});
+app.UseCors("ApiCorsPolicy");
 
 app.UseRouting();
-app.UseEndpoints(s=> s.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}"));
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 
 app.MapRazorPages();
