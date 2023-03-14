@@ -14,6 +14,10 @@ namespace ExamManagement.Models
         public List<Answer> Answers { get; set; }
         public int CorrectAnswerIndex { get; set; }
         public bool AnswersSortedRandomly { get; set; }
+        public Question()
+        {
+            Answers = new List<Answer>();
+        }
 
     }
 }

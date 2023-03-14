@@ -14,7 +14,7 @@ namespace ExamManagement.Services
     public class ExamService
     {
         private readonly HttpClient _httpClient;
-        private string Path = AppDomain.CurrentDomain.BaseDirectory + "/Temp/file";
+        private string Path = Directory.GetCurrentDirectory() + "/Temp/file";
         public ExamService()
         {
             _httpClient = new HttpClient();

@@ -72,6 +72,7 @@ namespace ExamManagement
             Questions = new ObservableCollection<Question>();
             Answers = new ObservableCollection<Answer>();
             examService = new ExamService();
+            selectedQuestion = new Question();
             
 
         }
@@ -97,17 +98,17 @@ namespace ExamManagement
               
                 }
             }
-            //Exam exam = new Exam();
-            //exam.Name = NameTextBox.Text;
-            //exam.StartingHour =(StartingHourTextBox.Text);
-            //exam.Questions = Questions.ToList();
-            //exam.RandomSorting = (bool)rendomizeQuestions.IsChecked;
-            //exam.TotalTime = Convert.ToInt32(totalTimeTextBox.Text);
-            //exam.LecturerName = ;
-            //exam.Date = (DateTime)DatePicker.SelectedDate;
+            Exam exam = new Exam();
+            exam.Name = NameTextBox.Text;
+            exam.StartingHour = (DateTime)StartingHourTextBox.SelectedDate;
+            exam.Questions = Questions.ToList();
+            exam.RandomSorting = (bool)rendomizeQuestions.IsChecked;
+            exam.TotalTime = Convert.ToInt32(totalTimeTextBox.Text);
+            exam.LecturerName = lectorTextBox.Text;
+            exam.Date = (DateTime)DatePicker.SelectedDate;
 
-            //examService.AddExam(exam);
-          
+            examService.AddExam(exam);
+
 
             // do something
         }
@@ -143,6 +144,7 @@ namespace ExamManagement
    
         private void AddAnswers_Click (object sender, RoutedEventArgs e)
         {
+
             var question = Questions.FirstOrDefault(s => s.Text == (string)(((Button)sender).CommandParameter));
             selectedQuestion = question;
             var window = new AddAnswersWindow();
@@ -165,6 +167,10 @@ namespace ExamManagement
 
         private void Window_RaiseCustomEvent(object? sender, CustomEventArgs e)
         {
+            if (selectedQuestion == null)
+            {
+                selectedQuestion = new Question();
+            }
             selectedQuestion.Answers = ((ObservableCollection<Answer>)e.Args).ToList();
             selectedQuestion.CorrectAnswerIndex = (int)e.Index;
         }
