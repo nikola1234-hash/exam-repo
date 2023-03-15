@@ -31,7 +31,7 @@ namespace ExamManagement
                 SetField(ref _isChecked, value, nameof(IsChecked));
             }
         }
-        public GradeEntity Grade { get; set; }
+
         private Answer _selectedAnswer;
 
         public Answer SelectedAnswer

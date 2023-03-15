@@ -16,6 +16,10 @@ namespace ExamManagement.Models
         public bool AnswersSortedRandomly { get; set; }
         public Question()
         {
+            Text = string.Empty;
+            ImageUrl = string.Empty;
+            CorrectAnswerIndex = 0;
+            AnswersSortedRandomly = false;
             Answers = new List<Answer>();
         }
 

@@ -1,5 +1,6 @@
 ﻿using ExamManagement.Models;
 using ExamManagement.Services;
+using HandyControl.Tools.Converter;
 using Microsoft.Win32;
 using Prism.Events;
 using System;
@@ -24,33 +25,111 @@ namespace ExamManagement
     /// <summary>
     /// Interaction logic for CreateExamWindow.xaml
     /// </summary>
-    public partial class CreateExamWindow : Window, INotifyPropertyChanged
+    public partial class CreateExamWindow : INotifyPropertyChanged, IDisposable
     {
-        private ObservableCollection<Question> _questions;
-        private ObservableCollection<Answer> _answers;
 
-        public ObservableCollection<Answer> Answers
+        private readonly ExamService _examService;
+        
+
+        private Exam _exam;
+
+        public Exam Exam
         {
-            get { return _answers; }
-            set => SetField(ref _answers, value, nameof(Answers));
-        }
-        private Question selectedQuestion { get; set; }
-        public ObservableCollection<Question> Questions
-        {
-            get { return _questions; }
+            get { return _exam; }
             set
-                
-                {
-
-                SetField(ref _questions, value, nameof(Questions));
-                }
+            {
+                SetField(ref _exam, value, nameof(Exam));
+            }
         }
 
- 
 
-        private readonly APIService<Exam> _apiService;
+        private ObservableCollection<Question> _observableQuestions;
 
-        private ExamService examService;
+        public ObservableCollection<Question> ObservableQuestions
+        {
+            get { return _observableQuestions; }
+            set
+            {
+                SetField(ref _observableQuestions, value, nameof(ObservableQuestions));
+            }
+        }
+
+        public CreateExamWindow()
+        {
+            InitializeComponent();
+            _examService = new ExamService();
+            Exam = new Exam();
+            ObservableQuestions = new ObservableCollection<Question>();
+            
+
+        }
+    
+
+        private void CreateNewExam_Click(object sender, RoutedEventArgs e)
+        {
+            Exam = new Exam();
+        }
+        
+        
+        private void AddQuestionButton_Click(object sender, RoutedEventArgs e)
+        {
+            // do something
+            AddQuestionWindow addQuestionWindow = new AddQuestionWindow(Exam.Id);
+            addQuestionWindow.RiseQuestionAddedEvent += AddQuestionWindow_RiseQuestionAddedEvent; 
+            addQuestionWindow.Show();
+            
+        
+        }
+
+        private void AddQuestionWindow_RiseQuestionAddedEvent(object? sender, Event.QuestionCustomEvent e)
+        {
+
+            if(e.Arg is Question question)
+            {
+                Exam.Questions.Add(question);
+                ObservableQuestions.Add(question);
+            }
+
+            if(e.Arg is ObservableCollection<Question> questions)
+            {
+                Exam.Questions = questions.ToList();
+                ObservableQuestions = questions;
+                SetField(ref _observableQuestions, ObservableQuestions, nameof(ObservableQuestions));
+            }
+
+          
+            
+        }
+
+        private void CreateExamButton_Click(object sender, RoutedEventArgs e)
+        {
+            _examService.AddExam(Exam);
+            var result = MessageBox.Show("Would you like to create another exam?", "", MessageBoxButton.YesNo);
+            if(result == MessageBoxResult.Yes)
+            {
+                Exam = new Exam();
+                ObservableQuestions = new ObservableCollection<Question>();
+
+            }
+            else
+            {
+                this.Close();
+            }
+             
+        }
+        
+
+        private async void SubmitExamToServer(object sender, RoutedEventArgs e)
+        {
+            await _examService.UpdateExam(Exam, true);
+        }
+
+        public void Dispose()
+        {
+            this.Dispose();
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -63,121 +142,6 @@ namespace ExamManagement
             field = value;
             OnPropertyChanged(propertyName);
             return true;
-        }
-
-        public CreateExamWindow()
-        {
-            InitializeComponent();
-            _apiService = new APIService<Exam>("https://localhost:7129");
-            Questions = new ObservableCollection<Question>();
-            Answers = new ObservableCollection<Answer>();
-            examService = new ExamService();
-            selectedQuestion = new Question();
-            
-
-        }
-
-        private void AddAnswers(object obj)
-        {
-            selectedQuestion.Answers = ((ObservableCollection<Answer>) obj).ToList();
-        }
-
-        private void AddQuestionButton_Click(object sender, RoutedEventArgs e)
-        {
-            // do something
-            Questions.Add(new Question());
-            SetField(ref _questions, Questions, nameof(Questions));
-        }
-        private async void CreateExamButton_Click(object sender, RoutedEventArgs e)
-        {
-            foreach(var q in Questions)
-            {
-                if (string.IsNullOrEmpty(q.ImageUrl))
-                {
-                    q.ImageUrl = string.Empty;
-              
-                }
-            }
-            Exam exam = new Exam();
-            exam.Name = NameTextBox.Text;
-            exam.StartingHour = (DateTime)StartingHourTextBox.SelectedDate;
-            exam.Questions = Questions.ToList();
-            exam.RandomSorting = (bool)rendomizeQuestions.IsChecked;
-            exam.TotalTime = Convert.ToInt32(totalTimeTextBox.Text);
-            exam.LecturerName = lectorTextBox.Text;
-            exam.Date = (DateTime)DatePicker.SelectedDate;
-
-            examService.AddExam(exam);
-
-
-            // do something
-        }
-        private void EditQuestionButton_Click(object sender, RoutedEventArgs e)
-        {
-            
-        } 
-        private void DeleteQuestionButton_Click(object sender, RoutedEventArgs e)
-        {
-            var toRemove = Questions.FirstOrDefault(s => s.Text == (string)(((Button)sender).CommandParameter));
-            Questions.Remove(toRemove);
-            SetField(ref _questions, Questions, nameof(Questions));
-        } 
-        private void SaveQuestionButton_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }    
-        private void CancelEditQuestionButton_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-        private void AddFile_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
-            {
-                var file = File.ReadAllText(openFileDialog.FileName);
-
-            }
-                
-        }
-
-   
-        private void AddAnswers_Click (object sender, RoutedEventArgs e)
-        {
-
-            var question = Questions.FirstOrDefault(s => s.Text == (string)(((Button)sender).CommandParameter));
-            selectedQuestion = question;
-            var window = new AddAnswersWindow();
-            window.RaiseCustomEvent += Window_RaiseCustomEvent;
-            window.Show();
-
-
-            if(Answers == null)
-            {
-                Answers = new ObservableCollection<Answer>();
-
-            }
-            var answer = new Answer();
-
-            Answers.Add(new Answer());
-            SetField(ref _questions, Questions, nameof(Questions));
-            SetField(ref _answers, Answers, nameof(Answers));
-
-        }
-
-        private void Window_RaiseCustomEvent(object? sender, CustomEventArgs e)
-        {
-            if (selectedQuestion == null)
-            {
-                selectedQuestion = new Question();
-            }
-            selectedQuestion.Answers = ((ObservableCollection<Answer>)e.Args).ToList();
-            selectedQuestion.CorrectAnswerIndex = (int)e.Index;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ExamServer.EntityFramework.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ExamServer.EntityFramework
 {
@@ -22,6 +23,10 @@ namespace ExamServer.EntityFramework
         {
             modelBuilder.Entity<Exam>().HasMany(i => i.Questions);
             modelBuilder.Entity<Question>().HasMany(i => i.Answers);
+
+            modelBuilder.Entity<Exam>()
+            .Property(s => s.TotalTime)
+            .HasConversion(new TimeSpanToTicksConverter());
             modelBuilder.Entity<User>().HasData(
            new User
            {

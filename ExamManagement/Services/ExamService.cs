@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ExamManagement.Services
@@ -34,36 +35,43 @@ namespace ExamManagement.Services
             SaveExamToJson(exam, Path);
 
         }
-        public async Task UpdateExam(Exam exam)
+        public async Task UpdateExam(Exam exam, bool pushToServer)
         {
-            if(exam != null)
-            {
-
-            }
             // Read the exam data from the local JSON file
             string json = File.ReadAllText(Path + "/exams.json");
             List<Exam> exams = JsonConvert.DeserializeObject<List<Exam>>(json);
-            if(exam != null)
+            if(exam != null && !string.IsNullOrEmpty(exam.Name))
             {
+               
+
                 // Update the exam data
-                int index = exams.FindIndex(e => e.Id == exam.Id);
-                exams[index] = exam;
+                exams.Add(exam);
+                // Serialize the updated exam data to JSON
+                json = JsonConvert.SerializeObject(exams, Formatting.Indented);
+                File.WriteAllText(Path + "/exams.json", json);
+
             }
-           
-
-            // Serialize the updated exam data to JSON
-            json = JsonConvert.SerializeObject(exams, Formatting.Indented);
-
-            // Write the JSON back to the file
-            File.WriteAllText(Path + "/exams.json", json);
 
 
-            var response = await _httpClient.PostAsJsonAsync<List<Exam>>($"https://localhost:7129/api/exam", exams);
+            if (pushToServer)
+            {
 
-            var content = await response.Content.ReadFromJsonAsync<Exam>();
+                var response = await _httpClient.PostAsJsonAsync<List<Exam>>($"https://localhost:7129/api/exam", exams);
 
-            
-        
+                // var js = await response.Content.ReadAsStringAsync();
+
+                //var jsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web); //note: cache and reuse this
+                //var problemDetails = System.Text.Json.JsonSerializer.Deserialize<JsonProblems>(js, jsonOptions);
+                if (response.IsSuccessStatusCode)
+                {
+
+                }
+                var content = await response.Content.ReadFromJsonAsync<Exam>();
+
+            }
+
+
+
         }
 
         public async Task SubmitExamResult(ExamResult result)
@@ -83,18 +91,24 @@ namespace ExamManagement.Services
 
         private void SaveExamToJson(Exam exam, string filePath)
         {
+
+            if (!Directory.Exists(Path))
+            {
+                Directory.CreateDirectory(Path);
+       
+            }
+
             JsonSerializerSettings settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto
             };
-            if (File.Exists(filePath + "/exams.json"))
+            if (File.Exists(Path + "/exams.json"))
             {
                 string json = File.ReadAllText(Path + "/exams.json");
                 List<Exam> exams = JsonConvert.DeserializeObject<List<Exam>>(json);
 
                 // Update the exam data
-                int index = exams.FindIndex(e => e.Id == exam.Id);
-                exams[index] = exam;
+                 exams.Add(exam);
 
                 // Serialize the updated exam data to JSON
                 json = JsonConvert.SerializeObject(exams, Formatting.Indented);
@@ -104,9 +118,11 @@ namespace ExamManagement.Services
             }
             else
             {
-                string examJson = JsonConvert.SerializeObject(exam, settings);
+                List<Exam> examList = new List<Exam>();
+                examList.Add(exam);
+                string examJson = JsonConvert.SerializeObject(examList, settings);
 
-                using (StreamWriter writer = File.CreateText(filePath + "/exams.json"))
+                using (StreamWriter writer = File.CreateText(Path + "/exams.json"))
                 {
                     writer.Write(examJson);
                 }

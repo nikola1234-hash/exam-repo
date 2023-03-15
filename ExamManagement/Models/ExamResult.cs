@@ -10,7 +10,7 @@ namespace ExamManagement.Models
     {
         public int StudentId { get; set; }
         public string StudentName { get; set; }
-        public int ExamId { get; set; }
+        public Guid ExamId { get; set; }
         public int Grade { get; set; }
         public List<Error> Errors { get; set; }
         public ExamResult()
@@ -18,7 +18,7 @@ namespace ExamManagement.Models
             Errors= new List<Error>();
         }
 
-        public ExamResult(int studentId, string studentName, int examId, int grade, List<Error> errors)
+        public ExamResult(int studentId, string studentName, Guid examId, int grade, List<Error> errors)
         {
             StudentId = studentId;
             StudentName = studentName;

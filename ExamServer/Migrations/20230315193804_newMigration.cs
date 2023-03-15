@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ExamServer.Migrations
 {
     /// <inheritdoc />
-    public partial class newInitial : Migration
+    public partial class newMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,13 +17,11 @@ namespace ExamServer.Migrations
                 name: "Exams",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LecturerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartingHour = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TotalTime = table.Column<int>(type: "int", nullable: false),
+                    TotalTime = table.Column<long>(type: "bigint", nullable: false),
                     RandomSorting = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -68,7 +66,8 @@ namespace ExamServer.Migrations
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsImageQuestion = table.Column<bool>(type: "bit", nullable: false),
                     RandomSorting = table.Column<bool>(type: "bit", nullable: false),
-                    ExamId = table.Column<int>(type: "int", nullable: true)
+                    CorrectAnswerIndex = table.Column<int>(type: "int", nullable: false),
+                    ExamId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -86,7 +85,7 @@ namespace ExamServer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ExamId = table.Column<int>(type: "int", nullable: false),
+                    ExamId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StudentId = table.Column<int>(type: "int", nullable: false),
                     Grade = table.Column<int>(type: "int", nullable: false)
                 },
@@ -114,8 +113,7 @@ namespace ExamServer.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsCorrect = table.Column<bool>(type: "bit", nullable: false),
-                    QuestionId = table.Column<int>(type: "int", nullable: false)
+                    QuestionId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -124,8 +122,7 @@ namespace ExamServer.Migrations
                         name: "FK_Answers_Questions_QuestionId",
                         column: x => x.QuestionId,
                         principalTable: "Questions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(

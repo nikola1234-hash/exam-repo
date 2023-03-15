@@ -2,7 +2,7 @@
 {
     public class ExamResult : BaseObject
     {
-        public int ExamId { get; set; }
+        public Guid ExamId { get; set; }
         public Exam Exam { get; set; }
         public int StudentId { get; set; }
         public Student Student { get; set; }

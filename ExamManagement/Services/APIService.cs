@@ -44,24 +44,7 @@ namespace ExamManagement.Services
 
             return exam;
         }
-        public async Task<ObservableCollection<GradeEntity>> GetExamsStatisticsAsync()
-        {
-            var response = await _httpClient.GetAsync($"{_baseUrl}/api/grade");
-
-            var exam = await response.Content.ReadFromJsonAsync<ObservableCollection<GradeEntity>>();
-
-            return exam;
-        }
-        public async Task<bool> AddResults(GradeEntity model)
-        {
-            var response = await _httpClient.PostAsJsonAsync<GradeEntity>($"{_baseUrl}/api/grade", model);
-            var t = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
-            {
-                return true;
-            }
-            return false;
-        }
+   
         public async Task<bool> CreateExamAsync(T exam)
         {
 

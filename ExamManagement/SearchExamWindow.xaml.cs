@@ -43,24 +43,24 @@ namespace ExamManagement
         }
         private async void SearchBox_Click(object sender, RoutedEventArgs e)
         {
-            string text = SearchBox.Text;
-            Exam exam = await _apiService.GetExamAsync(text);
-            if(exam.Date.Date > DateTime.Now.Date)
-            {
-                MessageBox.Show($"Exam starts on {exam.Date.Date.ToShortDateString()}");
-                this.Close();
-            }
-            else if(exam.Date.Date > DateTime.Now.Date)
-            {
-                MessageBox.Show("Exam has passed");
-                this.Close();
-            }
-            else
-            {
-                Exam = exam;
-                Exams.Add(exam);
-                resultList.ItemsSource = Exams;
-            }
+            //string text = SearchBox.Text;
+            //Exam exam = await _apiService.GetExamAsync(text);
+            //if(exam.Date.Date > DateTime.Now.Date)
+            //{
+            //    MessageBox.Show($"Exam starts on {exam.Date.Date.ToShortDateString()}");
+            //    this.Close();
+            //}
+            //else if(exam.Date.Date > DateTime.Now.Date)
+            //{
+            //    MessageBox.Show("Exam has passed");
+            //    this.Close();
+            //}
+            //else
+            //{
+            //    Exam = exam;
+            //    Exams.Add(exam);
+            //    resultList.ItemsSource = Exams;
+            //}
         
         }
         private async void OpenExam_Click(object sender, RoutedEventArgs e)

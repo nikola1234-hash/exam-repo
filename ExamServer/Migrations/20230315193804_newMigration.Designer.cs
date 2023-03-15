@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExamServer.Migrations
 {
     [DbContext(typeof(ExamDbContext))]
-    [Migration("20230314220527_newInitial")]
-    partial class newInitial
+    [Migration("20230315193804_newMigration")]
+    partial class newMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,10 +33,7 @@ namespace ExamServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("IsCorrect")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("QuestionId")
+                    b.Property<int?>("QuestionId")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -82,14 +79,9 @@ namespace ExamServer.Migrations
 
             modelBuilder.Entity("ExamServer.EntityFramework.Entities.Exam", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LecturerName")
                         .IsRequired()
@@ -102,12 +94,11 @@ namespace ExamServer.Migrations
                     b.Property<bool>("RandomSorting")
                         .HasColumnType("bit");
 
-                    b.Property<string>("StartingHour")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("StartDateTime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("TotalTime")
-                        .HasColumnType("int");
+                    b.Property<long>("TotalTime")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -122,8 +113,8 @@ namespace ExamServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ExamId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ExamId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Grade")
                         .HasColumnType("int");
@@ -148,8 +139,11 @@ namespace ExamServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ExamId")
+                    b.Property<int>("CorrectAnswerIndex")
                         .HasColumnType("int");
+
+                    b.Property<Guid?>("ExamId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
@@ -226,13 +220,9 @@ namespace ExamServer.Migrations
 
             modelBuilder.Entity("ExamServer.EntityFramework.Entities.Answer", b =>
                 {
-                    b.HasOne("ExamServer.EntityFramework.Entities.Question", "Question")
+                    b.HasOne("ExamServer.EntityFramework.Entities.Question", null)
                         .WithMany("Answers")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Question");
+                        .HasForeignKey("QuestionId");
                 });
 
             modelBuilder.Entity("ExamServer.EntityFramework.Entities.Error", b =>

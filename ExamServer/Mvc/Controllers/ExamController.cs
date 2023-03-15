@@ -10,11 +10,11 @@ namespace ExamServer.Mvc.Controllers
     [ApiController]
     public class ExamController : ControllerBase
     {
-        private readonly ICrudService<Exam> _context;
+
         private readonly ExamDbContext _dbContext;
-        public ExamController(ICrudService<Exam> context, ExamDbContext dbContext)
+        public ExamController(ExamDbContext dbContext)
         {
-            _context = context;
+
             _dbContext = dbContext;
         }
 
@@ -22,8 +22,8 @@ namespace ExamServer.Mvc.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Exam>>> GetExams()
         {
-       
-           var exams = _dbContext.Exams.Include(s => s.Questions).ThenInclude(s => s.Answers).ToList();
+          
+           var exams = _dbContext.Exams.Include(s => s.Questions).ToList();
        
           
            return exams;
@@ -57,15 +57,16 @@ namespace ExamServer.Mvc.Controllers
 
         // PUT api/exams/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateExam(int id, Exam exam)
+        public async Task<IActionResult> UpdateExam(Guid id, Exam exam)
         {
-            if (id != exam.Id)
+            var fromDb = await _dbContext.Exams.FindAsync(id);
+            if (fromDb != null)
             {
-                return BadRequest();
+                _dbContext.Entry(fromDb).CurrentValues.SetValues(exam);
+                _dbContext.Entry(fromDb).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
             }
-            await _context.Update(id, exam);
-
-            return NoContent();
+            return Ok();
         }
 
     }

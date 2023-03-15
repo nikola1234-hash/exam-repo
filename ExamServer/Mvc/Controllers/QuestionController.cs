@@ -10,65 +10,63 @@ namespace ExamServer.Mvc.Controllers
     public class QuestionController : ControllerBase
     {
         private readonly ICrudService<Question> _context;
-        private readonly ICrudService<Exam> _examContext;
 
-        public QuestionController(ICrudService<Question> context, ICrudService<Exam> examContext)
+        public QuestionController(ICrudService<Question> context)
         {
             _context = context;
-            _examContext = examContext;
         }
 
   
         // GET api/exams/{examId}/questions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Question>>> GetQuestions(int examId)
+        public async Task<ActionResult<IEnumerable<Question>>> GetQuestions(Guid examId)
         {
+            return null;
 
 
-
-            var exam = await _examContext.GetById(examId);
-
-            if (exam.Questions == null)
-            {
-                return NotFound();
-            }
-
-            return exam.Questions.ToList();
+            //if (exam.Questions == null)
+            //{
+            //    return NotFound();
+            //}
+            
+            //return exam.Questions.ToList();
         }
 
         // GET api/exams/{examId}/questions/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Question>> GetQuestion(int examId, int id)
         {
-            var exam = await _examContext.GetById(examId);
-            if (exam == null)
-            {
-                return NotFound();
-            }
+            return null;
+            //var exam = await _examContext.GetById(examId);
+            //if (exam == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var question = exam.Questions.FirstOrDefault(q => q.Id == id);
+            //var question = exam.Questions.FirstOrDefault(q => q.Id == id);
 
-            if (question == null)
-            {
-                return NotFound();
-            }
+            //if (question == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return question;
+            //return question;
         }
 
         // POST api/exams/{examId}/questions
         [HttpPost]
         public async Task<ActionResult<Question>> CreateQuestion(int examId, Question question)
         {
-            var exam = await _examContext.GetById(examId);
+            return null;
+            //var exam = await _examContext.GetById(examId);
 
-            if (exam == null)
-            {
-                return NotFound();
-            }
+            //if (exam == null)
+            //{
+            //    return NotFound();
+            //}
 
-            exam.Questions.Add(question);
-            return CreatedAtAction(nameof(GetQuestion), new { examId, id = question.Id }, question);
+            //exam.Questions.Add(question);
+            //return CreatedAtAction(nameof(GetQuestion), new { examId, id = question.Id }, question);
         }
 
         // PUT api/exams/{examId}/questions/{id}

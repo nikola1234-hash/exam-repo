@@ -1,6 +1,5 @@
 ﻿using ExamServer.EntityFramework;
 using ExamServer.EntityFramework.Entities;
-using ExamServer.Mvc.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

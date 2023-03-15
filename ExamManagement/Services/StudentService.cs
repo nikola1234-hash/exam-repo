@@ -28,14 +28,14 @@ namespace ExamManagement.Services
         }
 
         // Start exam
-        public async Task<Exam> StartExam(int examId)
+        public async Task<Exam> StartExam(Guid examId)
         {
 
             var response = await _httpClient.GetAsync($"https://localhost:7129/api/exam/{examId}");
 
             var exam = await response.Content.ReadFromJsonAsync<Exam>();
             
-            if (exam.Date == DateTime.Now.Date)
+            if (exam.StartDateTime.Date == DateTime.Now.Date)
                 return exam;
             return null;
 
@@ -75,7 +75,7 @@ namespace ExamManagement.Services
             // Save ExamResult object to database
         }
 
-        public async Task SaveExamResult(int studentId, string studentName, int id, int grade, List<Error> errors)
+        public async Task SaveExamResult(int studentId, string studentName, Guid id, int grade, List<Error> errors)
         {
             ExamResult result = new ExamResult(studentId, studentName, id, grade, errors);
             await examService.SubmitExamResult(result);
