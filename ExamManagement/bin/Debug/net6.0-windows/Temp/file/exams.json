@@ -1,0 +1,102 @@
+[
+  {
+    "Name": "12312123123",
+    "Id": "6aaa1618-3b18-4637-806e-62b0f76f50a2",
+    "StartDateTime": "2023-03-15T20:08:57.0713851+01:00",
+    "LecturerName": "Hello",
+    "TotalTime": "01:00:00",
+    "RandomSorting": true,
+    "Questions": [
+      {
+        "Text": "Image question",
+        "ImageUrl": "C:\\Users\\Branislav Stanic\\Desktop\\Exam\\exam-repo\\ExamManagement\\bin\\Debug\\net6.0-windows/Temp/img/6aaa1618-3b18-4637-806e-62b0f76f50a2/Visuels Lipton-citron-citron-vert 3-4 haut - V2.png",
+        "Answers": [
+          {
+            "Text": "knfsalksafnk;lfsanfkl;nflkasnflsanflasf\r\n"
+          },
+          {
+            "Text": "afsfasfasfasfassfasffasafsafsfas\r\n"
+          },
+          {
+            "Text": "sffasffasfasfasfafaafs\r\n"
+          }
+        ],
+        "CorrectAnswerIndex": 1,
+        "AnswersSortedRandomly": false
+      },
+      {
+        "Text": "affasfafafasfasfffasffaafaffa\r\n",
+        "ImageUrl": "",
+        "Answers": [
+          {
+            "Text": "fasfasfasfasfafaffafa\r\n"
+          },
+          {
+            "Text": "fafafasasfffsafaffafaffafafafaf\r\n"
+          },
+          {
+            "Text": "afsdfsafsafsafafs\r\n"
+          }
+        ],
+        "CorrectAnswerIndex": 0,
+        "AnswersSortedRandomly": false
+      }
+    ]
+  },
+  {
+    "Name": "fkfnjsklfnaslkfanslfa",
+    "Id": "4649739c-5976-4937-ae19-c5a731814f02",
+    "StartDateTime": "2023-03-15T20:15:04.7975819+01:00",
+    "LecturerName": "Lector",
+    "TotalTime": "01:00:00",
+    "RandomSorting": true,
+    "Questions": [
+      {
+        "Text": "kcjkalhbfaljfbhakjfbaskjfbaskf\r\n",
+        "ImageUrl": "",
+        "Answers": [
+          {
+            "Text": "fsafasfafasfas\r\n"
+          },
+          {
+            "Text": "fsdfa\r\n"
+          },
+          {
+            "Text": "f\r\n"
+          },
+          {
+            "Text": "f\r\n"
+          },
+          {
+            "Text": "`1\r\n"
+          }
+        ],
+        "CorrectAnswerIndex": 4,
+        "AnswersSortedRandomly": false
+      },
+      {
+        "Text": "Image question",
+        "ImageUrl": "C:\\Users\\Branislav Stanic\\Desktop\\Exam\\exam-repo\\ExamManagement\\bin\\Debug\\net6.0-windows/Temp/img/4649739c-5976-4937-ae19-c5a731814f02/Visuels Lipton-Peach 3-4 haut - V2.png",
+        "Answers": [
+          {
+            "Text": "asfdasffasfafas\r\n"
+          },
+          {
+            "Text": "fasfasfsfafs\r\n"
+          },
+          {
+            "Text": "fff\r\n"
+          },
+          {
+            "Text": "f\r\n"
+          },
+          {
+            "Text": "f\r\n"
+          }
+        ],
+        "CorrectAnswerIndex": 0,
+        "AnswersSortedRandomly": false
+      }
+    ]
+  }
+]
