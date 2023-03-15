@@ -23,7 +23,7 @@ namespace ExamManagement.Services
 
         public async Task<Exam> GetExamByName(string name)
         {
-            var response = await _httpClient.GetAsync($"https://localhost:7129/api/exam");
+            var response = await _httpClient.GetAsync($"https://localhost:7129/api/exam/{name}");
 
             var exam = await response.Content.ReadFromJsonAsync<Exam>();
 

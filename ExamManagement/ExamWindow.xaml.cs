@@ -13,7 +13,7 @@ namespace ExamManagement
     /// <summary>
     /// Interaction logic for ExamWindow.xaml
     /// </summary>
-    public partial class ExamWindow : Window, INotifyPropertyChanged
+    public partial class ExamWindow: INotifyPropertyChanged
     {
         private int _i = 0;
         private int unsolvedQuestions;
@@ -45,7 +45,15 @@ namespace ExamManagement
         }
 
 
-        public int NumberOfQuestions => exam.Questions.Count();
+
+        private int _numberOfQuiestions;
+
+        public int NumberOfQuestions
+        {
+            get { return _numberOfQuiestions; }
+            set { _numberOfQuiestions = value; }
+        }
+
         public int SolvedQuestions { get => solvedQuestions;
             set
             {
@@ -63,7 +71,7 @@ namespace ExamManagement
         private readonly ExamResult examResult;
         private readonly StudentService studentService;
         private StudentExam studentExam;
-        public ExamWindow(Exam exam, Student student)
+        public ExamWindow(Guid examId, Student student)
         {
             if (exam is null)
             {
@@ -74,12 +82,10 @@ namespace ExamManagement
             examService = new ExamService();
             examResult = new ExamResult();
             studentService = new StudentService();
-            StartExam(exam);
+            StartExam(examId);
             studentExam = new StudentExam();
             InitializeComponent();
             submitExam.Visibility = Visibility.Hidden;
-            
-            UnsolvedQuestions = exam.Questions.Count();
 
             if (exam.RandomSorting)
             {
@@ -93,9 +99,13 @@ namespace ExamManagement
 
         }
 
-        private async void StartExam(Exam exam)
+        private async void StartExam(Guid examId)
         {
-            this.exam = await studentService.StartExam(exam.Id);
+            this.exam = await studentService.StartExam(examId);
+            NumberOfQuestions = exam.Questions.Count();
+            SolvedQuestions = 0;
+            UnsolvedQuestions = NumberOfQuestions;
+
         }
         public void SubmitQuestion_Click(object sender, RoutedEventArgs e)
         {
@@ -124,7 +134,7 @@ namespace ExamManagement
             if (success)
             {
                 MessageBox.Show("Successfully submited");
-                this.Close();
+
             }
             else
             {

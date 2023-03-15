@@ -34,16 +34,29 @@ namespace ExamManagement.Services
             var response = await _httpClient.GetAsync($"https://localhost:7129/api/exam/{examId}");
 
             var exam = await response.Content.ReadFromJsonAsync<Exam>();
-
-            if (exam.StartDateTime.Date == DateTime.Now.Date && exam.StartDateTime.Hour + exam.TotalTime.TotalHours <= DateTime.Now.Hour)
+            if (exam.StartDateTime.Date > DateTime.Now.Date)
             {
-                return exam;
+                throw new InvalidOperationException("Your exam is not yet active");
             }
+            
+            if (exam.StartDateTime.Date < DateTime.Now.Date)
+            {
+                throw new InvalidOperationException("Your exam has expired");
+            }
+            if (exam.StartDateTime.Hour < DateTime.Now.Hour)
+            {
+                throw new InvalidOperationException("Your exam has expired");
+            }
+            if (exam.StartDateTime.Hour > DateTime.Now.Hour)
+            {
+                throw new InvalidOperationException("Your exam is not yet active");
+            }
+         
+           
+            return exam;
 
-            return null;
 
-        }
-
+            }
         // Submit exam answers
         public async Task<bool> SubmitExamAnswers(Exam exam, int studentId, StudentExam studentExam)
         {
@@ -63,34 +76,7 @@ namespace ExamManagement.Services
             {
                 return false;
             }
-            int totalQuestions = exam.Questions.Count;
-            int correctAnswers = 0;
-            List<Error> errors = new List<Error>();
-
-            for (int i = 0; i < totalQuestions; i++)
-            {
-                Question question = exam.Questions[i];
-                int selectedAnswerIndex = studentExam.SelectedAnswers[i];
-                int correctAnswerIndex = question.CorrectAnswerIndex;
-
-                if (selectedAnswerIndex == correctAnswerIndex)
-                {
-                    correctAnswers++;
-                }
-                else
-                {
-                    errors.Add(new Error(question.Text, studentExam.SelectedAnswers[i].ToString(), correctAnswerIndex.ToString()));
-                }
-            }
-
-            int grade = (int)Math.Round((double)correctAnswers / totalQuestions * 100);
-
-            // Save the grade and errors to the database
-
-            await SaveExamResult(studentId, studentExam.StudentName, exam.Id, grade, errors);
-
-            // Calculate grade and errors
-            // Save ExamResult object to database
+       
         }
 
         public async Task SaveExamResult(int studentId, string studentName, Guid id, int grade, List<Error> errors)

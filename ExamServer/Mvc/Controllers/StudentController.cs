@@ -6,11 +6,11 @@ namespace ExamServer.Mvc.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SudentController : ControllerBase
+    public class StudentController : ControllerBase
     {
         private readonly ExamDbContext _dbContext;
 
-        public SudentController(ExamDbContext dbContext)
+        public StudentController(ExamDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -27,7 +27,7 @@ namespace ExamServer.Mvc.Controllers
         {
             var entity = await _dbContext.Students.AddAsync(student);
             await _dbContext.SaveChangesAsync();
-            return Ok(entity);
+            return Ok(entity.Entity);
 
         }
     }
