@@ -12,5 +12,13 @@
         {
             Errors = new List<Error>();
         }
+
+        public ExamResult(int studentId, Guid examId, int grade,  ICollection<Error> errors)
+        {
+            ExamId = examId;
+            StudentId = studentId;
+            Grade = grade;
+            Errors = errors;
+        }
     }
 }

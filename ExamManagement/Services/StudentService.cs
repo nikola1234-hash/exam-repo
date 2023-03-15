@@ -34,17 +34,35 @@ namespace ExamManagement.Services
             var response = await _httpClient.GetAsync($"https://localhost:7129/api/exam/{examId}");
 
             var exam = await response.Content.ReadFromJsonAsync<Exam>();
-            
-            if (exam.StartDateTime.Date == DateTime.Now.Date)
+
+            if (exam.StartDateTime.Date == DateTime.Now.Date && exam.StartDateTime.Hour + exam.TotalTime.TotalHours <= DateTime.Now.Hour)
+            {
                 return exam;
+            }
+
             return null;
 
         }
 
         // Submit exam answers
-        public async Task SubmitExamAnswers(Exam exam, int studentId, StudentExam studentExam)
+        public async Task<bool> SubmitExamAnswers(Exam exam, int studentId, StudentExam studentExam)
         {
 
+            GradingData gradingData = new GradingData(studentExam, studentId, exam);
+
+            var response = await _httpClient.PostAsJsonAsync<GradingData>($"https://localhost:7129/api/result/", gradingData);
+
+            var post = await response.Content.ReadFromJsonAsync<Exam>();
+
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
             int totalQuestions = exam.Questions.Count;
             int correctAnswers = 0;
             List<Error> errors = new List<Error>();
