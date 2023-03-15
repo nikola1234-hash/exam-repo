@@ -19,6 +19,7 @@ namespace ExamServer.Mvc.Controllers
         [HttpPost]
         public ActionResult Login(User user)
         {
+
             var dbUser = _context.Users.Where(s=>  user.Username == s.Username && s.Password == user.Password).FirstOrDefault();
             if(dbUser == null)
             {

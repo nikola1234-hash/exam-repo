@@ -19,6 +19,5 @@
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgHandyControls Condition=" '$(PkgHandyControls)' == '' ">C:\Users\Branislav Stanic\.nuget\packages\handycontrols\3.4.4</PkgHandyControls>
-    <PkgFontAwesome_WPF Condition=" '$(PkgFontAwesome_WPF)' == '' ">C:\Users\Branislav Stanic\.nuget\packages\fontawesome.wpf\4.7.0.9</PkgFontAwesome_WPF>
   </PropertyGroup>
 </Project>

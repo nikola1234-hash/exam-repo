@@ -19,7 +19,7 @@ namespace ExamManagement
     /// <summary>
     /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class Login : Window
+    public partial class Login 
     {
         private APIService<User> _apiService;
 
@@ -30,11 +30,24 @@ namespace ExamManagement
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
+
+            User user = new User(username.Text, password.Password);
+            if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
+            {
+                MessageBox.Show("You have to populate username and password");
+                return;
+            }
+            loginPanel.Visibility = Visibility.Hidden;
+            infoPanel.Visibility = Visibility.Visible;
+            groupBoxInfo.Header = "Started login process";
+            groupBoxInfo.Content = "Please wait contanting server...";
             _apiService = new APIService<User>("https://localhost:7129");
-            User user = new User(username.Text, password.Text);
+
             bool success = await _apiService.Login(user);
             if (success)
             {
+               
+                groupBoxInfo.Header = "Login success";
                 Storage.Storage.User = username.Text;
                 MainWindow mw = new MainWindow();
                 mw.Show();
@@ -42,6 +55,8 @@ namespace ExamManagement
             }
             else
             {
+                loginPanel.Visibility = Visibility.Visible;
+                infoPanel.Visibility = Visibility.Hidden;
                 MessageBox.Show("Wrong username or password");
             }
           
