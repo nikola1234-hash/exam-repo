@@ -117,7 +117,7 @@ namespace ExamManagement {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/ExamManagement;V1.0.0.0;component/createexamwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/ExamManagement;component/createexamwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\CreateExamWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
