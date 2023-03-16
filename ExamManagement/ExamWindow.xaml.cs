@@ -160,7 +160,15 @@ namespace ExamManagement
             InitializeTimer();
             studentExam.StudentName = student.Name;
             previousButton.IsEnabled = false;
-            nextButton.IsEnabled = true;
+            if(Exam.Questions.Count == 1)
+            {
+                nextButton.IsEnabled = false;
+            }
+            else
+            {
+                nextButton.IsEnabled = true;
+            }
+
             CurrentQuestion = _i + 1;
             NumberOfQuestions = exam.Questions.Count();
             SolvedQuestions = 0;
