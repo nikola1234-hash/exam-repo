@@ -38,7 +38,7 @@ namespace ExamManagement
        
 
             InitializeComponent();
-            if(Storage.Storage.User == "Lector")
+            if(Storage.Storage.User == "Lector" || Storage.Storage.User == "lector")
             {
                 IsLector = true;
 

@@ -49,7 +49,6 @@ namespace ExamManagement
             {
                
                 groupBoxInfo.Header = "Login success";
-                Storage.Storage.User = username.Text;
                 MainWindow mw = new MainWindow();
                 mw.Show();
                 this.Close();

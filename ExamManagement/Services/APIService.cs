@@ -80,6 +80,7 @@ namespace ExamManagement.Services
             if (response.IsSuccessStatusCode)
             {
                 Storage.Storage.UserId = l.Id;
+                Storage.Storage.User = l.Username;
                 return true;
             }
             else
