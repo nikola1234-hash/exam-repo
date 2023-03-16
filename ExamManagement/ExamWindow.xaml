@@ -66,11 +66,15 @@
             <GroupBox.Content>
 
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+
+                    <StackPanel Margin="10"  Orientation="Vertical">
+                        <TextBlock Foreground="Red" Text="Time left:"></TextBlock>
+                        <TextBlock FontWeight="Bold" FontSize="16" Foreground="Red" x:Name="tbTime"></TextBlock>
+                    </StackPanel>
                     <StackPanel Margin="10" Orientation="Vertical">
                         <TextBlock Text="Current Question:"></TextBlock>
                         <TextBlock FontWeight="Bold" FontSize="16" Text="{Binding CurrentQuestion}"></TextBlock>
                     </StackPanel>
-
                     <StackPanel Margin="10"  Orientation="Vertical">
                         <TextBlock Text="Questions Total"></TextBlock>
                         <TextBlock Text="{Binding NumberOfQuestions}"></TextBlock>

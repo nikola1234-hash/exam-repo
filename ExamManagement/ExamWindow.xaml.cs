@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Timers;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using ExamManagement.Models;
 using ExamManagement.Services;
 using ExamManagement.Storage;
@@ -155,7 +157,7 @@ namespace ExamManagement
             SelectedAnswers = new Dictionary<int, Answer>();
             InitializeComponent();
             Exam = exam;
-            
+            InitializeTimer();
             studentExam.StudentName = student.Name;
             previousButton.IsEnabled = false;
             nextButton.IsEnabled = true;
@@ -189,6 +191,34 @@ namespace ExamManagement
             }
 
         }
+
+        private double _counter;
+
+        public double Counter
+        {
+            get { return _counter; }
+            set
+            {
+                SetField(ref _counter, value, nameof(Counter));
+            }
+        }
+
+
+        public void InitializeTimer()
+        {
+            TimeSpan totalTime = Exam.TotalTime;
+            DispatcherTimer timer = new DispatcherTimer();
+            timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
+            {
+                tbTime.Text = totalTime.ToString("c");
+                if (totalTime == TimeSpan.Zero) timer.Stop();
+                totalTime = totalTime.Add(TimeSpan.FromSeconds(-1));
+            }, Application.Current.Dispatcher);
+
+            timer.Start();
+        }
+
+    
 
         public void PreviousQUestion_Click(object sender, RoutedEventArgs e)
         {
