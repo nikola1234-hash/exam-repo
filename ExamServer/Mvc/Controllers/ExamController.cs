@@ -33,7 +33,7 @@ namespace ExamServer.Mvc.Controllers
         [HttpGet("{name}")]
         public async Task<ActionResult<Exam>> GetExam(string name)
         {
-            var exam = _dbContext.Exams.Include(s => s.Questions).ThenInclude(s => s.Answers).FirstOrDefault(s => s.Name == name);
+            var exam = _dbContext.Exams.Include(s => s.Questions).ThenInclude(s => s.Answers).FirstOrDefault(s => s.Name.ToLower() == name.ToLower());
 
             if (exam == null)
             {
@@ -46,10 +46,21 @@ namespace ExamServer.Mvc.Controllers
         // POST api/exam
         [HttpPost]
         [ProducesResponseType(201)]
-
+        
         public async Task<ActionResult<List<Exam>>> CreateExams([FromBody]List<Exam> exams)
         {
-            await _dbContext.Exams.AddRangeAsync(exams);
+            var dbExams = _dbContext.Exams.ToList();
+            foreach (var exam in exams)
+            {
+                if (dbExams.FirstOrDefault(s=> s.Id == exam.Id) != null)
+                {
+                    continue;
+                }
+                else
+                {
+                    await _dbContext.AddAsync(exam);
+                }
+            }
             await _dbContext.SaveChangesAsync();
 
             return Ok();
