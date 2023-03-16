@@ -1,26 +1,12 @@
 ﻿using ExamManagement.Models;
 using ExamManagement.Services;
-using HandyControl.Tools.Converter;
 using HandyControl.Tools.Extension;
-using Microsoft.Win32;
-using Newtonsoft.Json.Linq;
-using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace ExamManagement
 {
@@ -29,8 +15,8 @@ namespace ExamManagement
     {
 
         private readonly ExamService _examService;
-        
 
+        #region Fields
         private Exam _exam;
 
         public Exam Exam
@@ -78,7 +64,7 @@ namespace ExamManagement
                 SetField(ref _isEditButtonEnabled, value, nameof(IsEditButtonEnabled));
             }
         }
-
+        #endregion
         public EditExamWindow(Exam exam)
         {
             InitializeComponent();
@@ -105,7 +91,13 @@ namespace ExamManagement
 
 
         }
+        /*
 
+        This is a private method named Window_RiseQuestionAddedEvent that handles the QuestionCustomEvent event raised when a new question is added to the exam.
+        It takes two arguments, one of type Question and the other of type ObservableCollection<Question>.
+        If the argument is a Question object, the method removes the currently selected question from the exam's list of questions, adds the new question to the list, and updates the ObservableQuestions collection.
+        If the argument is an ObservableCollection of Question objects, the method adds all the questions in the collection to the exam's list of questions and updates the ObservableQuestions collection.
+        */
         private void Window_RiseQuestionAddedEvent(object? sender, Event.QuestionCustomEvent e)
         {
             if (e.Arg is Question question)
@@ -120,7 +112,12 @@ namespace ExamManagement
                 ObservableQuestions.AddRange(questions);
             }
         }
+        /*
+          This is a private method that handles the QuestionCustomEvent event raised when a question is edited in the EditQuestionWindow. 
+          The method clears the exam's list of questions and then checks the type of argument passed in the event.
 
+          If the argument is a Question, it removes the currently selected question from the exam's list of questions, adds the edited question to the list, and updates the ObservableQuestions collection.
+         */
         private void EditQuestionWindow_RiseQuestionAddedEvent(object? sender, Event.QuestionCustomEvent e)
         {
             Exam.Questions.Clear();
@@ -131,8 +128,22 @@ namespace ExamManagement
                 ObservableQuestions.Add(question);
             }          
         }
+        // Removes question from exam
+        private void DeleteQuestionButton_Click(object sender, RoutedEventArgs e)
+        {
+            var result = HandyControl.Controls.MessageBox.Show("Are you sure you want to remove this Question from exam?", "Error", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                Exam.Questions.Remove(SelectedQuestion);
+                ObservableQuestions.Remove(SelectedQuestion);
+            }
+         
+        }
 
-        
+
+        /// <summary>
+        /// This method Resets form
+        /// </summary>
         public void ResetForm()
         {
             Exam = new Exam();
@@ -142,7 +153,7 @@ namespace ExamManagement
 
         }
 
-
+        //This method opens a new window to edit the selected question
         private void editQuestionButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -151,6 +162,7 @@ namespace ExamManagement
             addQuestionWindow.Show();
         }
 
+        //This methos adds exams to JSON file
         private async void CreateExamButton_Click(object sender, RoutedEventArgs e)
         {
             _examService.AddExam(Exam);
@@ -159,7 +171,11 @@ namespace ExamManagement
             
              
         }
-        
+        /// <summary>
+        /// This method submits JSON to server
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private async void SubmitExamToServer(object sender, RoutedEventArgs e)
         {

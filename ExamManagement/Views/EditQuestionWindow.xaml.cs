@@ -21,7 +21,7 @@ namespace ExamManagement
     {
 
        public event EventHandler<QuestionCustomEvent> RiseQuestionAddedEvent;
-
+        #region Fields
         private Question _question;
 
         public Question Question
@@ -197,8 +197,20 @@ namespace ExamManagement
                 SetField(ref _selectedAnswer, value, nameof(SelectedAnswer));
             }
         }
+        private bool _showIsCorrectAnswer;
+
+        public bool ShowIsCorrectAnswer
+        {
+            get { return _showIsCorrectAnswer; }
+            set
+            {
 
 
+                SetField(ref _showIsCorrectAnswer, value, nameof(ShowIsCorrectAnswer));
+            }
+        }
+
+        #endregion
         public EditQuestionWindow(Question question)
         {
             InitializeComponent();
@@ -219,19 +231,8 @@ namespace ExamManagement
             questionText.Document.Blocks.Add(new Paragraph(new Run(question.Text)));
             NewAnswerIsEnabled = true;
         }
-        private bool _showIsCorrectAnswer;
-
-        public bool ShowIsCorrectAnswer
-        {
-            get { return _showIsCorrectAnswer; }
-            set
-            {
-
-
-                SetField(ref _showIsCorrectAnswer, value, nameof(ShowIsCorrectAnswer));
-            }
-        }
-
+     
+        //Removes answer from List
         private void RemoveAnswer(object sender, RoutedEventArgs e)
         {
             Question.Answers.Remove(SelectedAnswer);

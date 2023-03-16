@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ExamDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("ExamDB")));
-builder.Services.AddTransient(typeof(ICrudService<>), typeof(CrudService<>));
+
 builder.Services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
 {
     builder.WithOrigins("https://localhost:7129").AllowAnyMethod().AllowAnyHeader();

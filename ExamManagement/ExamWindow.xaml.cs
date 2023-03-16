@@ -402,13 +402,6 @@ namespace ExamManagement
             }
             else
             {
-                //if(studentExam.SelectedAnswers.Count == Exam.Questions.Count)
-                //{
-                //    question.Visibility = Visibility.Hidden;
-                //    radioListBoxEdit.Visibility = Visibility.Hidden;
-                //    submitExam.Visibility = Visibility.Visible;
-                //}
-            
                 return;
             }
 

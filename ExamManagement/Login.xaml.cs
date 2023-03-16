@@ -22,13 +22,20 @@ namespace ExamManagement
     /// </summary>
     public partial class Login 
     {
-        private APIService<User> _apiService;
+        private AuthService authService;
 
         public Login()
         {
             InitializeComponent();
         }
-
+        // This method is an event handler for a button click. It performs a login process by creating a User object with the username and password entered in the UI,
+        // checking if both fields are populated, hiding the login panel and showing an info panel with a message indicating that the login process has started.
+        // It then creates an instance of the AuthService class, which is responsible for handling the actual login request to a server.
+        //
+        // The method calls the Login method of the AuthService instance using the await keyword, which means that the method will not block while the login request
+        // is being processed. If the login is successful, the MainWindow is shown and the current window is closed. If the login is unsuccessful, an error message
+        // is displayed, and the UI is reset to its original state.
+        //
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
 
@@ -42,9 +49,9 @@ namespace ExamManagement
             infoPanel.Visibility = Visibility.Visible;
             groupBoxInfo.Header = "Started login process";
             groupBoxInfo.Content = "Please wait contacting server...";
-            _apiService = new APIService<User>("https://localhost:7129");
+            authService = new AuthService();
 
-            bool success = await _apiService.Login(user);
+            bool success = await authService.Login(user);
             if (success)
             {
                
