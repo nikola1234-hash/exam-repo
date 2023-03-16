@@ -23,7 +23,6 @@ namespace ExamManagement
        public event EventHandler<QuestionCustomEvent> RiseQuestionAddedEvent;
 
         private Question _question;
-        private bool disposedValue;
 
         public Question Question
         {
@@ -114,7 +113,7 @@ namespace ExamManagement
         }
 
         private readonly ImageService imageService;
-
+        
 
         public AddQuestionWindow(Guid examId)
         {
@@ -170,14 +169,7 @@ namespace ExamManagement
             {
                 var imagePath = imageService.AddImage(choofdlog.FileName, ExamGuid);
                 Question.ImageUrl = imagePath;
-
-
-
-                BitmapImage bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.UriSource = new Uri(imagePath, UriKind.Absolute);
-                bitmap.EndInit();
-                imageArea.Source = bitmap;
+                imageArea.Source = imageService.GetMedia(imagePath);
             }
         }
         // Save Single Question

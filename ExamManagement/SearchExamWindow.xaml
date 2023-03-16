@@ -10,11 +10,21 @@
         WindowStartupLocation="CenterScreen" WindowState="Normal" ResizeMode="NoResize"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
            Background="White">
+    <hc:Window.Resources>
+        <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        </ResourceDictionary>
+
+    </hc:Window.Resources>
+    
+    
     <Grid HorizontalAlignment="Center" >
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"></RowDefinition>
 
         </Grid.RowDefinitions>
+    
         <GroupBox VerticalAlignment="Center" Grid.Row="0" Header="Search for exam">
             <GroupBox.Content>
                 <StackPanel Orientation="Vertical" >
@@ -45,15 +55,19 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <Button Margin="0 10 0 0" Click="OpenExam_Click" Content="Start Exam" Width="200"></Button>
+                    <Button Margin="0 10 0 0" Click="OpenExam_Click" Content="Start Exam" Width="200" IsEnabled="{Binding IsButtonEnabled}"></Button>
 
                 </StackPanel>
                 
             </GroupBox.Content>
         </GroupBox>
 
-   
-      
+
+
+        <hc:LoadingLine Background="#00a2ed" Visibility="{Binding IsProgressVisible, Converter={StaticResource BoolToVis}}" Grid.Row="1" />
+
+
+
 
     </Grid>
 </hc:Window>

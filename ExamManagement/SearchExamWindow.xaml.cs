@@ -35,10 +35,48 @@ namespace ExamManagement
             {
                 if (value != _searchBar)
                 {
+                    SelectedExam = new Exam();
+                    Exams = new ObservableCollection<Exam>();
                     SetField(ref _searchBar, value, nameof(SearchBar));
                 }
             }
         }
+
+        private bool _isProgressVisible;
+
+        public bool IsProgressVisible
+        {
+            get { return _isProgressVisible; }
+            set
+            {
+                SetField(ref _isProgressVisible,  value, nameof(IsProgressVisible));
+            }
+        }
+
+
+        private int _progressBarValue;
+
+        public int ProgressBarValue
+            
+        {
+            get { return _progressBarValue; }
+            set
+            {
+                SetField(ref _progressBarValue, value, nameof(ProgressBarValue));
+            }
+        }
+        private bool _isButtonEnabled;
+
+        public bool IsButtonEnabled
+            
+        {
+            get { return _isButtonEnabled; }
+            set
+            {
+                SetField(ref _isButtonEnabled, value, nameof(IsButtonEnabled));
+            }
+        }
+
 
 
         private ObservableCollection<Exam> _exams;
@@ -58,6 +96,19 @@ namespace ExamManagement
             get { return _selectedExam; }
             set
             {
+                if(value != null)
+                {
+                    IsButtonEnabled = true;
+                }
+                if (value != _selectedExam)
+                {
+                    IsButtonEnabled = true;
+                
+                }
+                if(value == null)
+                {
+                    IsButtonEnabled = false;
+                }
                 SetField(ref _selectedExam, value, nameof(SelectedExam));
             }
         }
@@ -88,13 +139,15 @@ namespace ExamManagement
         }
         private async void SearchBox_Click(object sender, RoutedEventArgs e)
         {
+            IsProgressVisible = true;
             if (!string.IsNullOrEmpty(SearchBar))
             {
                 Exam exam = await _examService.GetExamByName(SearchBar);
                 if(exam == null)
                 {
+                    IsProgressVisible = false;
                     return;
-
+                    
                 }
                 else
                 {
@@ -106,6 +159,7 @@ namespace ExamManagement
                     Exam = exam;
                     Exams.Add(Exam);
                     SetField(ref _exams, Exams, nameof(Exams));
+                    IsProgressVisible = false;
                 }
 
              
@@ -123,7 +177,8 @@ namespace ExamManagement
 
             try
             {
-                var examWindow = new ExamWindow(SelectedExam.Id, student);
+                var examWindow = new ExamWindow(Exam, student);
+                examWindow.Show();
                 this.Close();
             }
             catch (Exception ex)

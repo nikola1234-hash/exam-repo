@@ -10,6 +10,11 @@
         DataContext="{Binding RelativeSource={RelativeSource Self}}" WindowStartupLocation="CenterScreen"  ResizeMode="NoResize"
                 Background="#357EC7"
                 xmlns:fa="http://schemas.fontawesome.io/icons/">
+    <hc:GlowWindow.ActiveGlowColor>
+        <Color>
+            White
+        </Color>
+    </hc:GlowWindow.ActiveGlowColor>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto">

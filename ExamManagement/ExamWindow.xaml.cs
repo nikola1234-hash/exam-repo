@@ -4,9 +4,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Timers;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using ExamManagement.Models;
 using ExamManagement.Services;
 using ExamManagement.Storage;
+using ExamManagement.UserControls;
+using HandyControl.Controls;
 
 namespace ExamManagement
 {
@@ -45,6 +48,41 @@ namespace ExamManagement
         }
 
 
+        private bool _isImageQuestion;
+
+        public bool IsImageQuestion
+        {
+            get { return _isImageQuestion; }
+            set
+            {
+                SetField(ref _isImageQuestion, value, nameof(IsImageQuestion));
+            }
+        }
+
+
+        private BitmapImage _imageQuestion;
+
+        public BitmapImage ImageQuestion
+        {
+            get { return _imageQuestion; }
+            set
+            {
+                SetField(ref _imageQuestion, value, nameof(ImageQuestion));
+            }
+        }
+
+        private bool _isTextQuestion;
+
+        public bool IsTextQuestion
+        {
+            get { return _isTextQuestion; }
+            set
+            {
+                SetField(ref _isTextQuestion, value, nameof(IsTextQuestion));
+            }
+        }
+
+
 
         private int _numberOfQuiestions;
 
@@ -66,25 +104,45 @@ namespace ExamManagement
                 SetField(ref unsolvedQuestions, value, nameof(UnsolvedQuestions));
             }
         }
-        Exam exam { get; set; }
+        public Exam Exam { get; set; }
         private readonly ExamService examService;
         private readonly ExamResult examResult;
         private readonly StudentService studentService;
+        private readonly ImageService imageService;
+        
         private StudentExam studentExam;
-        public ExamWindow(Guid examId, Student student)
+        public ExamWindow(Exam exam, Student student)
         {
+            if(student == null)
+            {
+                HandyControl.Controls.MessageBox.Show("Student is not registered", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                this.DialogResult = false;
+                return;
+
+            }
+
             if (exam is null)
             {
-                this.Close();
+
+                HandyControl.Controls.MessageBox.Show("Exam is not registered", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                this.DialogResult = false;
+                return;
             }
+            
             Student = student;
 
             examService = new ExamService();
             examResult = new ExamResult();
             studentService = new StudentService();
-            StartExam(examId);
             studentExam = new StudentExam();
+            imageService = new ImageService();
+
             InitializeComponent();
+            Exam = exam;
+            
+            NumberOfQuestions = exam.Questions.Count();
+            SolvedQuestions = 0;
+            UnsolvedQuestions = NumberOfQuestions;
             submitExam.Visibility = Visibility.Hidden;
 
             if (exam.RandomSorting)
@@ -93,27 +151,39 @@ namespace ExamManagement
                 exam.Questions.OrderBy(x => random.Next()).ToList();
             
             }
-           
-            question.Text = exam.Questions[_i].Text;
-            radioListBoxEdit.ItemsSource = exam.Questions[_i].Answers;
+
+            if (!string.IsNullOrEmpty(exam.Questions[_i].ImageUrl))
+            {
+                ImageQuestion = imageService.GetMedia(exam.Questions[_i].ImageUrl);
+                radioListBoxEdit.ItemsSource = exam.Questions[_i].Answers;
+                IsImageQuestion = true;
+                IsTextQuestion = false;
+            }
+            else
+            {
+                IsImageQuestion = false;
+                IsTextQuestion = true;
+                question.Text = exam.Questions[_i].Text;
+                radioListBoxEdit.ItemsSource = exam.Questions[_i].Answers;
+            }
 
         }
 
-        private async void StartExam(Guid examId)
-        {
-            this.exam = await studentService.StartExam(examId);
-            NumberOfQuestions = exam.Questions.Count();
-            SolvedQuestions = 0;
-            UnsolvedQuestions = NumberOfQuestions;
+        //private async void StartExam(Guid examId)
+        //{
+        //    this.exam = await studentService.StartExam(examId);
+        //    NumberOfQuestions = exam.Questions.Count();
+        //    SolvedQuestions = 0;
+        //    UnsolvedQuestions = NumberOfQuestions;
 
-        }
+        //}
         public void SubmitQuestion_Click(object sender, RoutedEventArgs e)
         {
             SolvedQuestions++;
             UnsolvedQuestions--;
-            studentExam.SelectedAnswers.Add(exam.Questions[_i].Answers.IndexOf(SelectedAnswer));
+            studentExam.SelectedAnswers.Add(Exam.Questions[_i].Answers.IndexOf(SelectedAnswer));
             SelectedAnswer = new Answer();
-            if(_i < exam.Questions.Count - 1)
+            if(_i < Exam.Questions.Count - 1)
             {
                 _i++;
             }
@@ -124,21 +194,35 @@ namespace ExamManagement
                 submitExam.Visibility = Visibility.Visible;
                 return;
             }
-            question.Text = exam.Questions[_i].Text;
-            radioListBoxEdit.ItemsSource = exam.Questions[_i].Answers;
+
+            if (!string.IsNullOrEmpty(Exam.Questions[_i].ImageUrl))
+            {
+                ImageQuestion = imageService.GetMedia(Exam.Questions[_i].ImageUrl);
+                radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers;
+                IsImageQuestion = true;
+                IsTextQuestion = false;
+            }
+            else
+            {
+                IsImageQuestion = false;
+                IsTextQuestion = true;
+                question.Text = Exam.Questions[_i].Text;
+                radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers;
+            }
+           
         }
         public async void SubmitExam_Click(object sender, RoutedEventArgs e)
         {
-            await studentService.SubmitExamAnswers(exam, Student.Id, studentExam);
+            await studentService.SubmitExamAnswers(Exam, Student.Id, studentExam);
             bool success = true;
             if (success)
             {
-                MessageBox.Show("Successfully submited");
+                HandyControl.Controls.MessageBox.Show("Successfully submited");
 
             }
             else
             {
-                MessageBox.Show("Failed to submit");
+                HandyControl.Controls.MessageBox.Show("Failed to submit");
             }
         }
 

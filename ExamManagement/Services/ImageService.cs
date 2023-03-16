@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-
+using System.Windows.Media.Imaging;
 
 namespace ExamManagement.Services
 {
@@ -27,9 +27,13 @@ namespace ExamManagement.Services
         }
 
 
-        public void GetMedia(string path)
+        public BitmapImage GetMedia(string path)
         {
-
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(path, UriKind.Absolute);
+            bitmap.EndInit();
+            return bitmap;
         }
     }
 }
