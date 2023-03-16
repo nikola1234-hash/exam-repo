@@ -33,6 +33,16 @@ namespace ExamManagement
                 SetField(ref _exams, value, nameof(Exams));
             }
         }
+        private bool _isEditEnabled;
+
+        public bool IsEditEnabled
+        {
+            get { return _isEditEnabled; }
+            set
+            {
+                SetField(ref _isEditEnabled, value, nameof(IsEditEnabled));
+            }
+        }
 
 
         private Exam _exam;
@@ -42,6 +52,10 @@ namespace ExamManagement
             get { return _exam; }
             set
             {
+                if(value != null)
+                {
+                    IsEditEnabled = true;
+                }
                 SetField(ref _exam, value, nameof(Exam));
             }
         }

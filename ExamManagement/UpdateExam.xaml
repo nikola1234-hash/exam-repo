@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         xmlns:hc="https://handyorg.github.io/handycontrol"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
         Title="UpdateExam" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -14,18 +16,20 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <GroupBox Header="Edit Selected Exam">
+            <ListBox Grid.Row="0" ItemsSource="{Binding Exams}" SelectedItem="{Binding Exam}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
-        <ListBox Grid.Row="0" ItemsSource="{Binding Exams}" SelectedItem="{Binding Exam}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Name}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        </GroupBox>
+    
 
-
-        <Button Grid.Row="1" Content="Edit" Click="EditExam"></Button>
+        <Button Grid.Row="1" IsEnabled="{Binding IsEditEnabled}" Width="100" Content="Edit" Click="EditExam"></Button>
     </Grid>
 </hc:Window>
