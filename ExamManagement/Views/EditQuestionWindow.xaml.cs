@@ -29,6 +29,7 @@ namespace ExamManagement
             get { return _question; }
             set
                 {
+
                     SetField(ref _question, value, nameof(Question));
                 }
         }
@@ -122,24 +123,101 @@ namespace ExamManagement
         {
             get { return _isCorrect; }
             set
-            {
+            { 
+                if(value == true)
+                {
+                    Question.CorrectAnswerIndex = Question.Answers.IndexOf(SelectedAnswer);
+                    TextVisible = true;
+                    value = false;
+                    ShowIsCorrectAnswer = value;
+                    SetField(ref _showIsCorrectAnswer, value, nameof(ShowIsCorrectAnswer));
+                }
                 SetField(ref _isCorrect, value, nameof(IsCorrect));
             }
         }
 
-        private readonly ImageService imageService;
-        
+        private bool _textVisible;
 
-        public EditQuestionWindow(Guid examId)
+        public bool TextVisible
+        {
+            get { return _textVisible; }
+            set 
+            { 
+               SetField(ref _textVisible, value, nameof(TextVisible));
+            }
+        }
+
+        private bool _isNewAnswer;
+
+        public bool IsNewAnswer
+        {
+            get { return _isNewAnswer; }
+            set
+            {
+                NewAnswerIsEnabled = !value;
+                SetField(ref _isNewAnswer, value, nameof(IsNewAnswer));
+            }
+            
+        }
+
+        private bool _newAnswerIsEnabled;
+
+        public bool NewAnswerIsEnabled
+        {
+            get { return _newAnswerIsEnabled; }
+            set
+            {
+                SetField(ref _newAnswerIsEnabled, value, nameof(NewAnswerIsEnabled));
+            }
+        }
+
+
+        private readonly ImageService imageService;
+        private Answer _selectedAnswer;
+
+        public Answer SelectedAnswer
+        {
+            get { return _selectedAnswer; }
+            set
+            {
+                if(_selectedAnswer != value)
+                {
+                    
+                    ShowIsCorrectAnswer = !(Question.CorrectAnswerIndex == Question.Answers.IndexOf(value));
+                    TextVisible = !ShowIsCorrectAnswer;
+                    asnwerTextBox.Document.Blocks.Clear();
+                    asnwerTextBox.Document.Blocks.Add(new Paragraph(new Run(value.Text)));
+                    IsNewAnswer = false;
+                }
+                else
+                {
+                    asnwerTextBox.Document.Blocks.Clear();
+                    asnwerTextBox.Document.Blocks.Add(new Paragraph(new Run(value.Text)));
+                }
+                SetField(ref _selectedAnswer, value, nameof(SelectedAnswer));
+            }
+        }
+
+
+        public EditQuestionWindow(Question question)
         {
             InitializeComponent();
-            Question = new Question();
+            Question = question;
             Questions = new ObservableCollection<Question>();
-            Answers = new ObservableCollection<Answer>();
+            Answers = new ObservableCollection<Answer>(question.Answers);
             Answer = new Answer();
-            ExamGuid = examId;
-            ShowIsCorrectAnswer = true;
+            SelectedAnswer = question.Answers[question.CorrectAnswerIndex];
+            ShowIsCorrectAnswer = false;
+            IsImageQuestion = !string.IsNullOrEmpty(question.ImageUrl);
             imageService = new ImageService();
+            IsTextQuestion = !IsImageQuestion;
+            if (IsImageQuestion)
+            {
+                imageArea.Source = imageService.GetMedia(question.ImageUrl);
+            }
+            RandomizeAnswers = question.AnswersSortedRandomly;
+            questionText.Document.Blocks.Add(new Paragraph(new Run(question.Text)));
+            NewAnswerIsEnabled = true;
         }
         private bool _showIsCorrectAnswer;
 
@@ -154,20 +232,40 @@ namespace ExamManagement
             }
         }
 
+        private void RemoveAnswer(object sender, RoutedEventArgs e)
+        {
+            Question.Answers.Remove(SelectedAnswer);
+            Answers.Remove(SelectedAnswer);
+        }
+
         private void SubmitQuestionButton_Click(object sender, RoutedEventArgs e)
         {
-            if(Questions.Count > 0)
-            {
-                RiseQuestionAddedEvent?.Invoke(this, new QuestionCustomEvent(Questions));
-            }
-            else
-            {
-                RiseQuestionAddedEvent?.Invoke(this, new QuestionCustomEvent(Questions));
-            }
+           
+
+            RiseQuestionAddedEvent?.Invoke(this, new QuestionCustomEvent(Question));
+
             
         }
 
+        private void SaveAnswer(object sender, RoutedEventArgs e)
+        {
+            if (IsNewAnswer)
+            {
+                Answer.Text = StringFromRichTextBox(asnwerTextBox);
+                Question.Answers.Add(Answer);
+                Answers.Add(Answer);
+                IsNewAnswer = false;
+                UpdateProperties();
+               
+            }
+            else
+            {
+                var index = Question.Answers.IndexOf(SelectedAnswer);
+                Question.Answers[index].Text = StringFromRichTextBox(asnwerTextBox);
+                Answers[index].Text = StringFromRichTextBox(asnwerTextBox);
+            }
 
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
@@ -246,33 +344,16 @@ namespace ExamManagement
                 MessageBox.Show("You didnt create any answers");
             }
         }
-
+        // Adds new Answer
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-
-            if (IsCorrect)
-            {
-                Answer.Text = StringFromRichTextBox(asnwerTextBox);
-                Question.Answers.Add(Answer);
-                Question.CorrectAnswerIndex = Question.Answers.IndexOf(Answer);
-                Answers.Add(Answer);
-                Answer = new Answer();
-                asnwerTextBox.Document.Blocks.Clear();
-                ShowIsCorrectAnswer = false;
-                IsCorrect = false;
-                UpdateProperties();
-           
                 
-            }
-            else
-            {
-                Answer.Text = StringFromRichTextBox(asnwerTextBox);
-                Question.Answers.Add(Answer);
-                Answers.Add(Answer);
+                IsNewAnswer = true;
                 Answer = new Answer();
+                IsCorrect = false;
                 asnwerTextBox.Document.Blocks.Clear();
                 UpdateProperties();
-            }
+
         }
 
         string StringFromRichTextBox(RichTextBox rtb)
@@ -294,6 +375,7 @@ namespace ExamManagement
         {
             SetField(ref _answers, Answers, nameof(Answers));
             SetField(ref _question, Question, nameof(Question));
+            SetField(ref _questions, Questions, nameof(Questions));
             SetField(ref _answer, Answer, nameof(Answer));
             SetField(ref _showIsCorrectAnswer, ShowIsCorrectAnswer, nameof(ShowIsCorrectAnswer));
         }

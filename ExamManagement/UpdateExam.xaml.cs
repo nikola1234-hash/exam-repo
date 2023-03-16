@@ -33,11 +33,26 @@ namespace ExamManagement
                 SetField(ref _exams, value, nameof(Exams));
             }
         }
+
+
+        private Exam _exam;
+
+        public Exam Exam
+        {
+            get { return _exam; }
+            set
+            {
+                SetField(ref _exam, value, nameof(Exam));
+            }
+        }
+            
+
         private readonly ExamService _examService;
         public UpdateExam()
         {
             _examService = new ExamService();
             InitializeComponent();
+            InitializeExamList();
         }
         public void InitializeExamList()
         {
@@ -47,7 +62,8 @@ namespace ExamManagement
 
         private void EditExam(object sender, RoutedEventArgs e)
         {
-
+            EditExamWindow editExamWindow = new EditExamWindow(Exam);
+            editExamWindow.Show();
         }
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)

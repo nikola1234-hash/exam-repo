@@ -89,8 +89,13 @@
             
 
 
-                <CheckBox Grid.Row="1" Margin="0 20 0 0" HorizontalAlignment="Right" Visibility="{Binding ShowIsCorrectAnswer, Converter={StaticResource BoolToVis}}" IsChecked="{Binding IsCorrect}" Content="Is Correct?"></CheckBox>
-                <Button Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Click_3" Content="Add Answer"></Button>
+                <CheckBox Grid.Row="1" Margin="0 20 0 0" HorizontalAlignment="Right" Visibility="{Binding ShowIsCorrectAnswer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVis}}" IsChecked="{Binding IsCorrect}" Content="Is Correct?"></CheckBox>
+               
+                <StackPanel Grid.Row="2" HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button Margin="0 0 20 0" Foreground="White" Background="#54B4D3" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="SaveAnswer" Content="Save current"></Button>
+                    <Button IsEnabled="{Binding NewAnswerIsEnabled}"  HorizontalAlignment="Right" Foreground="White" Background="#3B71CA" VerticalAlignment="Bottom" Click="Button_Click_3" Content="New answer"></Button>
+                </StackPanel>
+                
             </Grid>
         </GroupBox>
 
@@ -99,17 +104,18 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <ListBox Grid.Row="0" Width="400" Height="600" ItemsSource="{Binding Answers}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" MinHeight="500"
+                <ListBox Grid.Row="0" Width="400" Height="600" ItemsSource="{Binding Answers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedAnswer}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" MinHeight="500"
 DisplayMemberPath="Text">
                     
                 </ListBox>
                 <hc:ButtonGroup Margin="10" Grid.Row="1" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                    <Button Click="Button_Click_2" Width="150" Content="Add Another Question"></Button>
-                    <Button HorizontalAlignment="Right" Grid.Row="1" Click="Button_Click_1" Width="100" Content="Save Question"></Button>
+                    <Button HorizontalAlignment="Right" Foreground="White" Background="#14A44D" Grid.Row="1" Click="Button_Click_1" Width="100" Content="Save Question"></Button>
 
                 </hc:ButtonGroup>
+                <TextBlock Grid.Row="2" Foreground="Red" Text="This is currently set as correct answer" Visibility="{Binding TextVisible,Converter={StaticResource BoolToVis}}"></TextBlock>
 
             </Grid>
 

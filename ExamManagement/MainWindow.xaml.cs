@@ -65,9 +65,10 @@ namespace ExamManagement
             var statisticsWindow = new StatisticsWindow();
             statisticsWindow.Show();
         }
-        private void searchExamsLectorButton(object sender, RoutedEventArgs e)
+        private void editExam(object sender, RoutedEventArgs e)
         {
-
+            UpdateExam window = new UpdateExam();
+            window.Show();
         }
 
 

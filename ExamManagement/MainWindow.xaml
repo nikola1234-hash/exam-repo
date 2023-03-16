@@ -22,13 +22,13 @@
         
         <hc:ButtonGroup Orientation="Vertical" Width="300" Grid.Row="1" Visibility="{Binding IsLector, Mode=TwoWay, Converter={StaticResource BoolToVis}}" Margin="0 30 0 0">
             <Button Content="Create Exam" Click="CreateExamButton_Click" x:Name="createButton" Margin="0 0 0 15" Background="#54B4D3" Foreground="#FBFBFB"/>
-            <Button Content="Edit Exams" Click="searchExamsLectorButton"  Margin="0 10 0 15" Background="#54B4D3" Foreground="#FBFBFB" x:Name="searchLectorhButton"/>
+            <Button Content="Edit Exams" Click="editExam"  Margin="0 10 0 15" Background="#54B4D3" Foreground="#FBFBFB" x:Name="editExamButton"/>
             <Button Content="Show Statistics" Click="ShowStatisctics"  Margin="0 10 0 0" Background="#54B4D3" Foreground="#FBFBFB" x:Name="statisticsShow"/>
       
         </hc:ButtonGroup>
         <hc:ButtonGroup Orientation="Vertical" Width="300" Grid.Row="1" Visibility="{Binding IsStudent, Mode=TwoWay, Converter={StaticResource BoolToVis}}" Margin="0 50 0 0 ">
             <Button Content="Take Exam" Click="SearchExamsButton_Click" Background="#14A44D" Foreground="#FBFBFB" x:Name="searchButton" Height="40"/>
-            <Button Content="Take Exam" Click="searchButton_Click_1" Background="#14A44D" Foreground="#FBFBFB" x:Name="examStats" Height="40"/>
+            <Button Content="Check Grade" Click="searchButton_Click_1" Background="#14A44D" Foreground="#FBFBFB" x:Name="examStats" Height="40"/>
         </hc:ButtonGroup>
     </Grid>
 </hc:GlowWindow>

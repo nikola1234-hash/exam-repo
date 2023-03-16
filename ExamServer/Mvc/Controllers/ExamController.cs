@@ -69,9 +69,9 @@ namespace ExamServer.Mvc.Controllers
 
         // PUT api/exams/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateExam(Guid id, Exam exam)
+        public async Task<IActionResult> UpdateExam(Exam exam)
         {
-            var fromDb = await _dbContext.Exams.FindAsync(id);
+            var fromDb = await _dbContext.Exams.Where(s => s.Id == exam.Id).FirstOrDefaultAsync();
             if (fromDb != null)
             {
                 _dbContext.Entry(fromDb).CurrentValues.SetValues(exam);

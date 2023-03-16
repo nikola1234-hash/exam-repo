@@ -58,6 +58,16 @@ namespace ExamManagement
             }
         }
 
+        private Exam _exam;
+
+        public Exam Exam
+        {
+            get { return _exam; }
+            set
+            {
+                SetField(ref _exam, value, nameof(Exam));
+            }
+        }
 
         public Guid ExamGuid { get;set;}
 
@@ -141,6 +151,19 @@ namespace ExamManagement
             ShowIsCorrectAnswer = true;
             imageService = new ImageService();
         }
+
+        public AddQuestionWindow(Exam exam)
+        {
+            InitializeComponent();
+            Question = new Question();
+            Questions = new ObservableCollection<Question>();
+            Answers = new ObservableCollection<Answer>();
+            Answer = new Answer();
+            Exam = exam;
+            ShowIsCorrectAnswer = true;
+            imageService = new ImageService();
+        }
+
         private bool _showIsCorrectAnswer;
 
         public bool ShowIsCorrectAnswer
@@ -162,7 +185,7 @@ namespace ExamManagement
             }
             else
             {
-                RiseQuestionAddedEvent?.Invoke(this, new QuestionCustomEvent(Questions));
+                RiseQuestionAddedEvent?.Invoke(this, new QuestionCustomEvent(Question));
             }
             
         }
@@ -193,9 +216,16 @@ namespace ExamManagement
 
             if (choofdlog.ShowDialog() == true)
             {
-                var imagePath = imageService.AddImage(choofdlog.FileName, ExamGuid);
+                var imagePath = imageService.AddImage(choofdlog.FileName, ExamGuid == Guid.Empty ? Exam.Id : ExamGuid);
                 Question.ImageUrl = imagePath;
-                imageArea.Source = imageService.GetMedia(imagePath);
+                try
+                {
+                    imageArea.Source = imageService.GetMedia(imagePath);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
         // Save Single Question

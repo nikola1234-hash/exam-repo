@@ -86,9 +86,9 @@
                 </GroupBox.Content>
             </GroupBox>
             <hc:ButtonGroup  Margin="20" Grid.Row="1" Grid.Column="0">
-                <Button x:Name="AddQuestionButton" Content="Add Question" Click="AddQuestionButton_Click" Margin="0 0 10 0" Foreground="White" Background="#54B4D3"/>
-                <Button x:Name="CreateExamButton" Content="Save Exam" Click="CreateExamButton_Click" Background="#14A44D" Foreground="White"/>
-                <Button Margin="20 0 0 0" x:Name="PushToServer" Content="Push to Server" Click="SubmitExamToServer" Foreground="White" Background="#DC4C64"/>
+                <Button x:Name="editQuestionButton" IsEnabled="{Binding IsEditButtonEnabled,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="Edit Question" Click="editQuestionButton_Click" Margin="0 0 10 0" Foreground="White" Background="#54B4D3"/>
+                <Button x:Name="addQuestion" Content="Add Question" Click="AddQuestionButton_Click" Margin="0 0 10 0" Foreground="White" Background="#E4A11B"/>
+                <Button x:Name="updateExam" Content="Save Exam" Click="updateExam_Click" Background="#14A44D" Foreground="White"/>
             </hc:ButtonGroup>
             <GroupBox Grid.Row="0" Width="400" Grid.Column="1" Margin="20" BorderBrush="Gray">
                 <GroupBox.Header>
@@ -97,11 +97,12 @@
             
                     <GroupBox.Content>
 
+                        <ListBox ItemsSource="{Binding ObservableQuestions}" SelectedItem="{Binding SelectedQuestion}" DisplayMemberPath="Text">
 
-                    <ListBox ItemsSource="{Binding ObservableQuestions}" DisplayMemberPath="Text">
+                        </ListBox>
+                     
 
-                    </ListBox>
-
+                  
                 </GroupBox.Content>
             </GroupBox>
             <!--<DockPanel Margin="20" Grid.Row="1">

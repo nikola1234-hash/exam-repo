@@ -61,6 +61,39 @@ namespace ExamManagement.Services
             SaveExamToJson(exam, Path);
 
         }
+
+        public async Task PutToServer(Exam exam)
+        {
+
+            var response = await _httpClient.PutAsJsonAsync($"https://localhost:7129/api/exam", exam);
+
+        }
+        public async Task UpdateExamJson(Exam exam)
+        {
+            // Read the exam data from the local JSON file
+            string json = File.ReadAllText(Path + "/exams.json");
+            List<Exam> exams = JsonConvert.DeserializeObject<List<Exam>>(json);
+            if (exam != null && !string.IsNullOrEmpty(exam.Name))
+            {
+                
+                if (exams.Where(s => s.Id == exam.Id).FirstOrDefault() != null)
+                {
+                    var examToUpdate = exams.Where(s => s.Id == exam.Id).FirstOrDefault();
+                    exams.Remove(examToUpdate);
+                    // Update the exam data
+                    examToUpdate = exam;
+                    exams.Add(examToUpdate);
+                }
+
+
+
+                // Serialize the updated exam data to JSON
+                json = JsonConvert.SerializeObject(exams, Formatting.Indented);
+                File.WriteAllText(Path + "/exams.json", json);
+
+            }
+        }
+
         public async Task UpdateExam(Exam exam, bool pushToServer)
         {
             // Read the exam data from the local JSON file
