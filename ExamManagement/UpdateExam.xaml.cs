@@ -68,12 +68,19 @@ namespace ExamManagement
             InitializeComponent();
             InitializeExamList();
         }
+        /// <summary>
+        /// Gets Exams from API
+        /// </summary>
         public void InitializeExamList()
         {
             var exams = Task.Run(() => _examService.GetExamsAsync()).Result;
             Exams = new ObservableCollection<Exam>(exams);
         }
-
+        /// <summary>
+        /// Opens EditExamWindow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EditExam(object sender, RoutedEventArgs e)
         {
             EditExamWindow editExamWindow = new EditExamWindow(Exam);

@@ -48,23 +48,41 @@ namespace ExamManagement
                IsStudent = true;
             }
         }
-
+        /// <summary>
+        /// Create exam window open
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CreateExamButton_Click(object sender, RoutedEventArgs e)
         {
             var createExamWindow = new CreateExamWindow();
             createExamWindow.ShowDialog();
         }
-
+        /// <summary>
+        /// Search exam window open
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SearchExamsButton_Click(object sender, RoutedEventArgs e)
         {
             var searchExamsWindow = new SearchExamWindow();
             searchExamsWindow.ShowDialog();
         }
+        /// <summary>
+        /// Show statistics window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ShowStatisctics(object sender, RoutedEventArgs e)
         {
             var statisticsWindow = new StatisticsWindow();
             statisticsWindow.Show();
         }
+        /// <summary>
+        /// Edit Exam Window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void editExam(object sender, RoutedEventArgs e)
         {
             UpdateExam window = new UpdateExam();

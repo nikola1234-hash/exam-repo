@@ -210,7 +210,9 @@ namespace ExamManagement
                 SetField(ref _counter, value, nameof(Counter));
             }
         }
-
+        /// <summary>
+        /// Timer of the exam
+        /// </summary>
 
         public void InitializeTimer()
         {
@@ -227,7 +229,11 @@ namespace ExamManagement
         }
 
     
-
+        /// <summary>
+        /// Previous QUestion method
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void PreviousQUestion_Click(object sender, RoutedEventArgs e)
         {
             
@@ -293,7 +299,11 @@ namespace ExamManagement
 
             }
         }
-
+        /// <summary>
+        /// Next Question Method
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void NextQuestion_Click(object sender, RoutedEventArgs e)
         {
             SelectedAnswer = new Answer();
@@ -377,6 +387,13 @@ namespace ExamManagement
 
             }
         }
+
+
+        /// <summary>
+        /// This method submits question and goes to the next one
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
       
         public void SubmitQuestion_Click(object sender, RoutedEventArgs e)
         {
@@ -450,6 +467,13 @@ namespace ExamManagement
             }
            
         }
+
+
+        /// <summary>
+        /// This method submits exam
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public async void SubmitExam_Click(object sender, RoutedEventArgs e)
         {
             await studentService.SubmitExamAnswers(Exam, Student.Id, studentExam);

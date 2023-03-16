@@ -72,6 +72,7 @@ namespace ExamManagement
             Exam = new Exam();
         }
         
+        // Opens new AddQuestion Window
         
         private void AddQuestionButton_Click(object sender, RoutedEventArgs e)
         {
@@ -82,7 +83,12 @@ namespace ExamManagement
             
         
         }
-
+        /// <summary>
+        /// Risen by event from add question Window
+        /// Adds added questions to list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddQuestionWindow_RiseQuestionAddedEvent(object? sender, Event.QuestionCustomEvent e)
         {
 
@@ -103,7 +109,9 @@ namespace ExamManagement
             
         }
 
-        
+        /// <summary>
+        /// Form Reset
+        /// </summary>
         public void ResetForm()
         {
             Exam = new Exam();
@@ -112,7 +120,7 @@ namespace ExamManagement
             SetField(ref _observableQuestions, ObservableQuestions, nameof(ObservableQuestions));
 
         }
-
+        //Creates exam updates JSON and pushes to server in the end resets form
         private async void CreateExamButton_Click(object sender, RoutedEventArgs e)
         {
             _examService.AddExam(Exam);
@@ -147,7 +155,11 @@ namespace ExamManagement
              
         }
         
-
+        /// <summary>
+        /// Submits exam to server
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void SubmitExamToServer(object sender, RoutedEventArgs e)
         {
             try
@@ -166,7 +178,9 @@ namespace ExamManagement
             this.Dispose();
         }
 
-
+        /// <summary>
+        /// Notify Property Changed
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {

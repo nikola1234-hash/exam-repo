@@ -53,7 +53,11 @@ namespace ExamManagement
             _examService = new ExamService();
             ExamResults = new ObservableCollection<ExamResult>();
         }
-
+        /// <summary>
+        /// Shows overall stats for student
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var results = Task.Run(() => _examService.GetExamResultsByName(StudentId)).Result;

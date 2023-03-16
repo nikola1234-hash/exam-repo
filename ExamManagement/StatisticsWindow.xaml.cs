@@ -81,6 +81,11 @@ namespace ExamManagement
             GetGrades();
 
         }
+
+        /// <summary>
+        /// Get all grades and calculate the average grade
+        /// SHows Valid and Invalid answers
+        /// </summary>
         private async void GetGrades()
         {
             List<ExamResult> results = await _examService.GetExamResults();

@@ -137,6 +137,14 @@ namespace ExamManagement
             _examService = new ExamService();
             
         }
+
+        /// <summary>
+        /// When clicking on search exam button
+        /// this method is called
+        /// it searches exam by name
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void SearchBox_Click(object sender, RoutedEventArgs e)
         {
             IsProgressVisible = true;
@@ -167,6 +175,13 @@ namespace ExamManagement
             }
       
         }
+        /// <summary>
+        /// When clicking on exam to open this method is called
+        /// it creates new student and stores him in db
+        /// student service start exam checks if exam is in valid Time 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void OpenExam_Click(object sender, RoutedEventArgs e)
         {
             StudentService studentService = new StudentService();
