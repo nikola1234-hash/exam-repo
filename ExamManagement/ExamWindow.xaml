@@ -4,11 +4,16 @@
     Title="ExamWindow" Height="800" Width="1000"
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     WindowStartupLocation="CenterScreen"
-     WindowState="Maximized" ResizeMode="NoResize"
+     WindowState="Maximized" 
     xmlns:hc="https://handyorg.github.io/handycontrol"
       DataContext="{Binding RelativeSource={RelativeSource Self}}"
     >
+    <hc:Window.Resources>
+        <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        </ResourceDictionary>
 
+    </hc:Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -31,23 +36,33 @@
             
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <GroupBox Header="Question:"  Margin="0 10 0 0" MinWidth="400" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+        <GroupBox Header="Question:" Grid.RowSpan="7" Margin="50" MinWidth="600" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
             <GroupBox.Content>
-                <StackPanel>
-             
+                <Grid>
+
                     <ScrollViewer>
-                        <TextBlock MinWidth="200" x:Name="question" FontSize="16" Visibility="{Binding IsTextQuestion}"></TextBlock>
+                        <TextBlock TextWrapping="Wrap" Background="White" MinHeight="600" MinWidth="200" MaxWidth="600" x:Name="question" FontSize="16" Visibility="{Binding IsTextQuestion, Converter={StaticResource BoolToVis}}"></TextBlock>
+
                     </ScrollViewer>
-                    <Image Source="{Binding ImageQuestion}" Visibility="{Binding IsImageQuestion}"></Image>
-                </StackPanel>
+
+                    <Image Width="200" Height="600" Source="{Binding ImageQuestion}" Visibility="{Binding IsImageQuestion, Converter={StaticResource BoolToVis}}"></Image>
+                </Grid>
             </GroupBox.Content>
         </GroupBox>
 
 
-        <GroupBox Margin="0 10 0 0" Grid.Row="0" Grid.Column="3" Header="Exam Stats">
+        <GroupBox Margin="0 50 0 0" MinWidth="800" Grid.Row="0" Grid.Column="3" Background="AliceBlue">
+            <GroupBox.Header>
+                EXAM STATS
+            </GroupBox.Header>
             <GroupBox.Content>
 
-                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                    <StackPanel Margin="10" Orientation="Vertical">
+                        <TextBlock Text="Student name:"></TextBlock>
+                        <TextBlock Text="{Binding UnsolvedQuestions}"></TextBlock>
+                    </StackPanel>
+
                     <StackPanel Margin="10"  Orientation="Vertical">
                         <TextBlock Text="Questions Total"></TextBlock>
                         <TextBlock Text="{Binding NumberOfQuestions}"></TextBlock>
@@ -65,22 +80,25 @@
             </GroupBox.Content>
         </GroupBox>
 
-        <GroupBox Grid.Row="1" Grid.RowSpan="2" Grid.Column="3" Grid.ColumnSpan="3">
+        <GroupBox Grid.Row="1" MaxWidth="700" Grid.RowSpan="2" Grid.Column="3" Grid.ColumnSpan="4" Header="SELECT ANSWER:">
             <GroupBox.Content>
 
-                <ListBox MinWidth="200" Height="300" Name="radioListBoxEdit" Margin="10" Grid.Row="3" Grid.Column="2" SelectedItem="{Binding SelectedAnswer}" >
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <RadioButton Content="{Binding Path=Text, UpdateSourceTrigger=PropertyChanged}" IsChecked="{Binding Path=IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"></RadioButton>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
+                <ListBox MinWidth="200" Height="300" Name="radioListBoxEdit" Margin="10" Grid.Row="3" Grid.Column="2" SelectedItem="{Binding SelectedAnswer}" ScrollViewer.CanContentScroll="True"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton Content="{Binding Path=Text, UpdateSourceTrigger=PropertyChanged}" IsChecked="{Binding Path=IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"></RadioButton>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
                 </ListBox>
             </GroupBox.Content>
         </GroupBox>
 
+        <hc:ButtonGroup Grid.Row="6" Grid.Column="3" >
+            <Button Margin="20"  Width="200" Height="40" Content="Submit Question" Click="SubmitQuestion_Click" Background="#5cb85c" Foreground="White"></Button>
+            <Button Margin="20"  Width="200" Height="40" x:Name="submitExam" Content="Submit Exam" Click="SubmitExam_Click" Background="#00a2ed" Foreground="White"></Button>
+           
+        </hc:ButtonGroup>
 
-
-        <Button Margin="20" Grid.Row="2" Width="200" Height="20" Content="Submit Question" Click="SubmitQuestion_Click"></Button>
-        <Button Margin="20" Grid.Row="2" Width="200" Height="40" x:Name="submitExam" Content="Submit Exam" Click="SubmitExam_Click"></Button>
+       
     </Grid>
 </hc:Window>

@@ -58,7 +58,7 @@
                     </Grid.RowDefinitions>
 
 
-                    <RichTextBox Grid.Row="0" Grid.Column="0" Width="300" Height="600" x:Name="questionText" Visibility="{Binding Path = IsTextQuestion,Converter={StaticResource BoolToVis}}"></RichTextBox>
+                    <RichTextBox     VerticalScrollBarVisibility="Visible"  MaxHeight="500"  Grid.Row="0" Grid.Column="0" Width="300" Height="600" x:Name="questionText" Visibility="{Binding Path = IsTextQuestion,Converter={StaticResource BoolToVis}}"></RichTextBox>
                     <Image x:Name="imageArea"  Grid.Row="0" Grid.Column="0" Visibility="{Binding Path=IsImageQuestion, Converter ={StaticResource BoolToVis}}"  Width="300" Height="300"></Image>
                     <StackPanel Grid.Row="0" Grid.Column="1" Margin="10" Orientation="Vertical">
                         <CheckBox  IsChecked="{Binding IsImageQuestion}" Content="Is Question in image format?"></CheckBox> 
@@ -79,9 +79,15 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <RichTextBox MinWidth="300" MinHeight="500" x:Name="asnwerTextBox">
-                    
-                </RichTextBox>
+
+                <RichTextBox x:Name="asnwerTextBox" MinWidth="300" MinHeight="500"  HorizontalScrollBarVisibility="Visible"
+
+         VerticalScrollBarVisibility="Visible" MaxHeight="500" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" hc:ScrollViewer.IsPenetrating="True"></RichTextBox>
+
+
+            
+
+
                 <CheckBox Grid.Row="1" Margin="0 20 0 0" HorizontalAlignment="Right" IsChecked="{Binding IsCorrect}" Content="Is Correct?"></CheckBox>
                 <Button Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Click_3" Content="Add Answer"></Button>
             </Grid>
@@ -94,7 +100,7 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <ListBox Grid.Row="0" Width="400" Height="600" ItemsSource="{Binding Answers}"
+                <ListBox Grid.Row="0" Width="400" Height="600" ItemsSource="{Binding Answers}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" MinHeight="500"
 DisplayMemberPath="Text">
                     
                 </ListBox>

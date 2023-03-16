@@ -140,6 +140,8 @@ namespace ExamManagement
             InitializeComponent();
             Exam = exam;
             
+            studentExam.StudentName = student.Name;
+
             NumberOfQuestions = exam.Questions.Count();
             SolvedQuestions = 0;
             UnsolvedQuestions = NumberOfQuestions;
@@ -201,11 +203,15 @@ namespace ExamManagement
                 radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers;
                 IsImageQuestion = true;
                 IsTextQuestion = false;
+                SetField(ref _isImageQuestion, IsImageQuestion, nameof(IsImageQuestion));
+                SetField(ref _isTextQuestion, IsTextQuestion, nameof(IsTextQuestion));
             }
             else
             {
                 IsImageQuestion = false;
                 IsTextQuestion = true;
+                SetField(ref _isImageQuestion, IsImageQuestion, nameof(IsImageQuestion));
+                SetField(ref _isTextQuestion, IsTextQuestion, nameof(IsTextQuestion));
                 question.Text = Exam.Questions[_i].Text;
                 radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers;
             }

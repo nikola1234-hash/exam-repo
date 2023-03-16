@@ -1,5 +1,6 @@
 ﻿using ExamManagement.Models;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -58,11 +59,10 @@ namespace ExamManagement.Services
 
                 //var jsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web); //note: cache and reuse this
                 //var problemDetails = System.Text.Json.JsonSerializer.Deserialize<JsonProblems>(js, jsonOptions);
-                if (response.IsSuccessStatusCode)
+                if (!response.IsSuccessStatusCode)
                 {
-
+                    throw new ArgumentNullException("Push failed");
                 }
-                var content = await response.Content.ReadFromJsonAsync<Exam>();
 
             }
 

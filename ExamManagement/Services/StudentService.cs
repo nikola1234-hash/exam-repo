@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ExamManagement.Services
@@ -65,8 +66,13 @@ namespace ExamManagement.Services
 
             var response = await _httpClient.PostAsJsonAsync<GradingData>($"https://localhost:7129/api/result/", gradingData);
 
-            var post = await response.Content.ReadFromJsonAsync<Exam>();
+            //var post = await response.Content.ReadFromJsonAsync<Exam>();
 
+
+            //var js = await response.Content.ReadAsStringAsync();
+
+            //var jsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web); //note: cache and reuse this
+            //var problemDetails = System.Text.Json.JsonSerializer.Deserialize<JsonProblems>(js, jsonOptions);
 
             if (response.IsSuccessStatusCode)
             {

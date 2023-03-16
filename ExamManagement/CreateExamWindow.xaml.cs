@@ -121,7 +121,15 @@ namespace ExamManagement
 
         private async void SubmitExamToServer(object sender, RoutedEventArgs e)
         {
-            await _examService.UpdateExam(Exam, true);
+            try
+            {
+                await _examService.UpdateExam(Exam, true);
+            }
+            catch(Exception ex)
+            {
+                HandyControl.Controls.MessageBox.Show(ex.Message, "Error");
+            }
+          
         }
 
         public void Dispose()
