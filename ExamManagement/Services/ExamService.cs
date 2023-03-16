@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -19,7 +20,14 @@ namespace ExamManagement.Services
         }
 
 
+        public async Task<List<Exam>> GetExamsAsync()
+        {
+            var response = await _httpClient.GetAsync($"https://localhost:7129/api/exam");
 
+            var results = await response.Content.ReadFromJsonAsync<List<Exam>>();
+
+            return results;
+        }
         public async Task<List<ExamResult>> GetExamResults()
         {
             var response = await _httpClient.GetAsync($"https://localhost:7129/api/result");
@@ -50,10 +58,14 @@ namespace ExamManagement.Services
             List<Exam> exams = JsonConvert.DeserializeObject<List<Exam>>(json);
             if(exam != null && !string.IsNullOrEmpty(exam.Name))
             {
-               
+                if (exams.Where(s=> s.Id == exam.Id).FirstOrDefault()== null)
+                {
+                    // Update the exam data
+                    exams.Add(exam);
+                }
+        
 
-                // Update the exam data
-                exams.Add(exam);
+
                 // Serialize the updated exam data to JSON
                 json = JsonConvert.SerializeObject(exams, Formatting.Indented);
                 File.WriteAllText(Path + "/exams.json", json);
@@ -78,7 +90,7 @@ namespace ExamManagement.Services
             }
 
 
-
+            
         }
 
         public async Task SubmitExamResult(ExamResult result)
@@ -88,11 +100,11 @@ namespace ExamManagement.Services
             var content = await response.Content.ReadFromJsonAsync<List<ExamResult>>();
 
         }
-        public async Task<List<ExamResult>> GetExamsStatistics(int examId)
+        public async Task<Exam> GetExamsStatistics(Guid examId)
         {
-            var response = await _httpClient.GetAsync($"https://localhost:7129/api/results/examId");
-
-            var content = await response.Content.ReadFromJsonAsync<List<ExamResult>>();
+            var response = await _httpClient.GetAsync($"https://localhost:7129/api/results/{examId}");
+            
+            var content = await response.Content.ReadFromJsonAsync<Exam>();
             return content;
         }
 
@@ -114,8 +126,12 @@ namespace ExamManagement.Services
                 string json = File.ReadAllText(Path + "/exams.json");
                 List<Exam> exams = JsonConvert.DeserializeObject<List<Exam>>(json);
 
-                // Update the exam data
-                 exams.Add(exam);
+                if (exams.Where(s => s.Id == exam.Id).FirstOrDefault() == null)
+                {
+                    // Update the exam data
+                    exams.Add(exam);
+                }
+
 
                 // Serialize the updated exam data to JSON
                 json = JsonConvert.SerializeObject(exams, Formatting.Indented);

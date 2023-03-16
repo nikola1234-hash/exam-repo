@@ -25,7 +25,7 @@ namespace ExamServer.Services
                 }
                 else
                 {
-                    errors.Add(new Error(question.Text, data.StudentExam.SelectedAnswers[i].ToString(), correctAnswerIndex.ToString()));
+                    errors.Add(new Error(question.Text, selectedAnswerIndex, correctAnswerIndex));
                 }
             }
             

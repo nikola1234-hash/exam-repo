@@ -7,35 +7,54 @@
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         xmlns:hc="https://handyorg.github.io/handycontrol"
-        Title="StatisticsWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        Title="StatisticsWindow" Height="600" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Width="200">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="Number of students taken an exam:"></TextBlock>
-                <TextBlock Text="{Binding NumberOfStudents}" ></TextBlock>
-            </StackPanel>
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="Average grade"></TextBlock>
-                <TextBlock Text="{Binding AverageGrade}"></TextBlock>
-            </StackPanel>
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="Invalid answers"></TextBlock>
-                <TextBlock Text="{Binding InvalidAnswers}"></TextBlock>
-            </StackPanel>
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="Valid answers"></TextBlock>
-                <TextBlock Text="" x:Name="valid"></TextBlock>
-            </StackPanel>
-            <StackPanel Orientation="Vertical">
-
-                <Button Content="Get Statistics" ></Button>
-            </StackPanel>
-        </StackPanel>
+        <GroupBox Margin="0 20 0 0" FontSize="16" Width="400">
+            <GroupBox.Header>
+                Stats
+            </GroupBox.Header>
+            <GroupBox.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border Margin="0 0 0 10" HorizontalAlignment="Center" Grid.Row="0" Width="350" BorderBrush="#3B71CA" BorderThickness="1" CornerRadius="10">
+                        <StackPanel  HorizontalAlignment="Center" Grid.Row="0"   Margin="20" Orientation="Vertical">
+                            <TextBlock Text="Number of students taken an exam:"></TextBlock>
+                            <TextBlock FontSize="20" FontWeight="Bold"  HorizontalAlignment="Center" Text="{Binding NumberOfStudents}" ></TextBlock>
+                        </StackPanel>
+                    </Border>
+                    <Border  Margin="0 0 0 20"  HorizontalAlignment="Center" Grid.Row="1" Width="350" BorderBrush="#3B71CA" BorderThickness="1" CornerRadius="10">
+                        <StackPanel  Orientation="Vertical" Margin="20">
+                            <TextBlock HorizontalAlignment="Center" Text="Average grade"></TextBlock>
+                            <TextBlock FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Text="{Binding AverageGrade}"></TextBlock>
+                        </StackPanel>
+                    </Border>
+                    <Border Margin="0 0 0 20"  HorizontalAlignment="Center" Grid.Row="2" Width="350" BorderBrush="#3B71CA" BorderThickness="1" CornerRadius="10">
+                        <StackPanel Margin="20" HorizontalAlignment="Center" Grid.Row="2" Orientation="Vertical">
+                            <TextBlock Text="Invalid answers"></TextBlock>
+                            <TextBlock FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Text="{Binding InvalidAnswers}"></TextBlock>
+                        </StackPanel>
+                    </Border>
+                    <Border  Margin="0 0 0 20"  HorizontalAlignment="Center" Width="350" Grid.Row="3" BorderBrush="#3B71CA" BorderThickness="1" CornerRadius="10">
+                        <StackPanel Margin="20"  HorizontalAlignment="Center" Grid.Row="3" Orientation="Vertical">
+                            <TextBlock Text="Valid answers"></TextBlock>
+                            <TextBlock FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Text="{Binding CorrectAnswers}"></TextBlock>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </GroupBox.Content>
+        </GroupBox>
       
+
     </Grid>
 </hc:Window>

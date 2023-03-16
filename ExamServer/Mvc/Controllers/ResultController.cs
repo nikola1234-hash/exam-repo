@@ -28,6 +28,7 @@ namespace ExamServer.Mvc.Controllers
             var result = _context.ExamResults.Include(s => s.Errors);
             return Ok(result);
         }
+
         [HttpPost]
         public ActionResult AddResult(GradingData data)
         {

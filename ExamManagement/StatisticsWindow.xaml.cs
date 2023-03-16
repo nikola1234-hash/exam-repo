@@ -71,6 +71,8 @@ namespace ExamManagement
             }
         }
 
+  
+
         private readonly ExamService _examService;
         public StatisticsWindow()
         {
@@ -82,11 +84,36 @@ namespace ExamManagement
         private async void GetGrades()
         {
             List<ExamResult> results = await _examService.GetExamResults();
+
+            if (results == null)
+            {
+                MessageBox.Show("No results found");
+                return;
+            }
+            foreach(var result in results)
+            {
+                if(result.Errors.Count == 0)
+                {
+                    var exams =  await _examService.GetExamsAsync();
+                    CorrectAnswers += exams.Where(s=> s.Id == result.ExamId).FirstOrDefault().Questions.Count();
+                }
+                foreach(var error in result.Errors)
+                {
+          
+                    if(error.SelectedAnswer == error.CorrectAnswer)
+                    {
+                        CorrectAnswers++;
+                    }
+                    else
+                    {
+                        InvalidAnswers++;
+                    }
+                }
+            }
+
             AverageGrade = results.Average(x => x.Grade);
             NumberOfStudents = results.Select(s=> s.StudentId).Count();
-            CorrectAnswers = results.SelectMany(s=> s.Errors).Where(s=> s.CorrectAnswer != string.Empty).Select(d=> d.CorrectAnswer).Count();
-            InvalidAnswers = results.SelectMany(s=> s.Errors).Where(s=> s.WrongAnswer != string.Empty).Select(d=> d.WrongAnswer).Count();
-
+         
 
         }
         public event PropertyChangedEventHandler PropertyChanged;
