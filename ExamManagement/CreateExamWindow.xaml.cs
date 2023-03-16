@@ -2,6 +2,7 @@
 using ExamManagement.Services;
 using HandyControl.Tools.Converter;
 using Microsoft.Win32;
+using Newtonsoft.Json.Linq;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -107,6 +108,8 @@ namespace ExamManagement
         {
             Exam = new Exam();
             ObservableQuestions = new ObservableCollection<Question>();
+            SetField(ref _exam, Exam, nameof(Exam));
+            SetField(ref _observableQuestions, ObservableQuestions, nameof(ObservableQuestions));
 
         }
 
@@ -128,6 +131,7 @@ namespace ExamManagement
                     try
                     {
                         await _examService.UpdateExam(Exam, true);
+                        ResetForm();
                     }
                     catch (Exception ex)
                     {
