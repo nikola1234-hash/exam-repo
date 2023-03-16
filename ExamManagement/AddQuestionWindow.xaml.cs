@@ -87,6 +87,21 @@ namespace ExamManagement
         }
 
 
+        private bool _randomizeAnswers;
+
+        public bool RandomizeAnswers
+        {
+            get { return _randomizeAnswers; }
+            set
+            {
+                Question.AnswersSortedRandomly = value;
+                SetField(ref _randomizeAnswers, value, nameof(RandomizeAnswers));
+            }   
+        }
+
+
+
+
         private Answer _answer;
 
         public Answer Answer
@@ -126,7 +141,18 @@ namespace ExamManagement
 
             imageService = new ImageService();
         }
+        private bool _showIsCorrectAnswer;
 
+        public bool ShowIsCorrectAnswer
+        {
+            get { return _showIsCorrectAnswer; }
+            set
+            {
+
+
+                SetField(ref _showIsCorrectAnswer, value, nameof(ShowIsCorrectAnswer));
+            }
+        }
 
         private void SubmitQuestionButton_Click(object sender, RoutedEventArgs e)
         {
@@ -202,6 +228,7 @@ namespace ExamManagement
         // Add Another Question
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
+            ShowIsCorrectAnswer = true;
             if(Question.Answers.Count > 0)
             {
                 Question.Text = string.IsNullOrEmpty(Question.ImageUrl) ? StringFromRichTextBox(questionText) : "Image question";
@@ -231,8 +258,11 @@ namespace ExamManagement
                 Answers.Add(Answer);
                 Answer = new Answer();
                 asnwerTextBox.Document.Blocks.Clear();
-                UpdateProperties();
+                ShowIsCorrectAnswer = false;
                 IsCorrect = false;
+                UpdateProperties();
+           
+                
             }
             else
             {
@@ -265,6 +295,7 @@ namespace ExamManagement
             SetField(ref _answers, Answers, nameof(Answers));
             SetField(ref _question, Question, nameof(Question));
             SetField(ref _answer, Answer, nameof(Answer));
+            SetField(ref _showIsCorrectAnswer, ShowIsCorrectAnswer, nameof(ShowIsCorrectAnswer));
         }
     }
 }

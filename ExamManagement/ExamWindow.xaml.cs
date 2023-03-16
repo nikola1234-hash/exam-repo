@@ -47,6 +47,16 @@ namespace ExamManagement
             }
         }
 
+        private int _currentQuestion;
+
+        public int CurrentQuestion
+        {
+            get { return _currentQuestion; }
+            set
+            {
+                SetField(ref _currentQuestion, value,nameof(CurrentQuestion));
+            }
+        }
 
         private bool _isImageQuestion;
 
@@ -95,6 +105,10 @@ namespace ExamManagement
         public int SolvedQuestions { get => solvedQuestions;
             set
             {
+                if(value == NumberOfQuestions)
+                {
+                   submitExam.Visibility = Visibility.Visible;
+                }
                 SetField(ref solvedQuestions, value, nameof(SolvedQuestions));
             }
         }
@@ -109,6 +123,8 @@ namespace ExamManagement
         private readonly ExamResult examResult;
         private readonly StudentService studentService;
         private readonly ImageService imageService;
+
+        public Dictionary<int, Answer> SelectedAnswers { get; set;}
         
         private StudentExam studentExam;
         public ExamWindow(Exam exam, Student student)
@@ -136,12 +152,14 @@ namespace ExamManagement
             studentService = new StudentService();
             studentExam = new StudentExam();
             imageService = new ImageService();
-
+            SelectedAnswers = new Dictionary<int, Answer>();
             InitializeComponent();
             Exam = exam;
             
             studentExam.StudentName = student.Name;
-
+            previousButton.IsEnabled = false;
+            nextButton.IsEnabled = true;
+            CurrentQuestion = _i + 1;
             NumberOfQuestions = exam.Questions.Count();
             SolvedQuestions = 0;
             UnsolvedQuestions = NumberOfQuestions;
@@ -153,6 +171,7 @@ namespace ExamManagement
                 exam.Questions.OrderBy(x => random.Next()).ToList();
             
             }
+            
 
             if (!string.IsNullOrEmpty(exam.Questions[_i].ImageUrl))
             {
@@ -171,36 +190,50 @@ namespace ExamManagement
 
         }
 
-        //private async void StartExam(Guid examId)
-        //{
-        //    this.exam = await studentService.StartExam(examId);
-        //    NumberOfQuestions = exam.Questions.Count();
-        //    SolvedQuestions = 0;
-        //    UnsolvedQuestions = NumberOfQuestions;
-
-        //}
-        public void SubmitQuestion_Click(object sender, RoutedEventArgs e)
+        public void PreviousQUestion_Click(object sender, RoutedEventArgs e)
         {
-            SolvedQuestions++;
-            UnsolvedQuestions--;
-            studentExam.SelectedAnswers.Add(Exam.Questions[_i].Answers.IndexOf(SelectedAnswer));
+            
             SelectedAnswer = new Answer();
-            if(_i < Exam.Questions.Count - 1)
+            if (_i <= Exam.Questions.Count - 1 && _i > 0)
             {
-                _i++;
+                _i--;
+
+                if(_i == 0)
+                {
+                    previousButton.IsEnabled = false;
+                }
+                if(_i < Exam.Questions.Count - 1)
+                {
+                    nextButton.IsEnabled = true;
+                }
+                CurrentQuestion = _i +1;
             }
             else
             {
-                question.Visibility = Visibility.Hidden;
-                radioListBoxEdit.Visibility = Visibility.Hidden;
-                submitExam.Visibility = Visibility.Visible;
+                HandyControl.Controls.MessageBox.Show("No more questions");
                 return;
             }
 
             if (!string.IsNullOrEmpty(Exam.Questions[_i].ImageUrl))
             {
                 ImageQuestion = imageService.GetMedia(Exam.Questions[_i].ImageUrl);
-                radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers;
+                if (Exam.Questions[_i].AnswersSortedRandomly)
+                {
+                    var random = new Random();
+                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers.OrderBy(x => random.Next()).ToList();
+                    if (SelectedAnswers.ContainsKey(_i))
+                    {
+                        radioListBoxEdit.SelectedItem = SelectedAnswers[_i];
+                    }
+                }
+                else
+                {
+                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers;
+                    if (SelectedAnswers.ContainsKey(_i))
+                    {
+                        radioListBoxEdit.SelectedItem = SelectedAnswers[_i];
+                    }
+                }
                 IsImageQuestion = true;
                 IsTextQuestion = false;
                 SetField(ref _isImageQuestion, IsImageQuestion, nameof(IsImageQuestion));
@@ -213,7 +246,176 @@ namespace ExamManagement
                 SetField(ref _isImageQuestion, IsImageQuestion, nameof(IsImageQuestion));
                 SetField(ref _isTextQuestion, IsTextQuestion, nameof(IsTextQuestion));
                 question.Text = Exam.Questions[_i].Text;
+
                 radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers;
+                if (SelectedAnswers.ContainsKey(_i))
+                {
+                    radioListBoxEdit.SelectedItem = SelectedAnswers[_i];
+                }
+
+            }
+        }
+
+        public void NextQuestion_Click(object sender, RoutedEventArgs e)
+        {
+            SelectedAnswer = new Answer();
+            if (_i <= Exam.Questions.Count - 1)
+            {
+                _i++;
+                if(_i == Exam.Questions.Count - 1)
+                {
+                    nextButton.IsEnabled = false;
+                }
+                if(_i > 0)
+                {
+                    previousButton.IsEnabled = true;
+                }
+                CurrentQuestion = _i + 1;
+            }
+            else
+            {
+                question.Visibility = Visibility.Hidden;
+                radioListBoxEdit.Visibility = Visibility.Hidden;
+                submitExam.Visibility = Visibility.Visible;
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(Exam.Questions[_i].ImageUrl))
+            {
+                ImageQuestion = imageService.GetMedia(Exam.Questions[_i].ImageUrl);
+
+                if (Exam.Questions[_i].AnswersSortedRandomly)
+                {
+
+                    var random = new Random();
+                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers.OrderBy(x => random.Next()).ToList();
+                    if (SelectedAnswers.ContainsKey(_i))
+                    {
+                        radioListBoxEdit.SelectedItem = SelectedAnswers[_i];
+                    }
+                }
+                else
+                {
+                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers;
+                    if (SelectedAnswers.ContainsKey(_i))
+                    {
+                        radioListBoxEdit.SelectedItem = SelectedAnswers[_i];
+                    }
+                }
+                IsImageQuestion = true;
+                IsTextQuestion = false;
+                SetField(ref _isImageQuestion, IsImageQuestion, nameof(IsImageQuestion));
+                SetField(ref _isTextQuestion, IsTextQuestion, nameof(IsTextQuestion));
+            }
+            else
+            {
+                IsImageQuestion = false;
+                IsTextQuestion = true;
+                SetField(ref _isImageQuestion, IsImageQuestion, nameof(IsImageQuestion));
+                SetField(ref _isTextQuestion, IsTextQuestion, nameof(IsTextQuestion));
+                question.Text = Exam.Questions[_i].Text;
+
+
+                if (Exam.Questions[_i].AnswersSortedRandomly)
+                {
+                    var random = new Random();
+                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers.OrderBy(x => random.Next()).ToList();
+                    if (SelectedAnswers.ContainsKey(_i))
+                    {
+                        radioListBoxEdit.SelectedItem = SelectedAnswers[_i];
+                    }
+                }
+                else
+                {
+                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers;
+                    if (SelectedAnswers.ContainsKey(_i))
+                    {
+                        radioListBoxEdit.SelectedItem = SelectedAnswers[_i];
+                    }
+                }
+            
+                
+
+
+            }
+        }
+      
+        public void SubmitQuestion_Click(object sender, RoutedEventArgs e)
+        {
+            SolvedQuestions++;
+            UnsolvedQuestions--;
+            studentExam.SelectedAnswers.Add(Exam.Questions[_i].Answers.IndexOf(SelectedAnswer));
+         
+            if (SelectedAnswers.ContainsKey(_i))
+            {
+                SelectedAnswers[_i] = SelectedAnswer;
+            }
+            else
+            {
+                SelectedAnswers.Add(_i, SelectedAnswer);
+            }
+            SelectedAnswer = new Answer();
+            if (_i < Exam.Questions.Count - 1)
+            {
+                
+                _i++;
+                CurrentQuestion = _i + 1;
+                previousButton.IsEnabled = true;
+            }
+            else
+            {
+                //if(studentExam.SelectedAnswers.Count == Exam.Questions.Count)
+                //{
+                //    question.Visibility = Visibility.Hidden;
+                //    radioListBoxEdit.Visibility = Visibility.Hidden;
+                //    submitExam.Visibility = Visibility.Visible;
+                //}
+            
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(Exam.Questions[_i].ImageUrl))
+            {
+                ImageQuestion = imageService.GetMedia(Exam.Questions[_i].ImageUrl);
+                if (Exam.Questions[_i].AnswersSortedRandomly)
+                {
+                    var random = new Random();
+                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers.OrderBy(x => random.Next()).ToList();
+                }
+                else
+                {
+                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers;
+                    if (SelectedAnswers.ContainsKey(_i))
+                    {
+                        radioListBoxEdit.SelectedItem = SelectedAnswers[_i];
+                    }
+                }
+                IsImageQuestion = true;
+                IsTextQuestion = false;
+                SetField(ref _isImageQuestion, IsImageQuestion, nameof(IsImageQuestion));
+                SetField(ref _isTextQuestion, IsTextQuestion, nameof(IsTextQuestion));
+            }
+            else
+            {
+                IsImageQuestion = false;
+                IsTextQuestion = true;
+                SetField(ref _isImageQuestion, IsImageQuestion, nameof(IsImageQuestion));
+                SetField(ref _isTextQuestion, IsTextQuestion, nameof(IsTextQuestion));
+                question.Text = Exam.Questions[_i].Text;
+                if (Exam.Questions[_i].AnswersSortedRandomly)
+                {
+                    var random = new Random();
+                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers.OrderBy(x => random.Next()).ToList();
+                }
+                else
+                {
+                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers;
+                    if (SelectedAnswers.ContainsKey(_i))
+                    {
+                        radioListBoxEdit.SelectedItem = SelectedAnswers[_i];
+                    }
+                }
+               
             }
            
         }
@@ -224,6 +426,7 @@ namespace ExamManagement
             if (success)
             {
                 HandyControl.Controls.MessageBox.Show("Successfully submited");
+                this.Close();
 
             }
             else

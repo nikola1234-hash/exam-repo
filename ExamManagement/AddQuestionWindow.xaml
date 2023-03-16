@@ -61,7 +61,8 @@
                     <RichTextBox     VerticalScrollBarVisibility="Visible"  MaxHeight="500"  Grid.Row="0" Grid.Column="0" Width="300" Height="600" x:Name="questionText" Visibility="{Binding Path = IsTextQuestion,Converter={StaticResource BoolToVis}}"></RichTextBox>
                     <Image x:Name="imageArea"  Grid.Row="0" Grid.Column="0" Visibility="{Binding Path=IsImageQuestion, Converter ={StaticResource BoolToVis}}"  Width="300" Height="300"></Image>
                     <StackPanel Grid.Row="0" Grid.Column="1" Margin="10" Orientation="Vertical">
-                        <CheckBox  IsChecked="{Binding IsImageQuestion}" Content="Is Question in image format?"></CheckBox> 
+                        <CheckBox  IsChecked="{Binding IsImageQuestion}" Content="Is Question in image format?"></CheckBox>
+                        <CheckBox Margin="0 20 0 0"  IsChecked="{Binding RandomizeAnswers}" Content="Randomize Answers?"></CheckBox>
                         <Button Margin="0 20 0 0" Click="Button_Click" Content="Add Image" Visibility="{Binding Path= IsImageQuestion, Converter= {StaticResource BoolToVis}}"></Button>
                      
                     </StackPanel>
@@ -88,7 +89,7 @@
             
 
 
-                <CheckBox Grid.Row="1" Margin="0 20 0 0" HorizontalAlignment="Right" IsChecked="{Binding IsCorrect}" Content="Is Correct?"></CheckBox>
+                <CheckBox Grid.Row="1" Margin="0 20 0 0" HorizontalAlignment="Right" Visibility="{Binding ShowIsCorrectAnswer, Converter={StaticResource BoolToVis}}" IsChecked="{Binding IsCorrect}" Content="Is Correct?"></CheckBox>
                 <Button Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Click_3" Content="Add Answer"></Button>
             </Grid>
         </GroupBox>

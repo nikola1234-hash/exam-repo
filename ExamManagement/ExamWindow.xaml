@@ -39,13 +39,21 @@
         <GroupBox Header="Question:" Grid.RowSpan="7" Margin="50" MinWidth="600" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
             <GroupBox.Content>
                 <Grid>
-
-                    <ScrollViewer>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ScrollViewer Grid.Row="0">
                         <TextBlock TextWrapping="Wrap" Background="White" MinHeight="600" MinWidth="200" MaxWidth="600" x:Name="question" FontSize="16" Visibility="{Binding IsTextQuestion, Converter={StaticResource BoolToVis}}"></TextBlock>
 
                     </ScrollViewer>
 
-                    <Image Width="200" Height="600" Source="{Binding ImageQuestion}" Visibility="{Binding IsImageQuestion, Converter={StaticResource BoolToVis}}"></Image>
+                    <Image Grid.Row="0" Width="200" Height="600" Source="{Binding ImageQuestion}" Visibility="{Binding IsImageQuestion, Converter={StaticResource BoolToVis}}"></Image>
+                    <hc:ButtonGroup Grid.Row="1" Orientation="Horizontal">
+                        <Button Width="200" x:Name="previousButton" Click="PreviousQUestion_Click" Content="Previous Question"></Button>
+                        <Button Width="200" x:Name="nextButton" Click="NextQuestion_Click" Content="Next Question"></Button>
+                    </hc:ButtonGroup>
                 </Grid>
             </GroupBox.Content>
         </GroupBox>
@@ -59,8 +67,8 @@
 
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
                     <StackPanel Margin="10" Orientation="Vertical">
-                        <TextBlock Text="Student name:"></TextBlock>
-                        <TextBlock Text="{Binding UnsolvedQuestions}"></TextBlock>
+                        <TextBlock Text="Current Question:"></TextBlock>
+                        <TextBlock FontWeight="Bold" FontSize="16" Text="{Binding CurrentQuestion}"></TextBlock>
                     </StackPanel>
 
                     <StackPanel Margin="10"  Orientation="Vertical">
