@@ -20,6 +20,14 @@ namespace ExamManagement.Services
             examService = new ExamService();
         }
 
+
+        public async Task<List<Student>> GetStudentsAsync()
+        {
+            var response = await _httpClient.GetAsync($"https://localhost:7129/api/student");
+            var entity = await response.Content.ReadFromJsonAsync<List<Student>>();
+            return entity;
+        }
+
         // Update student information
         public async Task<Student> UpdateStudentInformation(Student student)
         {

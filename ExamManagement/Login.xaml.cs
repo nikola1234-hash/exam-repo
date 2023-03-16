@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -40,7 +41,7 @@ namespace ExamManagement
             loginPanel.Visibility = Visibility.Hidden;
             infoPanel.Visibility = Visibility.Visible;
             groupBoxInfo.Header = "Started login process";
-            groupBoxInfo.Content = "Please wait contanting server...";
+            groupBoxInfo.Content = "Please wait contacting server...";
             _apiService = new APIService<User>("https://localhost:7129");
 
             bool success = await _apiService.Login(user);

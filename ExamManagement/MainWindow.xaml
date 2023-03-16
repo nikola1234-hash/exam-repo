@@ -1,14 +1,33 @@
-﻿<Window x:Class="ExamManagement.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Exam Management" Height="350" Width="525" WindowStartupLocation="CenterScreen">
+﻿<hc:GlowWindow x:Class="ExamManagement.MainWindow"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:hc="https://handyorg.github.io/handycontrol"
+                DataContext="{Binding RelativeSource={RelativeSource Self}}"
+                Title="Exam Management" Height="350" Width="525" WindowStartupLocation="CenterScreen">
+    <hc:GlowWindow.Resources>
+        <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        </ResourceDictionary>
+
+    </hc:GlowWindow.Resources>
     <Grid>
-        <StackPanel Margin="20">
-            <TextBlock Text="Welcome to Exam Management" Margin="0 0 0 15" FontSize="20"/>
-            <Button Content="Create Exam" Click="CreateExamButton_Click" x:Name="createButton" Margin="0 0 0 15"/>
-            <Button Content="Search Exams (Student)" Click="SearchExamsButton_Click" x:Name="searchButton"/>
-            <Button Content="Search Exams (Lector)" Click="searchExamsLectorButton"  Margin="0 10 0 15" x:Name="searchLectorhButton"/>
-            <Button Content="Show Statistics (Lector)" Click="ShowStatisctics"  Margin="0 10 0 0" x:Name="statisticsShow"/>
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="#00a2ed">
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="0" Text="Welcome to Exam Management" Margin="0 20 0 15" Foreground="White" FontSize="20"/>
+        </Grid>
+        
+        <hc:ButtonGroup Orientation="Vertical" Width="300" Grid.Row="1" Visibility="{Binding IsLector, Mode=TwoWay, Converter={StaticResource BoolToVis}}" Margin="0 30 0 0">
+            <Button Content="Create Exam" Click="CreateExamButton_Click" x:Name="createButton" Margin="0 0 0 15" Background="#54B4D3" Foreground="#FBFBFB"/>
+            <Button Content="Edit Exams" Click="searchExamsLectorButton"  Margin="0 10 0 15" Background="#54B4D3" Foreground="#FBFBFB" x:Name="searchLectorhButton"/>
+            <Button Content="Show Statistics" Click="ShowStatisctics"  Margin="0 10 0 0" Background="#54B4D3" Foreground="#FBFBFB" x:Name="statisticsShow"/>
+      
+        </hc:ButtonGroup>
+        <hc:ButtonGroup Orientation="Vertical" Width="300" Grid.Row="1" Visibility="{Binding IsStudent, Mode=TwoWay, Converter={StaticResource BoolToVis}}" Margin="0 50 0 0 ">
+            <Button Content="Take Exam" Click="SearchExamsButton_Click" Background="#14A44D" Foreground="#FBFBFB" x:Name="searchButton" Height="80"/>
+        </hc:ButtonGroup>
     </Grid>
-</Window>
+</hc:GlowWindow>

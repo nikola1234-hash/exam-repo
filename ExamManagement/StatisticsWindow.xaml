@@ -1,11 +1,13 @@
-﻿<Window x:Class="ExamManagement.StatisticsWindow"
+﻿<hc:Window x:Class="ExamManagement.StatisticsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ExamManagement"
         mc:Ignorable="d"
-        Title="StatisticsWindow" Height="450" Width="800">
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        Title="StatisticsWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -14,20 +16,20 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Width="200">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="Grades of student"></TextBlock>
-                <TextBlock Text="" x:Name="grades"></TextBlock>
+                <TextBlock Text="Number of students taken an exam:"></TextBlock>
+                <TextBlock Text="{Binding NumberOfStudents}" ></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Average grade"></TextBlock>
+                <TextBlock Text="{Binding AverageGrade}"></TextBlock>
             </StackPanel>
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="Invalid answers"></TextBlock>
-                <TextBlock Text="" x:Name="invalid"></TextBlock>
+                <TextBlock Text="{Binding InvalidAnswers}"></TextBlock>
             </StackPanel>
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="Valid answers"></TextBlock>
                 <TextBlock Text="" x:Name="valid"></TextBlock>
-            </StackPanel>
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="Total count of exams Taken"></TextBlock>
-                <TextBlock Text="" x:Name="taken"></TextBlock>
             </StackPanel>
             <StackPanel Orientation="Vertical">
 
@@ -36,4 +38,4 @@
         </StackPanel>
       
     </Grid>
-</Window>
+</hc:Window>

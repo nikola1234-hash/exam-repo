@@ -1,18 +1,51 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows;
 
 namespace ExamManagement
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow: INotifyPropertyChanged
     {
+
+        private bool _isStudent;
+
+        public bool IsStudent
+        {
+            get { return _isStudent; }
+            set
+            {
+                SetField(ref _isStudent, value, nameof(IsStudent));
+            }
+        }
+
+
+        private bool _isLector;
+
+        public bool IsLector
+        {
+            get { return _isLector; }
+            set
+            {
+                SetField(ref _isLector, value, nameof(IsLector));
+            }
+        }
+
+
+
         public MainWindow()
         {
-            InitializeComponent();
-            if(Storage.Storage.User != "Lector")
-            {
-                createButton.Visibility = Visibility.Hidden;
-                searchLectorhButton.Visibility = Visibility.Hidden;
-                statisticsShow.Visibility = Visibility.Hidden;
 
+       
+
+            InitializeComponent();
+            if(Storage.Storage.User == "Lector")
+            {
+                IsLector = true;
+
+            }
+            else
+            {
+               IsStudent = true;
             }
         }
 
@@ -35,6 +68,21 @@ namespace ExamManagement
         private void searchExamsLectorButton(object sender, RoutedEventArgs e)
         {
 
+        }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+        protected bool SetField<T>(ref T field, T value, string propertyName)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
         }
     }
 }

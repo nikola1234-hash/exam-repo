@@ -17,7 +17,7 @@ namespace ExamServer.Mvc.Controllers
         [HttpGet]
         public async Task<ActionResult> Index()
         {
-            var entities = _dbContext.Students;
+            var entities = _dbContext.Students.ToList();
             return Ok(entities);
 
         }

@@ -28,6 +28,7 @@ namespace ExamServer.Services
                     errors.Add(new Error(question.Text, data.StudentExam.SelectedAnswers[i].ToString(), correctAnswerIndex.ToString()));
                 }
             }
+            
 
             int grade = (int)Math.Round((double)correctAnswers / totalQuestions * 100);
             return GetExamResult(data.StudentId, data.StudentExam.StudentName, data.Exam.Id, grade, errors);

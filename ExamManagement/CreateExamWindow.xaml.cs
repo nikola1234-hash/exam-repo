@@ -101,10 +101,10 @@ namespace ExamManagement
             
         }
 
-        private void CreateExamButton_Click(object sender, RoutedEventArgs e)
+        private async void CreateExamButton_Click(object sender, RoutedEventArgs e)
         {
             _examService.AddExam(Exam);
-            var result = MessageBox.Show("Would you like to create another exam?", "", MessageBoxButton.YesNo);
+            var result = HandyControl.Controls.MessageBox.Show("Would you like to create another exam?", "", MessageBoxButton.YesNo);
             if(result == MessageBoxResult.Yes)
             {
                 Exam = new Exam();
@@ -113,7 +113,23 @@ namespace ExamManagement
             }
             else
             {
-                this.Close();
+                var question = HandyControl.Controls.MessageBox.Show("Would you like to push this exam to server?", "", MessageBoxButton.YesNo);
+                if (question == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        await _examService.UpdateExam(Exam, true);
+                    }
+                    catch (Exception ex)
+                    {
+                        HandyControl.Controls.MessageBox.Show(ex.Message, "Error");
+                    }
+                }
+                else
+                {
+                    this.Close();
+                }
+
             }
              
         }

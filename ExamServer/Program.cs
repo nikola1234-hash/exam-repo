@@ -1,8 +1,6 @@
 using ExamServer.EntityFramework;
 using ExamServer.Services;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
