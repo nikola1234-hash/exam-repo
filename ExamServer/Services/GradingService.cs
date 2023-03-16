@@ -37,7 +37,7 @@ namespace ExamServer.Services
 
         public ExamResult GetExamResult(int studentId, string studentName, Guid id, int grade, List<Error> errors)
         {
-            return new ExamResult(studentId, id, grade, errors);
+            return new ExamResult(studentId, id, studentName, grade, errors);
         }
     
     }

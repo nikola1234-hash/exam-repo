@@ -455,7 +455,7 @@ namespace ExamManagement
             bool success = true;
             if (success)
             {
-                HandyControl.Controls.MessageBox.Show("Successfully submited");
+                HandyControl.Controls.MessageBox.Show($"Successfully submited, you can check your results on Results area with an your student ID:{Student.Id}");
                 this.Close();
 
             }

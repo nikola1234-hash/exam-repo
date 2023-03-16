@@ -28,6 +28,16 @@ namespace ExamManagement.Services
 
             return results;
         }
+
+        public async Task<List<ExamResult>> GetExamResultsByName(int id)
+        {
+            var response = await _httpClient.GetAsync($"https://localhost:7129/api/result/{id}");
+
+            var results = await response.Content.ReadFromJsonAsync<List<ExamResult>>();
+
+            return results;
+
+        }
         public async Task<List<ExamResult>> GetExamResults()
         {
             var response = await _httpClient.GetAsync($"https://localhost:7129/api/result");

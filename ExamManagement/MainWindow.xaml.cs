@@ -84,5 +84,12 @@ namespace ExamManagement
             OnPropertyChanged(propertyName);
             return true;
         }
+
+       
+        private void searchButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            StudentStatsWindow window = new StudentStatsWindow();
+            window.Show();
+        }
     }
 }

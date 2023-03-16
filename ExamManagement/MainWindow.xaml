@@ -27,7 +27,8 @@
       
         </hc:ButtonGroup>
         <hc:ButtonGroup Orientation="Vertical" Width="300" Grid.Row="1" Visibility="{Binding IsStudent, Mode=TwoWay, Converter={StaticResource BoolToVis}}" Margin="0 50 0 0 ">
-            <Button Content="Take Exam" Click="SearchExamsButton_Click" Background="#14A44D" Foreground="#FBFBFB" x:Name="searchButton" Height="80"/>
+            <Button Content="Take Exam" Click="SearchExamsButton_Click" Background="#14A44D" Foreground="#FBFBFB" x:Name="searchButton" Height="40"/>
+            <Button Content="Take Exam" Click="searchButton_Click_1" Background="#14A44D" Foreground="#FBFBFB" x:Name="examStats" Height="40"/>
         </hc:ButtonGroup>
     </Grid>
 </hc:GlowWindow>

@@ -37,12 +37,9 @@ namespace ExamManagement.Services
         }
 
         // Start exam
-        public async Task<Exam> StartExam(Guid examId)
+        public async Task<Exam> StartExam(Exam exam)
         {
 
-            var response = await _httpClient.GetAsync($"https://localhost:7129/api/exam/{examId}");
-
-            var exam = await response.Content.ReadFromJsonAsync<Exam>();
             if (exam.StartDateTime.Date > DateTime.Now.Date)
             {
                 throw new InvalidOperationException("Your exam is not yet active");

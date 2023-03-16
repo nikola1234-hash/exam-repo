@@ -138,7 +138,7 @@ namespace ExamManagement
             Answers = new ObservableCollection<Answer>();
             Answer = new Answer();
             ExamGuid = examId;
-
+            ShowIsCorrectAnswer = true;
             imageService = new ImageService();
         }
         private bool _showIsCorrectAnswer;

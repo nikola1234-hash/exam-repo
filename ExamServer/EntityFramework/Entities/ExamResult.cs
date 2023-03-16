@@ -13,7 +13,7 @@
             Errors = new List<Error>();
         }
 
-        public ExamResult(int studentId, Guid examId, int grade,  ICollection<Error> errors)
+        public ExamResult(int studentId, Guid examId, string studentName, int grade,  ICollection<Error> errors)
         {
             ExamId = examId;
             StudentId = studentId;

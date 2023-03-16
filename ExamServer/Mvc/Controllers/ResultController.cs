@@ -28,7 +28,12 @@ namespace ExamServer.Mvc.Controllers
             var result = _context.ExamResults.Include(s => s.Errors);
             return Ok(result);
         }
-
+        [HttpGet("{id}")]
+        public ActionResult Get(int id)
+        {
+            var result = _context.ExamResults.Where(s => s.Student.Id == id).Include(s => s.Errors).Include(s=> s.Exam);
+            return Ok(result);
+        }
         [HttpPost]
         public ActionResult AddResult(GradingData data)
         {

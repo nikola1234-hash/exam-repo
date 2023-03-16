@@ -177,7 +177,8 @@ namespace ExamManagement
 
             try
             {
-                var examWindow = new ExamWindow(Exam, student);
+                var examFromServer = await studentService.StartExam(Exam);
+                var examWindow = new ExamWindow(examFromServer, student);
                 examWindow.Show();
                 this.Close();
             }

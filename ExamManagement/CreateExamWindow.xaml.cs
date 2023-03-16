@@ -61,6 +61,7 @@ namespace ExamManagement
             Exam = new Exam();
             ObservableQuestions = new ObservableCollection<Question>();
             
+            
 
         }
     
@@ -101,6 +102,14 @@ namespace ExamManagement
             
         }
 
+        
+        public void ResetForm()
+        {
+            Exam = new Exam();
+            ObservableQuestions = new ObservableCollection<Question>();
+
+        }
+
         private async void CreateExamButton_Click(object sender, RoutedEventArgs e)
         {
             _examService.AddExam(Exam);
@@ -127,7 +136,7 @@ namespace ExamManagement
                 }
                 else
                 {
-                    this.Close();
+                    ResetForm();
                 }
 
             }

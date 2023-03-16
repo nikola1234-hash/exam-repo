@@ -23,7 +23,7 @@ namespace ExamServer.Mvc.Controllers
         public async Task<ActionResult<IEnumerable<Exam>>> GetExams()
         {
           
-           var exams = _dbContext.Exams.Include(s => s.Questions).ToList();
+           var exams = _dbContext.Exams.Include(s => s.Questions).ThenInclude(s=> s.Answers).ToList();
        
           
            return exams;
@@ -42,6 +42,7 @@ namespace ExamServer.Mvc.Controllers
            
             return exam;
         }
+     
 
         // POST api/exam
         [HttpPost]
