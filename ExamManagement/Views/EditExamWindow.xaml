@@ -97,7 +97,7 @@
             
                     <GroupBox.Content>
 
-                        <ListBox ItemsSource="{Binding ObservableQuestions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedQuestion}" DisplayMemberPath="Text">
+                        <ListBox SelectionChanged="ListBox_SelectionChanged" ItemsSource="{Binding ObservableQuestions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedQuestion}" DisplayMemberPath="Text">
                         <ListBox.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Delete" Click="DeleteQuestionButton_Click"/>

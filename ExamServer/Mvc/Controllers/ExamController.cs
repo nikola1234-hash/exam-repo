@@ -18,7 +18,7 @@ namespace ExamServer.Mvc.Controllers
             _dbContext = dbContext;
         }
 
-        // GET api/exams
+        // Gets all exams and related questions and answers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Exam>>> GetExams()
         {
@@ -44,7 +44,7 @@ namespace ExamServer.Mvc.Controllers
         }
      
 
-        // POST api/exam
+        // Adds a list of exams from json to db
         [HttpPost]
         [ProducesResponseType(201)]
         
@@ -67,15 +67,24 @@ namespace ExamServer.Mvc.Controllers
             return Ok();
         }
 
-        // PUT api/exams/{id}
-        [HttpPut("{id}")]
+        // Updates edited exam
+        // And its questions and answers
+        [HttpPut]
         public async Task<IActionResult> UpdateExam(Exam exam)
         {
-            var fromDb = await _dbContext.Exams.Where(s => s.Id == exam.Id).FirstOrDefaultAsync();
+            var fromDb = await _dbContext.Exams.Where(s => s.Id == exam.Id).Include(s=> s.Questions).ThenInclude(s=> s.Answers).FirstOrDefaultAsync();
             if (fromDb != null)
             {
-                _dbContext.Entry(fromDb).CurrentValues.SetValues(exam);
-                _dbContext.Entry(fromDb).State = EntityState.Modified;
+
+                fromDb.Questions.Clear();
+                foreach(var question in exam.Questions)
+                {
+                    fromDb.Questions.Add(question);
+                  
+                }
+                
+                _dbContext.Update(fromDb);
+              
                 await _dbContext.SaveChangesAsync();
             }
             return Ok();

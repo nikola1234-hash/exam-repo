@@ -17,6 +17,10 @@ namespace ExamManagement
         private readonly ExamService _examService;
 
         #region Fields
+        public event EventHandler<CustomEventArgs> RiserListChanged;
+
+
+
         private Exam _exam;
 
         public Exam Exam
@@ -75,7 +79,18 @@ namespace ExamManagement
             
 
         }
-    
+
+        private Question _clickedQuestion;
+
+        public Question ClickedQuestion
+
+        {
+            get { return _clickedQuestion; }
+            set
+            {
+                SetField(ref _clickedQuestion, value, nameof(ClickedQuestion));
+            }
+        }
 
         private void CreateNewExam_Click(object sender, RoutedEventArgs e)
         {
@@ -120,11 +135,11 @@ namespace ExamManagement
          */
         private void EditQuestionWindow_RiseQuestionAddedEvent(object? sender, Event.QuestionCustomEvent e)
         {
-            Exam.Questions.Clear();
             if(e.Arg is Question question)
             {
-                Exam.Questions.Remove(SelectedQuestion);
+                Exam.Questions.Remove(ClickedQuestion);
                 Exam.Questions.Add(question);
+                ObservableQuestions.Remove(ClickedQuestion);
                 ObservableQuestions.Add(question);
             }          
         }
@@ -136,6 +151,8 @@ namespace ExamManagement
             {
                 Exam.Questions.Remove(SelectedQuestion);
                 ObservableQuestions.Remove(SelectedQuestion);
+                SelectedQuestion = null;
+                SetField(ref _selectedQuestion, SelectedQuestion, nameof(SelectedQuestion));
             }
          
         }
@@ -216,7 +233,9 @@ namespace ExamManagement
             {
                 Task.Run(() => _examService.UpdateExamJson(Exam));
                 Task.Run(() => _examService.PutToServer(Exam));
+
                 HandyControl.Controls.MessageBox.Show("Successfull, will redirect you to exam list window", "Success");
+                RiserListChanged?.Invoke(this, new CustomEventArgs(null, 0));
                 this.Close();
             }
             catch (Exception ex)
@@ -225,6 +244,13 @@ namespace ExamManagement
                 MessageBox.Show(ex.Message);
             }
             
+        }
+
+     
+   
+        private void ListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            ClickedQuestion = SelectedQuestion;
         }
     }
 }

@@ -15,6 +15,11 @@ namespace ExamServer.Mvc.Controllers
         {
             _context = context;
         }
+        /// <summary>
+        /// Returns user if is loged in otherwise unauthorized
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
 
         [HttpPost]
         public ActionResult Login(User user)

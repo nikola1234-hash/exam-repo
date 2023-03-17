@@ -21,7 +21,11 @@ namespace ExamServer.Mvc.Controllers
             return Ok(entities);
 
         }
-
+        /// <summary>
+        /// Creates new student
+        /// </summary>
+        /// <param name="student"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Create(Student student)
         {

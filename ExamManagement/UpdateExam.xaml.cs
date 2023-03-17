@@ -74,8 +74,16 @@ namespace ExamManagement
         private void EditExam(object sender, RoutedEventArgs e)
         {
             EditExamWindow editExamWindow = new EditExamWindow(Exam);
+            editExamWindow.RiserListChanged += EditExamWindow_RiserListChanged;
             editExamWindow.Show();
         }
+
+        private void EditExamWindow_RiserListChanged(object? sender, CustomEventArgs e)
+        {
+            var exams = Task.Run(() => _examService.GetExamsAsync()).Result;
+            Exams = new ObservableCollection<Exam>(exams);
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
