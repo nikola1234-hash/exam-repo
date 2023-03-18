@@ -12,7 +12,7 @@ namespace ExamManagement.Models
         public Guid Id { get; set; }
         public DateTime StartDateTime { get; set; }
         public string LecturerName { get; set; }
-        public TimeSpan TotalTime { get;set;}
+        public TimeSpan TotalTime {get;set;}
         public bool RandomSorting { get; set; }
         public List<Question> Questions { get; set; }
 

@@ -3,6 +3,8 @@ using ExamServer.EntityFramework.Entities;
 using ExamServer.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using System.Runtime.InteropServices;
 
 namespace ExamServer.Mvc.Controllers
 {
@@ -80,6 +82,11 @@ namespace ExamServer.Mvc.Controllers
                 foreach(var question in exam.Questions)
                 {
                     fromDb.Questions.Add(question);
+                    fromDb.LecturerName = exam.LecturerName;
+                    fromDb.Name = exam.Name;
+                    fromDb.StartDateTime = exam.StartDateTime;
+                    fromDb.TotalTime = exam.TotalTime;
+                    fromDb.RandomSorting = exam.RandomSorting;
                   
                 }
                 
