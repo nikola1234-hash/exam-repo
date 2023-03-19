@@ -17,7 +17,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <GroupBox Header="Edit Selected Exam">
-            <ListBox Grid.Row="0" ItemsSource="{Binding Exams}" SelectedItem="{Binding Exam}">
+            <ListBox Grid.Row="0" Height="300" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding Exams}" SelectedItem="{Binding Exam}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
