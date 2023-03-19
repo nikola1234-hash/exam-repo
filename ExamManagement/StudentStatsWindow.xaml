@@ -25,7 +25,7 @@
                     <hc:SearchBar Width="200" Text="{Binding StudentId}" Margin="10" />
                     <Button Content="Search" Click="Button_Click"></Button>
                 </StackPanel>
-                <ListBox Width="400" Height="auto" Grid.Row="1" ItemsSource="{Binding ExamResults}">
+                <ListBox Width="400" Height="auto" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsSource="{Binding ExamResults}">
                   
                         <ListBox.ItemTemplate>
                             <DataTemplate>

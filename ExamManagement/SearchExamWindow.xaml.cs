@@ -105,6 +105,14 @@ namespace ExamManagement
                     IsButtonEnabled = true;
                 
                 }
+                if(!string.IsNullOrEmpty(value.Name))
+                {
+                    IsButtonEnabled = true;
+                }
+                else
+                {
+                    IsButtonEnabled = false;
+                }
                 if(value == null)
                 {
                     IsButtonEnabled = false;
@@ -125,11 +133,52 @@ namespace ExamManagement
             get { return _studentName; }
             set
             {
+                if(SelectedExam == null)
+                {
+                    IsButtonEnabled = false;
+                    SetField(ref _studentName, value, nameof(StudentName));
+                    return;
+                }
+                if (string.IsNullOrEmpty(value))
+                {
+                    IsButtonEnabled = false;
+                }
+                else if(!string.IsNullOrEmpty(value) && !string.IsNullOrEmpty(SelectedExam.Name))
+                {
+                    IsButtonEnabled = true;
+                }
+
                 SetField(ref _studentName, value, nameof(StudentName));
             }
         }
 
-        public Exam Exam { get; set; }
+        private Exam _exam;
+
+        public Exam Exam
+        {
+            get { return _exam; }
+            set
+            {
+                if(value != null)
+                {
+                    IsButtonEnabled = true;
+                }
+                else
+                {
+                    IsButtonEnabled = false;
+                }
+                if(!string.IsNullOrEmpty(value.Name))
+                {
+                    IsButtonEnabled = true;
+                }
+                else
+                {
+                    IsButtonEnabled = false;
+                }
+                SetField(ref _exam, value, nameof(Exam));
+            }
+        }
+
         public SearchExamWindow()
         {
             InitializeComponent();
@@ -151,9 +200,10 @@ namespace ExamManagement
             if (!string.IsNullOrEmpty(SearchBar))
             {
                 Exam exam = await _examService.GetExamByName(SearchBar);
-                if(exam == null)
+                if(exam == null || string.IsNullOrEmpty(exam.Name))
                 {
                     IsProgressVisible = false;
+                    IsButtonEnabled= false;
                     return;
                     
                 }
@@ -184,14 +234,23 @@ namespace ExamManagement
         /// <param name="e"></param>
         private async void OpenExam_Click(object sender, RoutedEventArgs e)
         {
-            StudentService studentService = new StudentService();
-            Student st = new Student();
-            st.Name = StudentName;
-            var student =  await studentService.UpdateStudentInformation(st);
-
 
             try
             {
+                StudentService studentService = new StudentService();
+                Student st = new Student();
+                st.Name = StudentName;
+                if (string.IsNullOrEmpty(StudentName))
+                {
+                    throw new ArgumentException("You need to write name", nameof(StudentName));
+                }
+                var student =  await studentService.UpdateStudentInformation(st);
+
+                if(student == null)
+                {
+                    throw new ArgumentNullException("Student is missing");
+                }
+
                 var examFromServer = await studentService.StartExam(Exam);
                 var examWindow = new ExamWindow(examFromServer, student);
                 examWindow.Show();

@@ -31,7 +31,7 @@
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Orientation="Vertical">
                             <TextBlock>Student name:</TextBlock>
-                            <TextBox Text="{Binding StudentName}" Width="200"></TextBox>
+                            <TextBox Text="{Binding StudentName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200"></TextBox>
                         </StackPanel>
                    
                     </StackPanel>
