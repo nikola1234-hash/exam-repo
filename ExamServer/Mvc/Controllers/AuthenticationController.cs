@@ -9,9 +9,9 @@ namespace ExamServer.Mvc.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly ExamDbContext _context;
+        private readonly ServerDbContext _context;
 
-        public AuthenticationController(ExamDbContext context)
+        public AuthenticationController(ServerDbContext context)
         {
             _context = context;
         }

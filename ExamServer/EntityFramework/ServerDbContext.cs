@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ExamServer.EntityFramework
 {
-    public class ExamDbContext : DbContext
+    public class ServerDbContext : DbContext
     {
-        public ExamDbContext(DbContextOptions<ExamDbContext> options) : base(options)
+        public ServerDbContext(DbContextOptions<ServerDbContext> options) : base(options)
         {
         }
 

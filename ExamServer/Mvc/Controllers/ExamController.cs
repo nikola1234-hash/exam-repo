@@ -10,9 +10,9 @@ namespace ExamServer.Mvc.Controllers
     [ApiController]
     public class ExamController : ControllerBase
     {
-        private readonly ICrudService<Exam> _context;
-        private readonly ExamDbContext _dbContext;
-        public ExamController(ICrudService<Exam> context, ExamDbContext dbContext)
+        private readonly IGenericRepository<Exam> _context;
+        private readonly ServerDbContext _dbContext;
+        public ExamController(IGenericRepository<Exam> context, ServerDbContext dbContext)
         {
             _context = context;
             _dbContext = dbContext;

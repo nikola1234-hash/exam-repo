@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Branislav Stanic\\Desktop\\Exam\\exam-repo\\ExamServer\\ExamServer.csproj": {}
+    "C:\\Users\\Branislav Stanic\\Source\\Repos\\exam-repo\\ExamServer\\ExamServer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Branislav Stanic\\Desktop\\Exam\\exam-repo\\ExamServer\\ExamServer.csproj": {
+    "C:\\Users\\Branislav Stanic\\Source\\Repos\\exam-repo\\ExamServer\\ExamServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Branislav Stanic\\Desktop\\Exam\\exam-repo\\ExamServer\\ExamServer.csproj",
+        "projectUniqueName": "C:\\Users\\Branislav Stanic\\Source\\Repos\\exam-repo\\ExamServer\\ExamServer.csproj",
         "projectName": "ExamServer",
-        "projectPath": "C:\\Users\\Branislav Stanic\\Desktop\\Exam\\exam-repo\\ExamServer\\ExamServer.csproj",
+        "projectPath": "C:\\Users\\Branislav Stanic\\Source\\Repos\\exam-repo\\ExamServer\\ExamServer.csproj",
         "packagesPath": "C:\\Users\\Branislav Stanic\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Branislav Stanic\\Desktop\\Exam\\exam-repo\\ExamServer\\obj\\",
+        "outputPath": "C:\\Users\\Branislav Stanic\\Source\\Repos\\exam-repo\\ExamServer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

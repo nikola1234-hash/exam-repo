@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xvvfD3F7UoIF6G2sw8Lo/wU9l2sGENue61q3jfR66+swtKWXD1Pdcm0hK5KRa1yMf0A3E4azUHeSVzgH5zer+g==",
+  "dgSpecHash": "OPNSR5YIgMQb3HbZbneB7vznPUcwaz5WN7VicKYRx4htEgrPKoHXVxDT7LGrutpg4VO9NmosEM3C0b/SuOfrtA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Branislav Stanic\\Desktop\\Exam\\exam-repo\\ExamManagement\\ExamManagement.csproj",
+  "projectFilePath": "C:\\Users\\Branislav Stanic\\Source\\Repos\\exam-repo\\ExamManagement\\ExamManagement.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Branislav Stanic\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Branislav Stanic\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.3\\microsoft.entityframeworkcore.7.0.3.nupkg.sha512",

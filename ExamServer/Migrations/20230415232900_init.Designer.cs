@@ -11,9 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ExamServer.Migrations
 {
-    [DbContext(typeof(ExamDbContext))]
-    [Migration("20230314162457_grades")]
-    partial class grades
+    [DbContext(typeof(ServerDbContext))]
+    [Migration("20230415232900_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExamServer.Services
 {
-    public class CrudService<T> : ICrudService<T> where T : BaseObject
+    public class GenericRepository<T> : IGenericRepository<T> where T : BaseObject
     {
-        private readonly ExamDbContext _context;
+        private readonly ServerDbContext _context;
 
-        public CrudService(ExamDbContext context)
+        public GenericRepository(ServerDbContext context)
         {
             _context = context;
         }

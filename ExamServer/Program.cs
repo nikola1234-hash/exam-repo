@@ -1,22 +1,20 @@
 using ExamServer.EntityFramework;
 using ExamServer.Services;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<ExamDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("ExamDB")));
-builder.Services.AddTransient(typeof(ICrudService<>), typeof(CrudService<>));
+builder.Services.AddDbContext<ServerDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("ServerDB")));
+
 builder.Services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
 {
-    builder.WithOrigins("https://localhost:7129").AllowAnyMethod().AllowAnyHeader();
+    builder.WithOrigins(Dns.GetHostName()).AllowAnyMethod().AllowAnyHeader();
 }));
-
-
+builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

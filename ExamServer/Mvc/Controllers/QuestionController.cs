@@ -9,10 +9,10 @@ namespace ExamServer.Mvc.Controllers
     [ApiController]
     public class QuestionController : ControllerBase
     {
-        private readonly ICrudService<Question> _context;
-        private readonly ICrudService<Exam> _examContext;
+        private readonly IGenericRepository<Question> _context;
+        private readonly IGenericRepository<Exam> _examContext;
 
-        public QuestionController(ICrudService<Question> context, ICrudService<Exam> examContext)
+        public QuestionController(IGenericRepository<Question> context, IGenericRepository<Exam> examContext)
         {
             _context = context;
             _examContext = examContext;

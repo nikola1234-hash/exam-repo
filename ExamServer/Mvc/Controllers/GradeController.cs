@@ -11,9 +11,9 @@ namespace ExamServer.Mvc.Controllers
     [ApiController]
     public class GradeController : ControllerBase
     {
-        private readonly ExamDbContext _context;
+        private readonly ServerDbContext _context;
 
-        public GradeController(ExamDbContext context)
+        public GradeController(ServerDbContext context)
         {
             _context = context;
         }

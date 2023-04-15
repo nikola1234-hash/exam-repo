@@ -2,7 +2,7 @@
 
 namespace ExamServer.Services
 {
-    public interface ICrudService<T> where T : BaseObject
+    public interface IGenericRepository<T> where T : BaseObject
     {
         Task<T> Add(T entity);
         Task<IEnumerable<T>> GetAll();

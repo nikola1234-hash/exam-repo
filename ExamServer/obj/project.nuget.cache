@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "2hDZgDv4TNB1DHd0MT5alGsOc5QcdLG8Y1G2zXeSme7myPdAXoY2TDzgYc/P+YCA8WDTOn4farJGFXGd5jRmsA==",
+  "dgSpecHash": "xZy4cDduvIr71CUbM4/bbv30QncbXerpCjvDwDCdeSc3jDAfFAGfWsLYsd/OeJCVuXZ3rXjv6tYuRLRHRxhnog==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Branislav Stanic\\Desktop\\Exam\\exam-repo\\ExamServer\\ExamServer.csproj",
+  "projectFilePath": "C:\\Users\\Branislav Stanic\\Source\\Repos\\exam-repo\\ExamServer\\ExamServer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Branislav Stanic\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Branislav Stanic\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
