@@ -1,6 +1,6 @@
-﻿using ExamServer.Mvc.Models;
+﻿using Server.Mvc.Models;
 
-namespace ExamServer.EntityFramework.Entities
+namespace Server.EntityFramework.Entities
 {
     public class GradeEntity : BaseObject
     {

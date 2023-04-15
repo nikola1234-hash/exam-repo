@@ -1,8 +1,8 @@
-﻿using ExamServer.EntityFramework;
-using ExamServer.EntityFramework.Entities;
+﻿using Server.EntityFramework;
+using Server.EntityFramework.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ExamServer.Services
+namespace Server.Services
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseObject
     {

@@ -1,6 +1,6 @@
-﻿using ExamServer.EntityFramework.Entities;
+﻿using Server.EntityFramework.Entities;
 
-namespace ExamServer.Mvc.Models
+namespace Server.Mvc.Models
 {
     public class Result
     {

@@ -1,9 +1,9 @@
-﻿using ExamServer.EntityFramework.Entities;
-using ExamServer.Services;
+﻿using Server.EntityFramework.Entities;
+using Server.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ExamServer.Mvc.Controllers
+namespace Server.Mvc.Controllers
 {
     [Route("api/exams/{examId}/questions")]
     [ApiController]

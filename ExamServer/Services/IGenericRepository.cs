@@ -1,6 +1,6 @@
-﻿using ExamServer.EntityFramework.Entities;
+﻿using Server.EntityFramework.Entities;
 
-namespace ExamServer.Services
+namespace Server.Services
 {
     public interface IGenericRepository<T> where T : BaseObject
     {

@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.33214.272
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamManagement", "ExamManagement\ExamManagement.csproj", "{32EAEB9C-098C-4FE3-9C0F-27F57FB37253}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamServer", "ExamServer\ExamServer.csproj", "{FF4198DE-3DDE-40ED-8469-8D1BCF4ECD80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "ExamServer\Server.csproj", "{FF4198DE-3DDE-40ED-8469-8D1BCF4ECD80}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

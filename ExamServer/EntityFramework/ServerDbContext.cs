@@ -1,8 +1,8 @@
-﻿using ExamServer.EntityFramework.Entities;
+﻿using Server.EntityFramework.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace ExamServer.EntityFramework
+namespace Server.EntityFramework
 {
     public class ServerDbContext : DbContext
     {

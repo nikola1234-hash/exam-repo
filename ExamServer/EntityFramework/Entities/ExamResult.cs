@@ -1,4 +1,4 @@
-﻿namespace ExamServer.EntityFramework.Entities
+﻿namespace Server.EntityFramework.Entities
 {
     public class ExamResult : BaseObject
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExamServer.Mvc.Models
+namespace Server.Mvc.Models
 {
     public class Exam
     {
