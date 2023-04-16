@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExamManagement.Models
+namespace EasyTestMaker.Models
 {
-    public class Exam
+    public class Exam : BaseModel
     {
         public string Name { get; set; }
         public DateTime Date { get; set; }

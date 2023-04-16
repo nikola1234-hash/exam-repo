@@ -3,11 +3,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Timers;
 using System.Windows;
-using ExamManagement.Models;
-using ExamManagement.Services;
-using ExamManagement.Storage;
+using EasyTestMaker.Models;
+using EasyTestMaker.Services;
+using EasyTestMaker.Storage;
 
-namespace ExamManagement
+namespace EasyTestMaker
 {
     /// <summary>
     /// Interaction logic for ExamWindow.xaml
@@ -69,7 +69,7 @@ namespace ExamManagement
             this.exam = exam;
             InitializeComponent();
             submitExam.Visibility = Visibility.Hidden;
-            _apiService = new APIService<Result>("https://localhost:7129");
+            //_apiService = new APIService<Result>("https://localhost:7129");
 
             Results = new List<Result>();
             

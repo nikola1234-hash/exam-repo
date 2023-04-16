@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ExamManagement
+namespace EasyTestMaker
 {
     public partial class MainWindow : Window
     {
@@ -9,9 +9,9 @@ namespace ExamManagement
             InitializeComponent();
             if(Storage.Storage.User != "Lector")
             {
-                createButton.Visibility = Visibility.Hidden;
-                searchLectorhButton.Visibility = Visibility.Hidden;
-                statisticsShow.Visibility = Visibility.Hidden;
+                //createButton.Visibility = Visibility.Hidden;
+                //searchLectorhButton.Visibility = Visibility.Hidden;
+                //statisticsShow.Visibility = Visibility.Hidden;
 
             }
         }

@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace EasyTestMaker.Models
 {
-    public class Answer
+    public class BaseModel
     {
-        public string Text { get; set; }
-        public bool IsCorrect { get; set; }
-        public bool IsChecked { get; set; }    
+        public int Id { get; set; }
     }
 }

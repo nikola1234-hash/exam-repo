@@ -3,9 +3,9 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using System.Windows;
 using System.Windows.Controls;
-using ExamManagement.Models;
+using EasyTestMaker.Models;
 
-namespace ExamManagement.Views
+namespace EasyTestMaker.Views
 {
     public sealed partial class LecturerDashboardPage : Page
     {

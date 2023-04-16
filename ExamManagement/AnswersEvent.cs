@@ -1,7 +1,7 @@
 ﻿using Prism.Events;
 using System;
 
-namespace ExamManagement
+namespace EasyTestMaker
 {
     public class AnswersEvent : PubSubEvent<object>
     {

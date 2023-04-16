@@ -27,7 +27,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection(); This is for production
 app.UseStaticFiles(new StaticFileOptions
 {
     OnPrepareResponse = ctx =>

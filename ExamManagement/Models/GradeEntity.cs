@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExamManagement.Models
+namespace EasyTestMaker.Models
 {
-    public class GradeEntity
+    public class GradeEntity : BaseModel
     {
         public int StudentId { get; set; }
         public string StudentName { get; set; }

@@ -1,14 +1,15 @@
-﻿<Window x:Class="ExamManagement.MainWindow"
+﻿<Window x:Class="EasyTestMaker.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Exam Management" Height="350" Width="525" WindowStartupLocation="CenterScreen">
     <Grid>
-        <StackPanel Margin="20">
+        <ContentControl Content="{Binding CurrentViewModel}"/>
+        <!--<StackPanel Margin="20">
             <TextBlock Text="Welcome to Exam Management" Margin="0 0 0 15" FontSize="20"/>
             <Button Content="Create Exam" Click="CreateExamButton_Click" x:Name="createButton" Margin="0 0 0 15"/>
             <Button Content="Search Exams (Student)" Click="SearchExamsButton_Click" x:Name="searchButton"/>
             <Button Content="Search Exams (Lector)" Click="searchExamsLectorButton"  Margin="0 10 0 15" x:Name="searchLectorhButton"/>
             <Button Content="Show Statistics (Lector)" Click="ShowStatisctics"  Margin="0 10 0 0" x:Name="statisticsShow"/>
-        </StackPanel>
+        </StackPanel>-->
     </Grid>
 </Window>

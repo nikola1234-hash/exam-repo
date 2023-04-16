@@ -1,9 +1,19 @@
-﻿<Application x:Class="ExamManagement.App"
+﻿<Application x:Class="EasyTestMaker.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:ExamManagement"
-             StartupUri="Login.xaml">
+             xmlns:local="clr-namespace:EasyTestMaker"
+             Startup="Application_Startup"
+             xmlns:views="clr-namespace:EasyTestMaker.Views"
+             xmlns:viewModels="clr-namespace:EasyTestMaker.ViewModels"
+             >
     <Application.Resources>
-         
+        <!-- Binding view Models to views -->
+        <DataTemplate DataType="{x:Type viewModels:LoginViewModel}">
+            <views:LoginView />
+        </DataTemplate>
+        
+        
+        
     </Application.Resources>
+
 </Application>

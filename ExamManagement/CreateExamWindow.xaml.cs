@@ -1,5 +1,5 @@
-﻿using ExamManagement.Models;
-using ExamManagement.Services;
+﻿using EasyTestMaker.Models;
+using EasyTestMaker.Services;
 using Microsoft.Win32;
 using Prism.Events;
 using System;
@@ -19,7 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ExamManagement
+namespace EasyTestMaker
 {
     /// <summary>
     /// Interaction logic for CreateExamWindow.xaml
@@ -67,7 +67,7 @@ namespace ExamManagement
         public CreateExamWindow()
         {
             InitializeComponent();
-            _apiService = new APIService<Exam>("https://localhost:7129");
+            //_apiService = new APIService<Exam>("https://localhost:7129");
             Questions = new ObservableCollection<Question>();
             Answers = new ObservableCollection<Answer>();
             

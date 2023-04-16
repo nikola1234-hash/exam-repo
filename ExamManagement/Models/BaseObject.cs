@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace ExamManagement.Models
+namespace EasyTestMaker.Models
 {
     public class BaseObject : INotifyPropertyChanged
     {

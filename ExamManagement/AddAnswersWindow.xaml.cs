@@ -1,4 +1,4 @@
-﻿using ExamManagement.Models;
+﻿using EasyTestMaker.Models;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ExamManagement
+namespace EasyTestMaker
 {
     /// <summary>
     /// Interaction logic for AddAnswersWindow.xaml

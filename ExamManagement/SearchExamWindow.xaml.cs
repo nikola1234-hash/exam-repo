@@ -1,5 +1,5 @@
-﻿using ExamManagement.Models;
-using ExamManagement.Services;
+﻿using EasyTestMaker.Models;
+using EasyTestMaker.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ExamManagement
+namespace EasyTestMaker
 {
     /// <summary>
     /// Interaction logic for SearchExamWindow.xaml
@@ -30,7 +30,7 @@ namespace ExamManagement
         {
             InitializeComponent();
             Exams = new ObservableCollection<Exam>();
-            _apiService = new APIService<Exam>("https://localhost:7129");
+            //_apiService = new APIService<Exam>("https://localhost:7129");
         }
         private async void SearchBox_Click(object sender, RoutedEventArgs e)
         {

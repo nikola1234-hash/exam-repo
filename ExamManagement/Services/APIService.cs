@@ -8,38 +8,62 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using System.Net.Http.Json;
-using ExamManagement.Models;
+using EasyTestMaker.Models;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 
-namespace ExamManagement.Services
+namespace EasyTestMaker.Services
 {
-    public class APIService<T>
+    public class APIService<T> : IAPIService<T>
     {
         private readonly HttpClient _httpClient;
         private readonly string _baseUrl;
         private readonly string _resource;
-        public APIService(string baseUrl)
+        public APIService()
         {
             _httpClient = new HttpClient();
-            _baseUrl = baseUrl;
+            _baseUrl = "http://localhost:60876";
             _resource = typeof(T).Name;
         }
 
-        public async Task<IEnumerable<T>> GetAllExamsAsync()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
             var response = await _httpClient.GetAsync($"{_baseUrl}/api/{_resource}");
+            var output = await response.Content.ReadFromJsonAsync<IEnumerable<T>>();
 
-            var exams = await response.Content.ReadFromJsonAsync<IEnumerable<T>>();
-            
-            return exams;
+            return output;
+        }
+        public async Task<T> GetByNameAsync(string name)
+        {
+            var response = await _httpClient.GetAsync($"{_baseUrl}/api/{_resource}/{name}");
+            var output = await response.Content.ReadFromJsonAsync<T>();
+            return output;
+        }
+
+        public async Task<bool> CreateAsync(T entity)
+        {
+            var response = await _httpClient.PostAsJsonAsync<T>($"{_baseUrl}/api/{_resource}", entity);
+            return response.IsSuccessStatusCode;
+        }
+
+
+        public async Task<bool> UpdateAsync(int id, T entity)
+        {
+            var response = await _httpClient.PutAsJsonAsync($"{_baseUrl}/api/{_resource}/{id}", entity);
+            return response.IsSuccessStatusCode;
+        }
+    
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var response = await _httpClient.DeleteAsync($"{_baseUrl}/api/{_resource}/{id}");
+            return response.IsSuccessStatusCode;
         }
 
         public async Task<T> GetExamAsync(string name)
         {
             var response = await _httpClient.GetAsync($"{_baseUrl}/api/{_resource}/{name}");
-            
+
             var exam = await response.Content.ReadFromJsonAsync<T>();
 
             return exam;
@@ -66,7 +90,7 @@ namespace ExamManagement.Services
         {
 
             var response = await _httpClient.PostAsJsonAsync<T>($"{_baseUrl}/api/{_resource}", exam);
-            var t = await  response.Content.ReadAsStringAsync();
+            var t = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
             {
@@ -93,7 +117,7 @@ namespace ExamManagement.Services
             var response = await _httpClient.PostAsJsonAsync<User>($"{_baseUrl}/api/Authentication", user);
             var t = await response.Content.ReadAsStringAsync();
             var l = JsonConvert.DeserializeObject<User>(t);
-            
+
             if (response.IsSuccessStatusCode)
             {
                 Storage.Storage.UserId = l.Id;

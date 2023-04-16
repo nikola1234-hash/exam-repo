@@ -1,4 +1,4 @@
-﻿namespace ExamManagement
+﻿namespace EasyTestMaker
 {
     public class CustomEventArgs
     {

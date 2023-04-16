@@ -11,10 +11,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using ExamManagement.Models;
-using ExamManagement.Services;
-using ExamManagement.Storage;
-namespace ExamManagement
+using EasyTestMaker.Models;
+using EasyTestMaker.Services;
+using EasyTestMaker.Storage;
+namespace EasyTestMaker
 {
     /// <summary>
     /// Interaction logic for Login.xaml
@@ -30,7 +30,7 @@ namespace ExamManagement
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            _apiService = new APIService<User>("https://localhost:7129");
+            //_apiService = new APIService<User>("https://localhost:7129");
             User user = new User(username.Text, password.Text);
             bool success = await _apiService.Login(user);
             if (success)
