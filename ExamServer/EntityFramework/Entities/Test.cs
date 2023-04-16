@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Server.EntityFramework.Entities
 {
-    public class Exam
+    public class Test
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

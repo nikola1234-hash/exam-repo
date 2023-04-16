@@ -9,50 +9,50 @@ using System.Threading.Tasks;
 
 namespace EasyTestMaker.Services
 {
-    public class ExamService : IExamService
+    public class TestService : ITestService
     {
         private readonly HttpClient _httpClient;
         private string Path = Directory.GetCurrentDirectory() + "/Temp/file";
 
-        public ExamService()
+        public TestService()
         {
             _httpClient = new HttpClient();
         }
 
-        public async Task<List<Exam>> GetExamsAsync()
+        public async Task<List<Test>> GetExamsAsync()
         {
-            return await _httpClient.GetFromJsonAsync<List<Exam>>("https://localhost:7129/api/exam");
+            return await _httpClient.GetFromJsonAsync<List<Test>>("https://localhost:7129/api/exam");
         }
 
-        public async Task<List<ExamResult>> GetExamResultsByName(int id)
+        public async Task<List<TestResult>> GetExamResultsByName(int id)
         {
-            return await _httpClient.GetFromJsonAsync<List<ExamResult>>($"https://localhost:7129/api/result/{id}");
+            return await _httpClient.GetFromJsonAsync<List<TestResult>>($"https://localhost:7129/api/result/{id}");
         }
 
-        public async Task<List<ExamResult>> GetExamResults()
+        public async Task<List<TestResult>> GetExamResults()
         {
-            return await _httpClient.GetFromJsonAsync<List<ExamResult>>("https://localhost:7129/api/result");
+            return await _httpClient.GetFromJsonAsync<List<TestResult>>("https://localhost:7129/api/result");
         }
 
-        public async Task<Exam> GetExamByName(string name)
+        public async Task<Test> GetExamByName(string name)
         {
-            return await _httpClient.GetFromJsonAsync<Exam>($"https://localhost:7129/api/exam/{name}");
+            return await _httpClient.GetFromJsonAsync<Test>($"https://localhost:7129/api/exam/{name}");
         }
 
-        public void AddExam(Exam exam)
+        public void AddExam(Test exam)
         {
             SaveExamToJson(exam, Path);
         }
 
-        public async Task PutToServer(Exam exam)
+        public async Task PutToServer(Test exam)
         {
             await _httpClient.PutAsJsonAsync("https://localhost:7129/api/exam", exam);
         }
 
-        public async Task UpdateExamJson(Exam exam)
+        public async Task UpdateExamJson(Test exam)
         {
             string json = File.ReadAllText(Path + "/exams.json");
-            List<Exam> exams = System.Text.Json.JsonSerializer.Deserialize<List<Exam>>(json);
+            List<Test> exams = System.Text.Json.JsonSerializer.Deserialize<List<Test>>(json);
             var examToUpdate = exams.FirstOrDefault(s => s.Id == exam.Id);
 
             if (examToUpdate != null)
@@ -64,7 +64,7 @@ namespace EasyTestMaker.Services
             }
         }
 
-        public async Task UpdateExam(Exam exam, bool pushToServer)
+        public async Task UpdateExam(Test exam, bool pushToServer)
         {
             await UpdateExamJson(exam);
 
@@ -74,17 +74,17 @@ namespace EasyTestMaker.Services
             }
         }
 
-        public async Task SubmitExamResult(ExamResult result)
+        public async Task SubmitExamResult(TestResult result)
         {
             await _httpClient.PostAsJsonAsync("https://localhost:7129/api/result", result);
         }
 
-        public async Task<Exam> GetExamsStatistics(Guid examId)
+        public async Task<Test> GetExamsStatistics(Guid examId)
         {
-            return await _httpClient.GetFromJsonAsync<Exam>($"https://localhost:7129/api/results/{examId}");
+            return await _httpClient.GetFromJsonAsync<Test>($"https://localhost:7129/api/results/{examId}");
         }
 
-        private void SaveExamToJson(Exam exam, string filePath)
+        private void SaveExamToJson(Test exam, string filePath)
         {
             if (!Directory.Exists(Path))
             {
@@ -94,7 +94,7 @@ namespace EasyTestMaker.Services
             if (File.Exists(Path + "/exams.json"))
             {
                 string json = File.ReadAllText(Path + "/exams.json");
-                List<Exam> exams = System.Text.Json.JsonSerializer.Deserialize<List<Exam>>(json);
+                List<Test> exams = System.Text.Json.JsonSerializer.Deserialize<List<Test>>(json);
 
                 if (!exams.Any(s => s.Id == exam.Id))
                 {
@@ -106,7 +106,7 @@ namespace EasyTestMaker.Services
             }
             else
             {
-                List<Exam> examList = new List<Exam> { exam };
+                List<Test> examList = new List<Test> { exam };
                 string examJson = System.Text.Json.JsonSerializer.Serialize(examList);
 
                 File.WriteAllText(Path + "/exams.json", examJson);

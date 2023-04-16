@@ -41,10 +41,13 @@ namespace EasyTestMaker
             // Register services with their respective interfaces
             service.AddTransient<IAuthService, AuthService>();
             service.AddSingleton<IEventAggregator, EventAggregator>();
-            service.AddTransient<IExamService, ExamService>();
+            service.AddTransient<ITestService, TestService>();
             service.AddTransient<IImageService, ImageService>();
 
             // Register ViewModels
+            service.AddTransient<SplashScreenViewModel>();
+            service.AddTransient<HomeViewModel>();
+            service.AddTransient<MenuViewModel>();
             service.AddTransient<MainViewModel>();
             service.AddTransient<LoginViewModel>();
         }

@@ -73,10 +73,10 @@ namespace EasyTestMaker
 
   
 
-        private readonly ExamService _examService;
+        private readonly TestService _examService;
         public StatisticsWindow()
         {
-            _examService = new ExamService();
+            _examService = new TestService();
             InitializeComponent();
             GetGrades();
 
@@ -88,7 +88,7 @@ namespace EasyTestMaker
         /// </summary>
         private async void GetGrades()
         {
-            List<ExamResult> results = await _examService.GetExamResults();
+            List<TestResult> results = await _examService.GetExamResults();
 
             if (results == null)
             {
@@ -100,7 +100,7 @@ namespace EasyTestMaker
                 if(result.Errors.Count == 0)
                 {
                     var exams =  await _examService.GetExamsAsync();
-                    CorrectAnswers += exams.Where(s=> s.Id == result.ExamId).FirstOrDefault().Questions.Count();
+                    CorrectAnswers += exams.Where(s=> s.Id == result.TestId).FirstOrDefault().Questions.Count();
                 }
                 foreach(var error in result.Errors)
                 {

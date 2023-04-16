@@ -35,8 +35,8 @@ namespace EasyTestMaker
             {
                 if (value != _searchBar)
                 {
-                    SelectedExam = new Exam();
-                    Exams = new ObservableCollection<Exam>();
+                    SelectedExam = new Test();
+                    Exams = new ObservableCollection<Test>();
                     SetField(ref _searchBar, value, nameof(SearchBar));
                 }
             }
@@ -79,9 +79,9 @@ namespace EasyTestMaker
 
 
 
-        private ObservableCollection<Exam> _exams;
+        private ObservableCollection<Test> _exams;
 
-        public ObservableCollection<Exam> Exams
+        public ObservableCollection<Test> Exams
         {
             get { return _exams; }
             set
@@ -89,9 +89,9 @@ namespace EasyTestMaker
                 SetField(ref _exams, value, nameof(Exams));
             }
         }
-        private Exam _selectedExam;
+        private Test _selectedExam;
 
-        public Exam SelectedExam
+        public Test SelectedExam
         {
             get { return _selectedExam; }
             set
@@ -122,7 +122,7 @@ namespace EasyTestMaker
         }
 
 
-        private readonly ExamService _examService;
+        private readonly TestService _examService;
 
 
 
@@ -152,9 +152,9 @@ namespace EasyTestMaker
             }
         }
 
-        private Exam _exam;
+        private Test _exam;
 
-        public Exam Exam
+        public Test Exam
         {
             get { return _exam; }
             set
@@ -182,8 +182,8 @@ namespace EasyTestMaker
         public SearchExamWindow()
         {
             InitializeComponent();
-            Exams = new ObservableCollection<Exam>();
-            _examService = new ExamService();
+            Exams = new ObservableCollection<Test>();
+            _examService = new TestService();
             
         }
 
@@ -199,7 +199,7 @@ namespace EasyTestMaker
             IsProgressVisible = true;
             if (!string.IsNullOrEmpty(SearchBar))
             {
-                Exam exam = await _examService.GetExamByName(SearchBar);
+                Test exam = await _examService.GetExamByName(SearchBar);
                 if(exam == null || string.IsNullOrEmpty(exam.Name))
                 {
                     IsProgressVisible = false;
@@ -211,7 +211,7 @@ namespace EasyTestMaker
                 {
                     if(Exams.Count > 0)
                     {
-                        Exams = new ObservableCollection<Exam>();
+                        Exams = new ObservableCollection<Test>();
                     }
 
                     Exam = exam;

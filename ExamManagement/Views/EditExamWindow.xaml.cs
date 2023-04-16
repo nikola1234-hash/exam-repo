@@ -14,16 +14,16 @@ namespace EasyTestMaker
     public partial class EditExamWindow : INotifyPropertyChanged, IDisposable
     {
 
-        private readonly ExamService _examService;
+        private readonly TestService _examService;
 
         #region Fields
         public event EventHandler<CustomEventArgs> RiserListChanged;
 
 
 
-        private Exam _exam;
+        private Test _exam;
 
-        public Exam Exam
+        public Test Exam
         {
             get { return _exam; }
             set
@@ -69,10 +69,10 @@ namespace EasyTestMaker
             }
         }
         #endregion
-        public EditExamWindow(Exam exam)
+        public EditExamWindow(Test exam)
         {
             InitializeComponent();
-            _examService = new ExamService();
+            _examService = new TestService();
             Exam = exam;
             ObservableQuestions = new ObservableCollection<Question>(exam.Questions);
             
@@ -94,7 +94,7 @@ namespace EasyTestMaker
 
         private void CreateNewExam_Click(object sender, RoutedEventArgs e)
         {
-            Exam = new Exam();
+            Exam = new Test();
         }
         
         
@@ -163,7 +163,7 @@ namespace EasyTestMaker
         /// </summary>
         public void ResetForm()
         {
-            Exam = new Exam();
+            Exam = new Test();
             ObservableQuestions = new ObservableCollection<Question>();
             SetField(ref _exam, Exam, nameof(Exam));
             SetField(ref _observableQuestions, ObservableQuestions, nameof(ObservableQuestions));

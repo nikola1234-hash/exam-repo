@@ -29,7 +29,7 @@ namespace Server.Mvc.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            var result = _context.ExamResults.Include(s => s.Errors);
+            var result = _context.TestResults.Include(s => s.Errors);
             return Ok(result);
         }
 
@@ -37,7 +37,7 @@ namespace Server.Mvc.Controllers
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
-            var result = _context.ExamResults.Where(s => s.Student.Id == id).Include(s => s.Errors).Include(s=> s.Exam);
+            var result = _context.TestResults.Where(s => s.Student.Id == id).Include(s => s.Errors).Include(s=> s.Test);
             return Ok(result);
         }
 
@@ -52,7 +52,7 @@ namespace Server.Mvc.Controllers
 
             var result = gradingService.Grade(data);
 
-            _context.ExamResults.Add(result);
+            _context.TestResults.Add(result);
             var i = _context.SaveChanges();
             return i > 0 ? Ok() : BadRequest();
         }

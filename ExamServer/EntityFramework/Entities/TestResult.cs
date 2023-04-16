@@ -1,21 +1,21 @@
 ﻿namespace Server.EntityFramework.Entities
 {
-    public class ExamResult : BaseObject
+    public class TestResult : BaseObject
     {
-        public Guid ExamId { get; set; }
-        public Exam Exam { get; set; }
+        public Guid TestId { get; set; }
+        public Test Test { get; set; }
         public int StudentId { get; set; }
         public Student Student { get; set; }
         public int Grade { get; set; }
         public ICollection<Error> Errors { get; set; }
-        public ExamResult()
+        public TestResult()
         {
             Errors = new List<Error>();
         }
 
-        public ExamResult(int studentId, Guid examId, string studentName, int grade,  ICollection<Error> errors)
+        public TestResult(int studentId, Guid testId, int grade,  ICollection<Error> errors)
         {
-            ExamId = examId;
+            TestId = testId;
             StudentId = studentId;
             Grade = grade;
             Errors = errors;

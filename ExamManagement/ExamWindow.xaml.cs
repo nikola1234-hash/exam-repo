@@ -120,16 +120,16 @@ namespace EasyTestMaker
                 SetField(ref unsolvedQuestions, value, nameof(UnsolvedQuestions));
             }
         }
-        public Exam Exam { get; set; }
-        private readonly ExamService examService;
-        private readonly ExamResult examResult;
+        public Test Exam { get; set; }
+        private readonly TestService examService;
+        private readonly TestResult examResult;
         private readonly StudentService studentService;
         private readonly ImageService imageService;
 
         public Dictionary<int, Answer> SelectedAnswers { get; set;}
         
-        private StudentExam studentExam;
-        public ExamWindow(Exam exam, Student student)
+        private StudentTest studentExam;
+        public ExamWindow(Test exam, Student student)
         {
             if(student == null)
             {
@@ -149,10 +149,10 @@ namespace EasyTestMaker
             
             Student = student;
 
-            examService = new ExamService();
-            examResult = new ExamResult();
+            examService = new TestService();
+            examResult = new TestResult();
             studentService = new StudentService();
-            studentExam = new StudentExam();
+            studentExam = new StudentTest();
             imageService = new ImageService();
             SelectedAnswers = new Dictionary<int, Answer>();
             InitializeComponent();

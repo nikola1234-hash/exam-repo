@@ -58,9 +58,9 @@ namespace EasyTestMaker
             }
         }
 
-        private Exam _exam;
+        private Test _exam;
 
-        public Exam Exam
+        public Test Exam
         {
             get { return _exam; }
             set
@@ -152,7 +152,7 @@ namespace EasyTestMaker
             imageService = new ImageService();
         }
 
-        public AddQuestionWindow(Exam exam)
+        public AddQuestionWindow(Test exam)
         {
             InitializeComponent();
             Question = new Question();

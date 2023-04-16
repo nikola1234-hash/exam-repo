@@ -6,24 +6,24 @@ using System.Threading.Tasks;
 
 namespace EasyTestMaker.Models
 {
-    public class ExamResult
+    public class TestResult
     {
         public int StudentId { get; set; }
         public string StudentName { get; set; }
-        public Exam Exam { get; set; }
-        public Guid ExamId { get; set; }
+        public Test Test { get; set; }
+        public Guid TestId { get; set; }
         public int Grade { get; set; }
         public List<Error> Errors { get; set; }
-        public ExamResult()
+        public TestResult()
         {
             Errors= new List<Error>();
         }
 
-        public ExamResult(int studentId, string studentName, Guid examId, int grade, List<Error> errors)
+        public TestResult(int studentId, string studentName, Guid examId, int grade, List<Error> errors)
         {
             StudentId = studentId;
             StudentName = studentName;
-            ExamId = examId;
+            TestId = examId;
             Grade = grade;
             Errors = errors;
         }

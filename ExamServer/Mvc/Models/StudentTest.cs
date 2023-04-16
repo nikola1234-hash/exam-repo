@@ -1,10 +1,10 @@
 ﻿namespace Server.Mvc.Models
 {
-    public class StudentExam
+    public class StudentTest
     {
         public string StudentName { get; set; }
         public List<int> SelectedAnswers { get; set; }
-        public StudentExam()
+        public StudentTest()
         {
             SelectedAnswers = new List<int>();
         }

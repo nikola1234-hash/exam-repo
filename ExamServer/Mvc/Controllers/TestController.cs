@@ -10,11 +10,11 @@ namespace Server.Mvc.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ExamController : ControllerBase
+    public class TestController : ControllerBase
     {
 
         private readonly ExamDbContext _dbContext;
-        public ExamController(ExamDbContext dbContext)
+        public TestController(ExamDbContext dbContext)
         {
 
             _dbContext = dbContext;
@@ -22,10 +22,10 @@ namespace Server.Mvc.Controllers
 
         // Gets all exams and related questions and answers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Exam>>> GetExams()
+        public async Task<ActionResult<IEnumerable<Test>>> GetExams()
         {
           
-           var exams = _dbContext.Exams.Include(s => s.Questions).ThenInclude(s=> s.Answers).ToList();
+           var exams = _dbContext.Tests.Include(s => s.Questions).ThenInclude(s=> s.Answers).ToList();
        
           
            return exams;
@@ -33,9 +33,9 @@ namespace Server.Mvc.Controllers
 
         // GET api/exams/{id}
         [HttpGet("{name}")]
-        public async Task<ActionResult<Exam>> GetExam(string name)
+        public async Task<ActionResult<Test>> GetExam(string name)
         {
-            var exam = _dbContext.Exams.Include(s => s.Questions).ThenInclude(s => s.Answers).FirstOrDefault(s => s.Name.ToLower() == name.ToLower());
+            var exam = _dbContext.Tests.Include(s => s.Questions).ThenInclude(s => s.Answers).FirstOrDefault(s => s.Name.ToLower() == name.ToLower());
 
             if (exam == null)
             {
@@ -50,9 +50,9 @@ namespace Server.Mvc.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         
-        public async Task<ActionResult<List<Exam>>> CreateExams([FromBody]List<Exam> exams)
+        public async Task<ActionResult<List<Test>>> CreateExams([FromBody]List<Test> exams)
         {
-            var dbExams = _dbContext.Exams.ToList();
+            var dbExams = _dbContext.Tests.ToList();
             foreach (var exam in exams)
             {
                 if (dbExams.FirstOrDefault(s=> s.Id == exam.Id) != null)
@@ -72,9 +72,9 @@ namespace Server.Mvc.Controllers
         // Updates edited exam
         // And its questions and answers
         [HttpPut]
-        public async Task<IActionResult> UpdateExam(Exam exam)
+        public async Task<IActionResult> UpdateExam(Test exam)
         {
-            var fromDb = await _dbContext.Exams.Where(s => s.Id == exam.Id).Include(s=> s.Questions).ThenInclude(s=> s.Answers).FirstOrDefaultAsync();
+            var fromDb = await _dbContext.Tests.Where(s => s.Id == exam.Id).Include(s=> s.Questions).ThenInclude(s=> s.Answers).FirstOrDefaultAsync();
             if (fromDb != null)
             {
 

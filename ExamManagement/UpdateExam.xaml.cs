@@ -13,9 +13,9 @@ namespace EasyTestMaker
     /// </summary>
     public partial class UpdateExam : INotifyPropertyChanged
     {
-        private ObservableCollection<Exam> _exams;
+        private ObservableCollection<Test> _exams;
 
-        public ObservableCollection<Exam> Exams
+        public ObservableCollection<Test> Exams
         {
             get { return _exams; }
             set
@@ -35,9 +35,9 @@ namespace EasyTestMaker
         }
 
 
-        private Exam _exam;
+        private Test _exam;
 
-        public Exam Exam
+        public Test Exam
         {
             get { return _exam; }
             set
@@ -51,10 +51,10 @@ namespace EasyTestMaker
         }
             
 
-        private readonly ExamService _examService;
+        private readonly TestService _examService;
         public UpdateExam()
         {
-            _examService = new ExamService();
+            _examService = new TestService();
             InitializeComponent();
             InitializeExamList();
         }
@@ -64,7 +64,7 @@ namespace EasyTestMaker
         public void InitializeExamList()
         {
             var exams = Task.Run(() => _examService.GetExamsAsync()).Result;
-            Exams = new ObservableCollection<Exam>(exams);
+            Exams = new ObservableCollection<Test>(exams);
         }
         /// <summary>
         /// Opens EditExamWindow
@@ -81,7 +81,7 @@ namespace EasyTestMaker
         private void EditExamWindow_RiserListChanged(object? sender, CustomEventArgs e)
         {
             var exams = Task.Run(() => _examService.GetExamsAsync()).Result;
-            Exams = new ObservableCollection<Exam>(exams);
+            Exams = new ObservableCollection<Test>(exams);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

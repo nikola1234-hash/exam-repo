@@ -46,6 +46,8 @@ namespace EasyTestMaker.ViewModels
 		{
 			@event.GetEvent<ViewChangeEvent>().Subscribe(ViewChange);
             Loaded = new DelegateCommand(OnLoaded);
+
+			//TODO: Change to LoginViewModel
             CurrentViewModel = new LoginViewModel();
         }
 
@@ -53,8 +55,13 @@ namespace EasyTestMaker.ViewModels
         {
             if(obj is LoginViewModel login)
 			{
-				CurrentViewModel = new HomeViewModel();
+				CurrentViewModel = new SplashScreenViewModel(login);
 			}
+			if(obj is bool success)
+			{
+				CurrentViewModel = success ? new HomeViewModel() : new LoginViewModel();
+			}
+		
         }
 
         private void OnLoaded()

@@ -29,17 +29,17 @@ namespace EasyTestMaker
     public partial class CreateExamWindow : INotifyPropertyChanged, IDisposable
     {
 
-        private readonly ExamService _examService;
+        private readonly TestService _service;
         
 
-        private Exam _exam;
+        private Test _test;
 
-        public Exam Exam
+        public Test Test
         {
-            get { return _exam; }
+            get { return _test; }
             set
             {
-                SetField(ref _exam, value, nameof(Exam));
+                SetField(ref _test, value, nameof(Test));
             }
         }
 
@@ -58,8 +58,8 @@ namespace EasyTestMaker
         public CreateExamWindow()
         {
             InitializeComponent();
-            _examService = new ExamService();
-            Exam = new Exam();
+            _service = new TestService();
+            Test = new Test();
             ObservableQuestions = new ObservableCollection<Question>();
             
             
@@ -69,7 +69,7 @@ namespace EasyTestMaker
 
         private void CreateNewExam_Click(object sender, RoutedEventArgs e)
         {
-            Exam = new Exam();
+            Test = new Test();
         }
         
         // Opens new AddQuestion Window
@@ -77,7 +77,7 @@ namespace EasyTestMaker
         private void AddQuestionButton_Click(object sender, RoutedEventArgs e)
         {
             // do something
-            AddQuestionWindow addQuestionWindow = new AddQuestionWindow(Exam.Id);
+            AddQuestionWindow addQuestionWindow = new AddQuestionWindow(Test.Id);
             addQuestionWindow.RiseQuestionAddedEvent += AddQuestionWindow_RiseQuestionAddedEvent; 
             addQuestionWindow.Show();
             
@@ -94,13 +94,13 @@ namespace EasyTestMaker
 
             if(e.Arg is Question question)
             {
-                Exam.Questions.Add(question);
+                Test.Questions.Add(question);
                 ObservableQuestions.Add(question);
             }
 
             if(e.Arg is ObservableCollection<Question> questions)
             {
-                Exam.Questions = questions.ToList();
+                Test.Questions = questions.ToList();
                 ObservableQuestions = questions;
                 SetField(ref _observableQuestions, ObservableQuestions, nameof(ObservableQuestions));
             }
@@ -114,20 +114,20 @@ namespace EasyTestMaker
         /// </summary>
         public void ResetForm()
         {
-            Exam = new Exam();
+            Test = new Test();
             ObservableQuestions = new ObservableCollection<Question>();
-            SetField(ref _exam, Exam, nameof(Exam));
+            SetField(ref _test, Test, nameof(Test));
             SetField(ref _observableQuestions, ObservableQuestions, nameof(ObservableQuestions));
 
         }
         //Creates exam updates JSON and pushes to server in the end resets form
         private async void CreateExamButton_Click(object sender, RoutedEventArgs e)
         {
-            _examService.AddExam(Exam);
+            _service.AddExam(Test);
             var result = HandyControl.Controls.MessageBox.Show("Would you like to create another exam?", "", MessageBoxButton.YesNo);
             if(result == MessageBoxResult.Yes)
             {
-                Exam = new Exam();
+                Test = new Test();
                 ObservableQuestions = new ObservableCollection<Question>();
 
             }
@@ -138,7 +138,7 @@ namespace EasyTestMaker
                 {
                     try
                     {
-                        await _examService.UpdateExam(Exam, true);
+                        await _service.UpdateExam(Test, true);
                         ResetForm();
                     }
                     catch (Exception ex)
@@ -164,7 +164,7 @@ namespace EasyTestMaker
         {
             try
             {
-                await _examService.UpdateExam(Exam, true);
+                await _service.UpdateExam(Test, true);
             }
             catch(Exception ex)
             {

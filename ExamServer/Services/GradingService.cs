@@ -12,12 +12,12 @@ namespace Server.Services
         // Parameter: data - A GradingData object containing the student's answers and the exam.
         // Return value: An ExamResult object representing the student's grade and any errors.
 
-        public ExamResult Grade(GradingData data)
+        public TestResult Grade(GradingData data)
         {
             // Get a list of all the questions in the exam
-            var questions = data.Exam.Questions.ToList();
+            var questions = data.Test.Questions.ToList();
             // Get the total number of questions in the exam
-            int totalQuestions = data.Exam.Questions.Count;
+            int totalQuestions = data.Test.Questions.Count;
 
             // Initialize variables to keep track of the number of correct answers and any errors
             int correctAnswers = 0;
@@ -28,7 +28,7 @@ namespace Server.Services
             {
                 // Get the current question and the student's selected answer
                 Question question = questions[i];
-                int selectedAnswerIndex = data.StudentExam.SelectedAnswers[i];
+                int selectedAnswerIndex = data.StudentTest.SelectedAnswers[i];
 
                 // Get the index of the correct answer for the current question
                 int correctAnswerIndex = question.CorrectAnswerIndex;
@@ -49,12 +49,12 @@ namespace Server.Services
             int grade = (int)Math.Round((double)correctAnswers / totalQuestions * 100);
 
             // Generate and return an ExamResult object containing the student's grade and any errors
-            return GetExamResult(data.StudentId, data.StudentExam.StudentName, data.Exam.Id, grade, errors);
+            return GetExamResult(data.StudentId, data.Test.Id, grade, errors);
         }
 
-        public ExamResult GetExamResult(int studentId, string studentName, Guid id, int grade, List<Error> errors)
+        public TestResult GetExamResult(int studentId, Guid id, int grade, List<Error> errors)
         {
-            return new ExamResult(studentId, id, studentName, grade, errors);
+            return new TestResult(studentId, id, grade, errors);
         }
     
     }

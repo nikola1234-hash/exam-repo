@@ -11,20 +11,20 @@ namespace Server.EntityFramework
         {
         }
 
-        public DbSet<Exam> Exams { get; set; }
+        public DbSet<Test> Tests { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Error> Errors { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Student> Students { get; set; }
-        public DbSet<ExamResult> ExamResults { get; set; }
+        public DbSet<TestResult> TestResults { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Exam>().HasMany(i => i.Questions);
+            modelBuilder.Entity<Test>().HasMany(i => i.Questions);
             modelBuilder.Entity<Question>().HasMany(i => i.Answers);
 
-            modelBuilder.Entity<Exam>()
+            modelBuilder.Entity<Test>()
             .Property(s => s.TotalTime)
             .HasConversion(new TimeSpanToTicksConverter());
             modelBuilder.Entity<User>().HasData(

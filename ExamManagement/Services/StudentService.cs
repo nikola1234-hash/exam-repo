@@ -10,12 +10,12 @@ namespace EasyTestMaker.Services
     public class StudentService : IStudentService
     {
         private readonly HttpClient _httpClient;
-        private readonly ExamService _examService;
+        private readonly TestService _examService;
 
         public StudentService()
         {
             _httpClient = new HttpClient();
-            _examService = new ExamService();
+            _examService = new TestService();
         }
 
         // Fetch list of students from the API
@@ -33,7 +33,7 @@ namespace EasyTestMaker.Services
         }
 
         // Validate if the exam can be started based on the start date and time
-        public async Task<Exam> StartExam(Exam exam)
+        public async Task<Test> StartExam(Test exam)
         {
             var currentDate = DateTime.Now;
             var examDate = exam.StartDateTime.Date;
@@ -49,7 +49,7 @@ namespace EasyTestMaker.Services
         }
 
         // Submit exam answers and return true if successful, false otherwise
-        public async Task<bool> SubmitExamAnswers(Exam exam, int studentId, StudentExam studentExam)
+        public async Task<bool> SubmitExamAnswers(Test exam, int studentId, StudentTest studentExam)
         {
             var gradingData = new GradingData(studentExam, studentId, exam);
             var response = await _httpClient.PostAsJsonAsync("https://localhost:7129/api/result/", gradingData);
@@ -59,7 +59,7 @@ namespace EasyTestMaker.Services
         // Save exam result by calling the ExamService
         public async Task SaveExamResult(int studentId, string studentName, Guid id, int grade, List<Error> errors)
         {
-            var result = new ExamResult(studentId, studentName, id, grade, errors);
+            var result = new TestResult(studentId, studentName, id, grade, errors);
             await _examService.SubmitExamResult(result);
         }
     }

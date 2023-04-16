@@ -25,7 +25,7 @@ namespace EasyTestMaker
     {
 
 
-        private readonly ExamService _examService;
+        private readonly TestService _examService;
         private int _studentId;
 
         public int StudentId
@@ -36,9 +36,9 @@ namespace EasyTestMaker
                 _studentId = value;
             }
         }
-        private ObservableCollection<ExamResult> _examResults;
+        private ObservableCollection<TestResult> _examResults;
 
-        public ObservableCollection<ExamResult> ExamResults
+        public ObservableCollection<TestResult> ExamResults
         {
             get { return _examResults; }
             set
@@ -50,8 +50,8 @@ namespace EasyTestMaker
         public StudentStatsWindow()
         {
             InitializeComponent();
-            _examService = new ExamService();
-            ExamResults = new ObservableCollection<ExamResult>();
+            _examService = new TestService();
+            ExamResults = new ObservableCollection<TestResult>();
         }
         /// <summary>
         /// Shows overall stats for student
@@ -61,7 +61,7 @@ namespace EasyTestMaker
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var results = Task.Run(() => _examService.GetExamResultsByName(StudentId)).Result;
-            ExamResults = new ObservableCollection<ExamResult>(results);
+            ExamResults = new ObservableCollection<TestResult>(results);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

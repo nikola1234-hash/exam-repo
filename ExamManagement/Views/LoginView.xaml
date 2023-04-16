@@ -6,30 +6,42 @@
              xmlns:local="clr-namespace:EasyTestMaker.Views"
              mc:Ignorable="d" 
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors" xmlns:viewmodels="clr-namespace:EasyTestMaker.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:LoginViewModel}"
-             d:DesignHeight="450" d:DesignWidth="800" Background="Gray">
+             d:DesignHeight="450" d:DesignWidth="800" Background="#E0E0E0">
     <UserControl.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="BoolToVis" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
+    <Grid IsEnabled="{Binding IsVisible,Mode=TwoWay}">
         <behaviors:Interaction.Triggers>
             <behaviors:EventTrigger EventName="OnLoaded">
                 <behaviors:InvokeCommandAction Command="{Binding Loaded}" />
             </behaviors:EventTrigger>
         </behaviors:Interaction.Triggers>
-        <Grid Width="400" Height="400" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Red" ShowGridLines="True">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"></RowDefinition>
-                <RowDefinition Height="50"></RowDefinition>
-                <RowDefinition Height="50"></RowDefinition>
-                <RowDefinition Height="50"></RowDefinition>
-            </Grid.RowDefinitions>
+        <Border BorderBrush="White" BorderThickness="3" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="25" Background="#3A606E" >
+            <Border.Effect>
+                <DropShadowEffect Color="White"/>
+            </Border.Effect>
+            <Grid Width="400" Height="400" HorizontalAlignment="Center" VerticalAlignment="Center" ShowGridLines="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80"></RowDefinition>
+                    <RowDefinition Height="80"></RowDefinition>
+                    <RowDefinition Height="80"></RowDefinition>
+                    <RowDefinition Height="80"></RowDefinition>
+                </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" Content="{Binding InfoMessage}" Visibility="{Binding IsInfoVisible,Converter={StaticResource BoolToVis}}" FontSize="18" FontWeight="Bold"></Label>
-            <TextBox Grid.Row="1" Text="{Binding Username}" FontSize="18"></TextBox>
-            <TextBox Grid.Row="2" Text="{Binding Password}" FontSize="18"></TextBox>
-            <Button Command="{Binding Login}">Login</Button>
-        </Grid>
+                <TextBlock Grid.Row="0" Text="{Binding InfoMessage, Mode=TwoWay}" Visibility="{Binding IsInfoVisible,Converter={StaticResource BoolToVis}}" Foreground="White" FontSize="18" FontWeight="Bold"></TextBlock>
+                <StackPanel Orientation="Vertical" Grid.Row="1" Width="200">
+                    <TextBlock FontWeight="Bold" Margin="0, 0, 0 , 5" TextAlignment="Center" Text="Username" FontSize="18" Foreground="White"></TextBlock>
+                    <TextBox Grid.Row="1" Text="{Binding Username}" FontSize="18"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Grid.Row="2" Width="200">
+                    <TextBlock FontWeight="Bold"  Margin="0, 0, 0 , 5"  TextAlignment="Center" Text="Password" FontSize="18" Foreground="White"></TextBlock>
+                    <TextBox Grid.Row="1" Text="{Binding Password}" FontSize="18"></TextBox>
+                </StackPanel>
+                <Button Grid.Row="3" Height="30" Width="100" Command="{Binding Login}">Login</Button>
+            </Grid>
+        </Border>
+       
     </Grid>
 </UserControl>

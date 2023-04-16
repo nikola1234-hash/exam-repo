@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EasyTestMaker.Models
+﻿namespace EasyTestMaker.Models
 {
     public class GradingData
     {
-        public GradingData(StudentExam studentExam, int studentId, Exam exam)
+        public GradingData(StudentTest studentExam, int studentId, Test test)
         {
             StudentExam = studentExam;
             StudentId = studentId;
-            Exam = exam;
+            Test = test;
         }
 
-        public StudentExam StudentExam { get; set; }
+        public StudentTest StudentExam { get; set; }
         public int StudentId { get; set; }
-        public Exam Exam { get; set; }
+        public Test Test { get; set; }
     }
 }

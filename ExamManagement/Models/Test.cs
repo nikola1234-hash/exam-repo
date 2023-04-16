@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EasyTestMaker.Models
 {
-    public class Exam
+    public class Test
     {
         public string Name { get; set; }
         public Guid Id { get; set; }
@@ -19,7 +19,7 @@ namespace EasyTestMaker.Models
 
 
 
-        public Exam()
+        public Test()
         {
             Name = string.Empty;
             Id = Guid.NewGuid();

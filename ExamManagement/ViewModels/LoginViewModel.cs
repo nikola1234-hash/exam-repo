@@ -6,6 +6,7 @@ using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -30,13 +31,7 @@ namespace EasyTestMaker.ViewModels
             set => SetProperty(ref _password, value);
         }
 
-        private string _infoMessage;
-
-        public string InfoMessage
-        {
-            get { return _infoMessage; }
-            set=> SetProperty(ref _infoMessage, value);
-        }
+     
 
 
         public ICommand Login { get; private set;}
@@ -67,49 +62,53 @@ namespace EasyTestMaker.ViewModels
 
         private void InitializeCommands()
         {
-            Login = new DelegateCommand(OnLogin);
+            Login = new DelegateCommand(StartLogin);
             Loaded = new DelegateCommand(OnLoad);
+
+        }
+
+        private void StartLogin()
+        {
+            ChangeView(this);
         }
 
         private void OnLoad()
         {
-            
+           
         }
 
         private void InitializeModel()
         {
             IsVisible = true;
         }
-
-        private async void OnLogin()
+        public async Task<bool> StartLoginProcessAsync(SplashScreenViewModel model)
         {
+
+            var output = await OnLogin(model);
+            return output;
+        }
+        private async Task<bool> OnLogin(SplashScreenViewModel model)
+        {
+            model.Progress = 20;
             User user = new User(Username, Password);
             if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
             {
-                MessageBox.Show("You have to populate username and password");
-                return;
+               throw new ArgumentException("Username or password cannot be empty");
             }
-            IsVisible = false;
-            IsInfoVisible = true;
-            InfoMessage = "Please wait contacting server...";
-
+             model.Progress = 40;
             bool success = await _auth.Login(user);
-            if (success)
-            {
-                InfoMessage = "Login success";
-                Thread.Sleep(1000);
-             
-            }
-            else
-            {
-                IsVisible =true;
-                IsInfoVisible = false;
-                MessageBox.Show("Wrong username or password");
-            }
+            model.Progress = 80;
+
+            model.Progress = 100;
+            Thread.Sleep(1000);
+
+            ChangeView(success);
+        
+            return success;
         }
-        private void ChangeView()
+        private void ChangeView(object value)
         {
-            @event.GetEvent<ViewChangeEvent>().Publish(this);
+            @event.GetEvent<ViewChangeEvent>().Publish(value);
         }
         public void Dispose()
         {
