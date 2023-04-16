@@ -7,15 +7,15 @@ namespace EasyTestMaker.Services
 {
     public interface ITestService
     {
-        void AddExam(Test exam);
-        Task<Test> GetExamByName(string name);
-        Task<List<TestResult>> GetExamResults();
-        Task<List<TestResult>> GetExamResultsByName(int id);
-        Task<List<Test>> GetExamsAsync();
-        Task<Test> GetExamsStatistics(Guid examId);
+        void AddTest(Test exam);
+        Task<Test> GetTestByName(string name);
+        Task<List<TestResult>> GetTestResults();
+        Task<List<TestResult>> GetTestResultsById(int id);
+        Task<List<Test>> GetTestsAsync();
+        Task<Test> GetTestStatistics(Guid examId);
         Task PutToServer(Test exam);
-        Task SubmitExamResult(TestResult result);
-        Task UpdateExam(Test exam, bool pushToServer);
-        Task UpdateExamJson(Test exam);
+        Task GettestResults(TestResult result);
+        Task UpdateTest(Test exam, bool pushToServer);
+        Task<List<Test>> UpdateTestJson(Test exam);
     }
 }

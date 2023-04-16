@@ -247,7 +247,15 @@ namespace EasyTestMaker
                 }
                 else
                 {
-                    Question.Text = StringFromRichTextBox(questionText);
+                    if (IsImageQuestion)
+                    {
+                        Question.Text = "Image Question";
+                    }
+                    else
+                    {
+                        Question.Text = StringFromRichTextBox(questionText);
+                    }
+                    
                     RiseQuestionAddedEvent?.Invoke(this, new QuestionCustomEvent(Question));
                     MessageBox.Show("Question added");
                     this.Close();

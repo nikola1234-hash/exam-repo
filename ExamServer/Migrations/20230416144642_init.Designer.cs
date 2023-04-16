@@ -11,7 +11,7 @@ using Server.EntityFramework;
 
 namespace Server.Migrations
 {
-    [DbContext(typeof(ExamDbContext))]
+    [DbContext(typeof(TestDbContext))]
     [Migration("20230416144642_init")]
     partial class init
     {

@@ -30,6 +30,6 @@ namespace EasyTestMaker.Models
             Questions = new List<Question>();
 
         }
-
+  
     }
 }

@@ -12,12 +12,12 @@ namespace Server.Mvc.Controllers
     [ApiController]
     public class ResultController : ControllerBase
     {
-        private readonly ExamDbContext _context;
+        private readonly TestDbContext _context;
 
         private readonly GradingService gradingService;
 
 
-        public ResultController(ExamDbContext context)
+        public ResultController(TestDbContext context)
         {
             _context = context;
             gradingService = new GradingService();

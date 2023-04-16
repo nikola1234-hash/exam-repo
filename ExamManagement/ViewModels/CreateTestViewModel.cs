@@ -1,10 +1,9 @@
 ﻿using EasyTestMaker.Event;
 using EasyTestMaker.Models;
 using EasyTestMaker.Services;
-using HandyControl.Tools.Command;
+using HandyControl.Controls;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -15,6 +14,24 @@ namespace EasyTestMaker.ViewModels
     {
         private readonly ITestService _service = App.GetService<ITestService>();
 
+        private bool _canSave;
+
+        public bool CanSave
+        {
+            get { return _canSave; }
+            set => SetProperty(ref _canSave, value);
+        }
+
+
+
+        private QuestionViewModel _questionViewModel;
+
+        public QuestionViewModel QuestionViewModel
+        {
+            get { return _questionViewModel; }
+            set => SetProperty(ref _questionViewModel, value);
+        }
+
 
         private Test _test;
 
@@ -24,7 +41,23 @@ namespace EasyTestMaker.ViewModels
             set
             {
                 SetProperty(ref _test, value);
+              
             }
+        }
+        private Question _question;
+
+        public Question Question
+        {
+            get { return _question; }
+            set => SetProperty(ref _question, value);
+        }
+
+        private bool _isVisible;
+
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            set => SetProperty(ref _isVisible,value);
         }
 
 
@@ -36,12 +69,15 @@ namespace EasyTestMaker.ViewModels
             set
             {
                 SetProperty(ref _observableQuestions, value);
+               
             }
         }
 
         public ICommand CreateCommand { get;}
         public ICommand UpdateServerCommand { get;}
         public ICommand CreateQuestions { get;}
+      
+        public ICommand EditCommand { get;}
 
         public CreateTestViewModel()
         {
@@ -50,30 +86,47 @@ namespace EasyTestMaker.ViewModels
             CreateCommand = new Prism.Commands.DelegateCommand(CreateTest);
             UpdateServerCommand = new Prism.Commands.DelegateCommand(Update);
             CreateQuestions = new Prism.Commands.DelegateCommand(OpenQuestionsWindow);
+            EditCommand = new Prism.Commands.DelegateCommand(EditQuestion);
+            ObservableQuestions = new ObservableCollection<Question>();
+            IsVisible = true;
+         
         }
 
-        private void OpenQuestionsWindow()
+        private void EditQuestion()
         {
-            AddQuestionWindow addQuestionWindow = new AddQuestionWindow(Test.Id);
-            addQuestionWindow.RiseQuestionAddedEvent += AddQuestionWindow_RiseQuestionAddedEvent;
-            addQuestionWindow.Show();
-
+            if(Question == null)
+            {
+                return;
+            }
+            EditQuestionWindow editQuestionWindow = new EditQuestionWindow(Question);
+            editQuestionWindow.RiseQuestionAddedEvent += EditQuestionEvent;
+            editQuestionWindow.Show();
         }
 
-        private void AddQuestionWindow_RiseQuestionAddedEvent(object? sender, QuestionCustomEvent e)
+        private void EditQuestionEvent(object? sender, QuestionCustomEvent e)
         {
             if (e.Arg is Question question)
             {
+                Test.Questions.Remove(Question);
                 Test.Questions.Add(question);
+                ObservableQuestions.Remove(Question);
                 ObservableQuestions.Add(question);
             }
-
-            if (e.Arg is ObservableCollection<Question> questions)
-            {
-                Test.Questions = questions.ToList();
-                ObservableQuestions = questions;
+        }
+        private void OpenQuestionsWindow()
+        {
+            IsVisible = false;
+            QuestionViewModel = new QuestionViewModel(this);
             
-            }
+        }
+        private bool CanSaveTest()
+        {
+            var outout =  !string.IsNullOrEmpty(Test.Name)
+                   && !string.IsNullOrEmpty(Test.LecturerName)
+                   && Test.TotalTime.TotalSeconds > 0
+                   && Test.Questions.Count > 0;
+            return outout;
+            
         }
 
         private void Update()
@@ -83,10 +136,11 @@ namespace EasyTestMaker.ViewModels
 
         private void Initialize()
         {
-            Test = new Test();
+           Test = new Test();
             ObservableQuestions = new ObservableCollection<Question>();
-        }
 
+        }
+   
 
         public void Reset()
         {
@@ -99,7 +153,7 @@ namespace EasyTestMaker.ViewModels
         {
             try
             {
-                await _service.UpdateExam(Test, true);
+                await _service.UpdateTest(Test, true);
             }
             catch (Exception ex)
             {
@@ -108,7 +162,7 @@ namespace EasyTestMaker.ViewModels
         }
         private void CreateTest()
         {
-            _service.AddExam(Test);
+            _service.AddTest(Test);
             var result = HandyControl.Controls.MessageBox.Show("Would you like to create another test?", "", MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
             {
@@ -123,8 +177,11 @@ namespace EasyTestMaker.ViewModels
                 {
                     try
                     {
-                        Task.Run(() => PushToServer());
-                        Reset();
+                        Task.Run(() => PushToServer()).ContinueWith(s=>
+                        {
+                            Reset();
+                        });
+                        
                     }
                     catch (Exception ex)
                     {
@@ -139,10 +196,12 @@ namespace EasyTestMaker.ViewModels
             }
 
         }
-
+         
         private async Task PushToServer()
         {
-            await _service.UpdateExam(Test, true);
+
+           await _service.UpdateTest(Test, true);
+
         }
     }
 }

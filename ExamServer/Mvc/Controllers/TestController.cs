@@ -1,10 +1,7 @@
-﻿using Server.EntityFramework;
-using Server.EntityFramework.Entities;
-using Server.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using System.Runtime.InteropServices;
+using Server.EntityFramework;
+using Server.EntityFramework.Entities;
 
 namespace Server.Mvc.Controllers
 {
@@ -13,55 +10,52 @@ namespace Server.Mvc.Controllers
     public class TestController : ControllerBase
     {
 
-        private readonly ExamDbContext _dbContext;
-        public TestController(ExamDbContext dbContext)
+        private readonly TestDbContext _dbContext;
+        public TestController(TestDbContext dbContext)
         {
 
             _dbContext = dbContext;
         }
 
-        // Gets all exams and related questions and answers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Test>>> GetExams()
+        public async Task<ActionResult<IEnumerable<Test>>> GetTests()
         {
           
-           var exams = _dbContext.Tests.Include(s => s.Questions).ThenInclude(s=> s.Answers).ToList();
+           var test = _dbContext.Tests.Include(s => s.Questions).ThenInclude(s=> s.Answers).ToList();
        
           
-           return exams;
+           return test;
         }
 
-        // GET api/exams/{id}
         [HttpGet("{name}")]
-        public async Task<ActionResult<Test>> GetExam(string name)
+        public async Task<ActionResult<Test>> GetTest(string name)
         {
-            var exam = _dbContext.Tests.Include(s => s.Questions).ThenInclude(s => s.Answers).FirstOrDefault(s => s.Name.ToLower() == name.ToLower());
+            var test = _dbContext.Tests.Include(s => s.Questions).ThenInclude(s => s.Answers).FirstOrDefault(s => s.Name.ToLower() == name.ToLower());
 
-            if (exam == null)
+            if (test == null)
             {
                 return NotFound();
             }
            
-            return exam;
+            return test;
         }
      
 
-        // Adds a list of exams from json to db
         [HttpPost]
         [ProducesResponseType(201)]
         
-        public async Task<ActionResult<List<Test>>> CreateExams([FromBody]List<Test> exams)
+        public async Task<ActionResult<List<Test>>> CreateTests([FromBody]List<Test> tests)
         {
-            var dbExams = _dbContext.Tests.ToList();
-            foreach (var exam in exams)
+            var dbTests = _dbContext.Tests.ToList();
+            foreach (var test in tests)
             {
-                if (dbExams.FirstOrDefault(s=> s.Id == exam.Id) != null)
+                if (dbTests.FirstOrDefault(s=> s.Id == test.Id) != null)
                 {
                     continue;
                 }
                 else
                 {
-                    await _dbContext.AddAsync(exam);
+                    await _dbContext.AddAsync(test);
                 }
             }
             await _dbContext.SaveChangesAsync();
@@ -72,21 +66,21 @@ namespace Server.Mvc.Controllers
         // Updates edited exam
         // And its questions and answers
         [HttpPut]
-        public async Task<IActionResult> UpdateExam(Test exam)
+        public async Task<IActionResult> UpdateTest(Test test)
         {
-            var fromDb = await _dbContext.Tests.Where(s => s.Id == exam.Id).Include(s=> s.Questions).ThenInclude(s=> s.Answers).FirstOrDefaultAsync();
+            var fromDb = await _dbContext.Tests.Where(s => s.Id == test.Id).Include(s=> s.Questions).ThenInclude(s=> s.Answers).FirstOrDefaultAsync();
             if (fromDb != null)
             {
 
                 fromDb.Questions.Clear();
-                foreach(var question in exam.Questions)
+                foreach(var question in test.Questions)
                 {
                     fromDb.Questions.Add(question);
-                    fromDb.LecturerName = exam.LecturerName;
-                    fromDb.Name = exam.Name;
-                    fromDb.StartDateTime = exam.StartDateTime;
-                    fromDb.TotalTime = exam.TotalTime;
-                    fromDb.RandomSorting = exam.RandomSorting;
+                    fromDb.LecturerName = test.LecturerName;
+                    fromDb.Name = test.Name;
+                    fromDb.StartDateTime = test.StartDateTime;
+                    fromDb.TotalTime = test.TotalTime;
+                    fromDb.RandomSorting = test.RandomSorting;
                   
                 }
                 

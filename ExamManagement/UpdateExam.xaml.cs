@@ -63,7 +63,7 @@ namespace EasyTestMaker
         /// </summary>
         public void InitializeExamList()
         {
-            var exams = Task.Run(() => _examService.GetExamsAsync()).Result;
+            var exams = Task.Run(() => _examService.GetTestsAsync()).Result;
             Exams = new ObservableCollection<Test>(exams);
         }
         /// <summary>
@@ -80,7 +80,7 @@ namespace EasyTestMaker
 
         private void EditExamWindow_RiserListChanged(object? sender, CustomEventArgs e)
         {
-            var exams = Task.Run(() => _examService.GetExamsAsync()).Result;
+            var exams = Task.Run(() => _examService.GetTestsAsync()).Result;
             Exams = new ObservableCollection<Test>(exams);
         }
 

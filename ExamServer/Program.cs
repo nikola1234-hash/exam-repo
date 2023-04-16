@@ -6,8 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<ExamDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("ExamDB")));
+builder.Services.AddDbContext<TestDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("TestDB"), builder =>
+            {
+                builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+            }));
 
 builder.Services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
 {

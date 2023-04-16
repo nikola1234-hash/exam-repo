@@ -60,7 +60,7 @@ namespace EasyTestMaker.Services
         public async Task SaveExamResult(int studentId, string studentName, Guid id, int grade, List<Error> errors)
         {
             var result = new TestResult(studentId, studentName, id, grade, errors);
-            await _examService.SubmitExamResult(result);
+            await _examService.GettestResults(result);
         }
     }
 }

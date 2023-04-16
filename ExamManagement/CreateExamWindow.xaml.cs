@@ -123,7 +123,7 @@ namespace EasyTestMaker
         //Creates exam updates JSON and pushes to server in the end resets form
         private async void CreateExamButton_Click(object sender, RoutedEventArgs e)
         {
-            _service.AddExam(Test);
+            _service.AddTest(Test);
             var result = HandyControl.Controls.MessageBox.Show("Would you like to create another exam?", "", MessageBoxButton.YesNo);
             if(result == MessageBoxResult.Yes)
             {
@@ -138,7 +138,7 @@ namespace EasyTestMaker
                 {
                     try
                     {
-                        await _service.UpdateExam(Test, true);
+                        await _service.UpdateTest(Test, true);
                         ResetForm();
                     }
                     catch (Exception ex)
@@ -164,7 +164,7 @@ namespace EasyTestMaker
         {
             try
             {
-                await _service.UpdateExam(Test, true);
+                await _service.UpdateTest(Test, true);
             }
             catch(Exception ex)
             {

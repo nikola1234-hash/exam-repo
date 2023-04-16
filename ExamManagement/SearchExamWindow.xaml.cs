@@ -199,7 +199,7 @@ namespace EasyTestMaker
             IsProgressVisible = true;
             if (!string.IsNullOrEmpty(SearchBar))
             {
-                Test exam = await _examService.GetExamByName(SearchBar);
+                Test exam = await _examService.GetTestByName(SearchBar);
                 if(exam == null || string.IsNullOrEmpty(exam.Name))
                 {
                     IsProgressVisible = false;

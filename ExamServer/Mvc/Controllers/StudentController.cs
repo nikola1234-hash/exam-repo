@@ -8,9 +8,9 @@ namespace Server.Mvc.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
-        private readonly ExamDbContext _dbContext;
+        private readonly TestDbContext _dbContext;
 
-        public StudentController(ExamDbContext dbContext)
+        public StudentController(TestDbContext dbContext)
         {
             _dbContext = dbContext;
         }

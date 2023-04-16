@@ -19,97 +19,98 @@ namespace EasyTestMaker.Services
             _httpClient = new HttpClient();
         }
 
-        public async Task<List<Test>> GetExamsAsync()
+        public async Task<List<Test>> GetTestsAsync()
         {
-            return await _httpClient.GetFromJsonAsync<List<Test>>("https://localhost:7129/api/exam");
+            return await _httpClient.GetFromJsonAsync<List<Test>>("https://localhost:7129/api/test");
         }
 
-        public async Task<List<TestResult>> GetExamResultsByName(int id)
+        public async Task<List<TestResult>> GetTestResultsById(int id)
         {
             return await _httpClient.GetFromJsonAsync<List<TestResult>>($"https://localhost:7129/api/result/{id}");
         }
 
-        public async Task<List<TestResult>> GetExamResults()
+        public async Task<List<TestResult>> GetTestResults()
         {
             return await _httpClient.GetFromJsonAsync<List<TestResult>>("https://localhost:7129/api/result");
         }
 
-        public async Task<Test> GetExamByName(string name)
+        public async Task<Test> GetTestByName(string name)
         {
-            return await _httpClient.GetFromJsonAsync<Test>($"https://localhost:7129/api/exam/{name}");
+            return await _httpClient.GetFromJsonAsync<Test>($"https://localhost:7129/api/Test/{name}");
         }
 
-        public void AddExam(Test exam)
+        public void AddTest(Test test)
         {
-            SaveExamToJson(exam, Path);
+            SaveExamToJson(test, Path);
         }
 
-        public async Task PutToServer(Test exam)
+        public async Task PutToServer(Test test)
         {
-            await _httpClient.PutAsJsonAsync("https://localhost:7129/api/exam", exam);
+            await _httpClient.PutAsJsonAsync("https://localhost:7129/api/test", test);
         }
 
-        public async Task UpdateExamJson(Test exam)
+        public async Task<List<Test>> UpdateTestJson(Test test)
         {
-            string json = File.ReadAllText(Path + "/exams.json");
-            List<Test> exams = System.Text.Json.JsonSerializer.Deserialize<List<Test>>(json);
-            var examToUpdate = exams.FirstOrDefault(s => s.Id == exam.Id);
+            string json = File.ReadAllText(Path + "/tests.json");
+            List<Test> tests = System.Text.Json.JsonSerializer.Deserialize<List<Test>>(json);
+            var testUpdate = tests.FirstOrDefault(s => s.Id == test.Id);
 
-            if (examToUpdate != null)
+            if (testUpdate != null)
             {
-                exams.Remove(examToUpdate);
-                exams.Add(exam);
-                json = System.Text.Json.JsonSerializer.Serialize(exams);
-                File.WriteAllText(Path + "/exams.json", json);
+                tests.Remove(testUpdate);
+                tests.Add(test);
+                json = System.Text.Json.JsonSerializer.Serialize(test);
+                File.WriteAllText(Path + "/tests.json", json);
             }
+            return tests;
         }
 
-        public async Task UpdateExam(Test exam, bool pushToServer)
+        public async Task UpdateTest(Test test, bool pushToServer)
         {
-            await UpdateExamJson(exam);
+            var tests = await UpdateTestJson(test);
 
             if (pushToServer)
             {
-                var response = await _httpClient.PostAsJsonAsync("https://localhost:7129/api/exam", exam);
+                var response = await _httpClient.PostAsJsonAsync("https://localhost:7129/api/test", tests);
             }
         }
 
-        public async Task SubmitExamResult(TestResult result)
+        public async Task GettestResults(TestResult result)
         {
             await _httpClient.PostAsJsonAsync("https://localhost:7129/api/result", result);
         }
 
-        public async Task<Test> GetExamsStatistics(Guid examId)
+        public async Task<Test> GetTestStatistics(Guid id)
         {
-            return await _httpClient.GetFromJsonAsync<Test>($"https://localhost:7129/api/results/{examId}");
+            return await _httpClient.GetFromJsonAsync<Test>($"https://localhost:7129/api/results/{id}");
         }
 
-        private void SaveExamToJson(Test exam, string filePath)
+        private void SaveExamToJson(Test test, string filePath)
         {
             if (!Directory.Exists(Path))
             {
                 Directory.CreateDirectory(Path);
             }
 
-            if (File.Exists(Path + "/exams.json"))
+            if (File.Exists(Path + "/tests.json"))
             {
-                string json = File.ReadAllText(Path + "/exams.json");
-                List<Test> exams = System.Text.Json.JsonSerializer.Deserialize<List<Test>>(json);
+                string json = File.ReadAllText(Path + "/tests.json");
+                List<Test> tests = System.Text.Json.JsonSerializer.Deserialize<List<Test>>(json);
 
-                if (!exams.Any(s => s.Id == exam.Id))
+                if (!tests.Any(s => s.Id == test.Id))
                 {
-                    exams.Add(exam);
+                    tests.Add(test);
                 }
 
-                json = System.Text.Json.JsonSerializer.Serialize(exams);
-                File.WriteAllText(Path + "/exams.json", json);
+                json = System.Text.Json.JsonSerializer.Serialize(tests);
+                File.WriteAllText(Path + "/tests.json", json);
             }
             else
             {
-                List<Test> examList = new List<Test> { exam };
-                string examJson = System.Text.Json.JsonSerializer.Serialize(examList);
+                List<Test> testList = new List<Test> { test };
+                string examJson = System.Text.Json.JsonSerializer.Serialize(testList);
 
-                File.WriteAllText(Path + "/exams.json", examJson);
+                File.WriteAllText(Path + "/tests.json", examJson);
             }
         }
     }

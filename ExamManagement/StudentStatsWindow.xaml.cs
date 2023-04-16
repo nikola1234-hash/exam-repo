@@ -60,7 +60,7 @@ namespace EasyTestMaker
         /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var results = Task.Run(() => _examService.GetExamResultsByName(StudentId)).Result;
+            var results = Task.Run(() => _examService.GetTestResultsById(StudentId)).Result;
             ExamResults = new ObservableCollection<TestResult>(results);
         }
 

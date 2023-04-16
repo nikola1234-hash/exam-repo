@@ -5,9 +5,9 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Server.EntityFramework
 {
-    public class ExamDbContext : DbContext
+    public class TestDbContext : DbContext
     {
-        public ExamDbContext(DbContextOptions<ExamDbContext> options) : base(options)
+        public TestDbContext(DbContextOptions<TestDbContext> options) : base(options)
         {
         }
 
@@ -34,13 +34,7 @@ namespace Server.EntityFramework
                Username = "Lector",
                Password = "123",
            });
-            modelBuilder.Entity<User>().HasData(
-              new User
-              {
-                  Id = 2,
-                  Username = "Student",
-                  Password = "123",
-              });
+         
         }
      
     }

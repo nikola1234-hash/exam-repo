@@ -88,7 +88,7 @@ namespace EasyTestMaker
         /// </summary>
         private async void GetGrades()
         {
-            List<TestResult> results = await _examService.GetExamResults();
+            List<TestResult> results = await _examService.GetTestResults();
 
             if (results == null)
             {
@@ -99,7 +99,7 @@ namespace EasyTestMaker
             {
                 if(result.Errors.Count == 0)
                 {
-                    var exams =  await _examService.GetExamsAsync();
+                    var exams =  await _examService.GetTestsAsync();
                     CorrectAnswers += exams.Where(s=> s.Id == result.TestId).FirstOrDefault().Questions.Count();
                 }
                 foreach(var error in result.Errors)

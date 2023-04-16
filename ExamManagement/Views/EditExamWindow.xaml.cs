@@ -182,7 +182,7 @@ namespace EasyTestMaker
         //This methos adds exams to JSON file
         private async void CreateExamButton_Click(object sender, RoutedEventArgs e)
         {
-            _examService.AddExam(Exam);
+            _examService.AddTest(Exam);
             HandyControl.Controls.MessageBox.Show("Successfull, will redirect you to exam list window");
             this.Close();    
             
@@ -198,7 +198,7 @@ namespace EasyTestMaker
         {
             try
             {
-                await _examService.UpdateExam(Exam, true);
+                await _examService.UpdateTest(Exam, true);
             }
             catch(Exception ex)
             {
@@ -231,7 +231,7 @@ namespace EasyTestMaker
         {
             try
             {
-                Task.Run(() => _examService.UpdateExamJson(Exam));
+                Task.Run(() => _examService.UpdateTestJson(Exam));
                 Task.Run(() => _examService.PutToServer(Exam));
 
                 HandyControl.Controls.MessageBox.Show("Successfull, will redirect you to exam list window", "Success");

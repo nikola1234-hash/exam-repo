@@ -10,7 +10,7 @@ using Server.EntityFramework;
 
 namespace Server.Migrations
 {
-    [DbContext(typeof(ExamDbContext))]
+    [DbContext(typeof(TestDbContext))]
     partial class ExamDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
