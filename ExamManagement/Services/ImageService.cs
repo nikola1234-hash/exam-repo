@@ -1,53 +1,44 @@
-﻿using System;
+﻿using EasyTestMaker.Services;
 using System.IO;
 using System.Windows.Media.Imaging;
+using System;
 
-namespace ExamManagement.Services
+public class ImageService : IImageService
 {
-    public class ImageService
+    // Set the base directory path for storing images
+    private string _basePath = Path.Combine(Directory.GetCurrentDirectory(), "Temp", "img");
+
+    // Add an image to the specified directory
+    public string AddImage(string imagePath, Guid newPath)
     {
-        // Path to the directory
-        private string basePath = Directory.GetCurrentDirectory() + "/Temp"+"/img";
+        // Combine the base path with the new path to create a directory path for the image
+        var directoryPath = Path.Combine(_basePath, newPath.ToString());
 
-        // Adds an image to the directory specified by the new path.
-        public string AddImage(string imagePath, Guid newPath)
+        // Create the directory if it doesn't exist
+        if (!Directory.Exists(directoryPath))
         {
-            // Combines the base path with the new path to create a directory path for the image.
-            var directPath = basePath + "/" + newPath.ToString();
-
-            // Checks if the directory already exists.
-            if (Directory.Exists(basePath + "/" + directPath))
-            {
-                // Copies the image to the directory.
-                File.Copy(imagePath, directPath + "/" + Path.GetFileName(imagePath));
-
-                // Returns the full path to the image.
-                return directPath + "/" + Path.GetFileName(imagePath);
-            }
-            else
-            {
-                // Creates the directory and copies the image to it.
-                Directory.CreateDirectory(directPath);
-                File.Copy(imagePath, directPath + "/" + Path.GetFileName(imagePath));
-
-                // Returns the full path to the image.
-                return directPath + "/" + Path.GetFileName(imagePath);
-            }
+            Directory.CreateDirectory(directoryPath);
         }
 
-        // Retrieves an image from the specified path and returns it as a BitmapImage.
-        public BitmapImage GetMedia(string path)
-        {
-            BitmapImage bitmap = new BitmapImage();
+        // Copy the image to the directory
+        var newImagePath = Path.Combine(directoryPath, Path.GetFileName(imagePath));
+        File.Copy(imagePath, newImagePath);
 
-            // Initializes the BitmapImage and sets the URI source to the path.
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri(path, UriKind.Absolute);
-            bitmap.EndInit();
+        // Return the full path to the copied image
+        return newImagePath;
+    }
 
-            // Returns the BitmapImage.
-            return bitmap;
-        }
+    // Retrieve an image from the specified path and return it as a BitmapImage
+    public BitmapImage GetMedia(string path)
+    {
+        BitmapImage bitmap = new BitmapImage();
+
+        // Initialize the BitmapImage and set the URI source to the path
+        bitmap.BeginInit();
+        bitmap.UriSource = new Uri(path, UriKind.Absolute);
+        bitmap.EndInit();
+
+        // Return the BitmapImage
+        return bitmap;
     }
 }
-

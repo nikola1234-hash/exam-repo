@@ -1,5 +1,5 @@
-﻿using ExamManagement.Models;
-using ExamManagement.Services;
+﻿using EasyTestMaker.Models;
+using EasyTestMaker.Services;
 using HandyControl.Tools.Converter;
 using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
@@ -21,7 +21,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ExamManagement
+namespace EasyTestMaker
 {
     /// <summary>
     /// Interaction logic for CreateExamWindow.xaml

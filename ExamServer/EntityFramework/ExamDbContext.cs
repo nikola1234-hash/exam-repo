@@ -1,9 +1,9 @@
-﻿using ExamServer.EntityFramework.Entities;
+﻿using Server.EntityFramework.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace ExamServer.EntityFramework
+namespace Server.EntityFramework
 {
     public class ExamDbContext : DbContext
     {

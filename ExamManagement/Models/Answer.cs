@@ -1,4 +1,4 @@
-﻿namespace ExamManagement.Models
+﻿namespace EasyTestMaker.Models
 {
     public class Answer
     {

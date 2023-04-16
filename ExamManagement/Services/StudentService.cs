@@ -1,93 +1,66 @@
-﻿using ExamManagement.Models;
+﻿using EasyTestMaker.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
-namespace ExamManagement.Services
+namespace EasyTestMaker.Services
 {
-    public class StudentService
+    public class StudentService : IStudentService
     {
         private readonly HttpClient _httpClient;
-        private readonly ExamService examService;
-        // Declare constructor
+        private readonly ExamService _examService;
+
         public StudentService()
         {
             _httpClient = new HttpClient();
-            examService = new ExamService();
+            _examService = new ExamService();
         }
 
-        // Get a list of students asynchronously
+        // Fetch list of students from the API
         public async Task<List<Student>> GetStudentsAsync()
         {
-            var response = await _httpClient.GetAsync($"https://localhost:7129/api/student");
-            var entity = await response.Content.ReadFromJsonAsync<List<Student>>();
-            return entity;
+            var response = await _httpClient.GetAsync("https://localhost:7129/api/student");
+            return await response.Content.ReadFromJsonAsync<List<Student>>();
         }
 
-        // Update student information
+        // Update student information using the API
         public async Task<Student> UpdateStudentInformation(Student student)
         {
-            var response = await _httpClient.PostAsJsonAsync($"https://localhost:7129/api/student", student);
-            var entity = await response.Content.ReadFromJsonAsync<Student>();
-            return entity;
+            var response = await _httpClient.PostAsJsonAsync("https://localhost:7129/api/student", student);
+            return await response.Content.ReadFromJsonAsync<Student>();
         }
 
-        // Start exam
+        // Validate if the exam can be started based on the start date and time
         public async Task<Exam> StartExam(Exam exam)
         {
-            // Check if exam is active
-            if (exam.StartDateTime.Date > DateTime.Now.Date)
+            var currentDate = DateTime.Now;
+            var examDate = exam.StartDateTime.Date;
+            var examHour = exam.StartDateTime.Hour;
+            var currentHour = currentDate.Hour;
+
+            if (examDate != currentDate.Date || examHour != currentHour)
             {
-                throw new InvalidOperationException("Your exam is not yet active");
+                throw new InvalidOperationException("Your exam is not yet active or has expired");
             }
-            // Check if exam has expired
-            if (exam.StartDateTime.Date < DateTime.Now.Date)
-            {
-                throw new InvalidOperationException("Your exam has expired");
-            }
-            // Check if exam has expired by hour
-            if (exam.StartDateTime.Hour < DateTime.Now.Hour)
-            {
-                throw new InvalidOperationException("Your exam has expired");
-            }
-            // Check if exam is active by hour
-            if (exam.StartDateTime.Hour > DateTime.Now.Hour)
-            {
-                throw new InvalidOperationException("Your exam is not yet active");
-            }
+
             return exam;
         }
 
-        // Submit exam answers
+        // Submit exam answers and return true if successful, false otherwise
         public async Task<bool> SubmitExamAnswers(Exam exam, int studentId, StudentExam studentExam)
         {
-            // Create grading data object
-            GradingData gradingData = new GradingData(studentExam, studentId, exam);
-
-            // Submit grading data
-            var response = await _httpClient.PostAsJsonAsync<GradingData>($"https://localhost:7129/api/result/", gradingData);
-
-            // Check if response is successful
-            if (response.IsSuccessStatusCode)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var gradingData = new GradingData(studentExam, studentId, exam);
+            var response = await _httpClient.PostAsJsonAsync("https://localhost:7129/api/result/", gradingData);
+            return response.IsSuccessStatusCode;
         }
 
-        // Save exam result
+        // Save exam result by calling the ExamService
         public async Task SaveExamResult(int studentId, string studentName, Guid id, int grade, List<Error> errors)
         {
-            // Create ExamResult object
-            ExamResult result = new ExamResult(studentId, studentName, id, grade, errors);
-
-            // Submit exam result
-            await examService.SubmitExamResult(result);
+            var result = new ExamResult(studentId, studentName, id, grade, errors);
+            await _examService.SubmitExamResult(result);
         }
     }
 }

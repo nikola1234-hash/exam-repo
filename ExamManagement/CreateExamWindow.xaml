@@ -1,6 +1,6 @@
-﻿<hc:Window x:Class="ExamManagement.CreateExamWindow"
+﻿<hc:Window x:Class="EasyTestMaker.CreateExamWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:models="clr-namespace:ExamManagement.Models" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:models="clr-namespace:EasyTestMaker.Models" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         Title="Create Exam" Height="500" Width="600"
         xmlns:hc="https://handyorg.github.io/handycontrol"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"

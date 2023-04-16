@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExamManagement.Event
+namespace EasyTestMaker.Event
 {
     public class QuestionCustomEvent
     {

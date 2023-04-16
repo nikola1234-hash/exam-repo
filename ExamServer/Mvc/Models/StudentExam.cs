@@ -1,4 +1,4 @@
-﻿namespace ExamServer.Mvc.Models
+﻿namespace Server.Mvc.Models
 {
     public class StudentExam
     {

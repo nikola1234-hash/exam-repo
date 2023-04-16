@@ -1,5 +1,5 @@
-using ExamServer.EntityFramework;
-using ExamServer.Services;
+using Server.EntityFramework;
+using Server.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

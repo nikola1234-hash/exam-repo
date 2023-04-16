@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExamManagement.Storage
+namespace EasyTestMaker.Storage
 {
     public static class Storage
     {

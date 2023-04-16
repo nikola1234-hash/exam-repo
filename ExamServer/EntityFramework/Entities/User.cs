@@ -1,6 +1,6 @@
 ﻿using Azure.Identity;
 
-namespace ExamServer.EntityFramework.Entities
+namespace Server.EntityFramework.Entities
 {
     public class User : BaseObject
     { 

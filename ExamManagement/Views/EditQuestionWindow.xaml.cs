@@ -1,6 +1,6 @@
-﻿using ExamManagement.Event;
-using ExamManagement.Models;
-using ExamManagement.Services;
+﻿using EasyTestMaker.Event;
+using EasyTestMaker.Models;
+using EasyTestMaker.Services;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Windows.Documents;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 
-namespace ExamManagement
+namespace EasyTestMaker
 {
     /// <summary>
     /// Interaction logic for AddQuestionWindow.xaml

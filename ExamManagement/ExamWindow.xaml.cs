@@ -7,13 +7,13 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using ExamManagement.Models;
-using ExamManagement.Services;
-using ExamManagement.Storage;
-using ExamManagement.UserControls;
+using EasyTestMaker.Models;
+using EasyTestMaker.Services;
+using EasyTestMaker.Storage;
+using EasyTestMaker.UserControls;
 using HandyControl.Controls;
 
-namespace ExamManagement
+namespace EasyTestMaker
 {
     /// <summary>
     /// Interaction logic for ExamWindow.xaml

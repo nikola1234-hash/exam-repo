@@ -1,7 +1,7 @@
 ﻿using Prism.Events;
 using System;
 
-namespace ExamManagement.Event
+namespace EasyTestMaker.Event
 {
     public class QuestionEventArgs 
     { 

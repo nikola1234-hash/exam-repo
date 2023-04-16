@@ -1,12 +1,12 @@
-﻿using ExamManagement.Models;
-using ExamManagement.Services;
+﻿using EasyTestMaker.Models;
+using EasyTestMaker.Services;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ExamManagement
+namespace EasyTestMaker
 {
     /// <summary>
     /// Interaction logic for UpdateExam.xaml

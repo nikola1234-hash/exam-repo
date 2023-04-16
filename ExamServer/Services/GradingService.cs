@@ -1,7 +1,7 @@
-﻿using ExamServer.EntityFramework.Entities;
-using ExamServer.Mvc.Models;
+﻿using Server.EntityFramework.Entities;
+using Server.Mvc.Models;
 
-namespace ExamServer.Services
+namespace Server.Services
 {
     public class GradingService
     {

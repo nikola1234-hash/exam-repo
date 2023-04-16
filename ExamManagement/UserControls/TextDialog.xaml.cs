@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ExamManagement.UserControls
+namespace EasyTestMaker.UserControls
 {
     /// <summary>
     /// Interaction logic for TextDialog.xaml

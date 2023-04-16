@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExamManagement.Models
+namespace EasyTestMaker.Models
 {
     public class Question : BaseObject
     {

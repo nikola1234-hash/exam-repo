@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace ExamServer.Migrations
+namespace Server.Migrations
 {
     /// <inheritdoc />
     public partial class ErrorModelRefactor : Migration

@@ -1,5 +1,5 @@
-﻿using ExamManagement.Models;
-using ExamManagement.Services;
+﻿using EasyTestMaker.Models;
+using EasyTestMaker.Services;
 using HandyControl.Tools.Extension;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ExamManagement
+namespace EasyTestMaker
 {
 
     public partial class EditExamWindow : INotifyPropertyChanged, IDisposable

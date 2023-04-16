@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ExamServer.EntityFramework.Entities
+namespace Server.EntityFramework.Entities
 {
     public class BaseObject
     {

@@ -1,4 +1,5 @@
-﻿using ExamManagement.Models;
+﻿using EasyTestMaker.Constants;
+using EasyTestMaker.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,9 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExamManagement.Services
+namespace EasyTestMaker.Services
 {
-    public class AuthService
+    public class AuthService : IAuthService
     {
         private readonly HttpClient _httpClient;
         public AuthService()
@@ -25,13 +26,13 @@ namespace ExamManagement.Services
         public async Task<bool> Login(User user)
         {
             var response = await _httpClient.PostAsJsonAsync<User>($"https://localhost:7129/api/Authentication", user);
-            var t = await response.Content.ReadAsStringAsync();
-            var l = JsonConvert.DeserializeObject<User>(t);
+            var json = await response.Content.ReadAsStringAsync();
+            var responseUser = JsonConvert.DeserializeObject<User>(json);
 
             if (response.IsSuccessStatusCode)
             {
-                Storage.Storage.UserId = l.Id;
-                Storage.Storage.User = l.Username;
+                Const.UserId = responseUser.Id;
+                Const.Username = responseUser.Username;
                 return true;
             }
             else

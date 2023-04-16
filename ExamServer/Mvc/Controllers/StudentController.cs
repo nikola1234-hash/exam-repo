@@ -1,8 +1,8 @@
-﻿using ExamServer.EntityFramework;
-using ExamServer.EntityFramework.Entities;
+﻿using Server.EntityFramework;
+using Server.EntityFramework.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ExamServer.Mvc.Controllers
+namespace Server.Mvc.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

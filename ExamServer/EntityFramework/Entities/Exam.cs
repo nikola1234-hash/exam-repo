@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ExamServer.EntityFramework.Entities
+namespace Server.EntityFramework.Entities
 {
     public class Exam
     {
