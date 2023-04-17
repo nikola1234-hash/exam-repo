@@ -189,8 +189,8 @@ namespace Server.Migrations
                         {
                             Id = 1,
                             IsLector = true,
-                            Password = "123",
-                            Username = "Lector"
+                            Password = "123456",
+                            Username = "Prof"
                         });
                 });
 

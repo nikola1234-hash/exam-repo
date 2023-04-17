@@ -4,6 +4,7 @@ using HandyControl.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -89,10 +90,11 @@ namespace EasyTestMaker.ViewModels
                 }
                 foreach (var error in result.Errors)
                 {
-
+                    
                     if (error.SelectedAnswer == error.CorrectAnswer)
                     {
                         CorrectAnswers++;
+                       
                     }
                     else
                     {
@@ -102,7 +104,9 @@ namespace EasyTestMaker.ViewModels
             }
 
             AverageGrade = results.Average(x => x.Grade);
-            NumberOfStudents = results.Select(s => s.StudentId).Count();
+            NumberOfStudents = results.Select(s => s.StudentId).Count(); ;
+         
+            
 
 
         }

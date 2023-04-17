@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <Folder Include="Temp\img\" />
-    <Folder Include="Temp\file\" />
   </ItemGroup>
 
   <ItemGroup>

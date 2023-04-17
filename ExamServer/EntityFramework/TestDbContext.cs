@@ -31,8 +31,8 @@ namespace Server.EntityFramework
            new User
            {
                Id = 1,
-               Username = "Lector",
-               Password = "123",
+               Username = "Prof",
+               Password = "123456",
                IsLector = true
            });
          

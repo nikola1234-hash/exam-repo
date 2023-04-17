@@ -6,43 +6,48 @@
              xmlns:local="clr-namespace:EasyTestMaker.Views"
              mc:Ignorable="d" 
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:viewmodels="clr-namespace:EasyTestMaker.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:QuestionViewModel}"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+            >
     <UserControl.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="BoolToVis" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Margin="20 40 0 0">
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="450"/>
+            <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="450"/>
             <ColumnDefinition Width="450"/>
         </Grid.ColumnDefinitions>
+        <Border Grid.Column="0"  BorderThickness="0.3"  > 
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="150"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Question" Grid.Row="0" Grid.Column="0" FontSize="20"></TextBlock>
+                <xctk:RichTextBox Grid.Row="1" VerticalAlignment="Top"   Text="{Binding QuestionText,Mode=TwoWay}"  VerticalScrollBarVisibility="Visible"  Grid.Column="0" Width="300" Height="300"  Visibility="{Binding Path = IsTextQuestion,Converter={StaticResource BoolToVis}}">
+                    <xctk:RichTextBox.TextFormatter>
+                        <xctk:PlainTextFormatter />
+                    </xctk:RichTextBox.TextFormatter>
 
-        <Grid Grid.Column="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300"/>
-                <ColumnDefinition Width="150"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="500"/>
-            </Grid.RowDefinitions>
-            <TextBlock Text="Question" Grid.Row="0" Grid.Column="0" FontSize="20"></TextBlock>
-            <xctk:RichTextBox Grid.Row="1"   Text="{Binding QuestionText,Mode=TwoWay}"  VerticalScrollBarVisibility="Visible"  MaxHeight="500"  Grid.Column="0" Width="300" Height="600"  Visibility="{Binding Path = IsTextQuestion,Converter={StaticResource BoolToVis}}">
-                <xctk:RichTextBox.TextFormatter>
-                    <xctk:PlainTextFormatter />
-                </xctk:RichTextBox.TextFormatter>
+                </xctk:RichTextBox>
+                <Image Source="{Binding Image, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Grid.Row="1" Grid.Column="0" Visibility="{Binding Path=IsImageQuestion, Converter ={StaticResource BoolToVis}}"  Width="300" Height="500"></Image>
+                <StackPanel Grid.Column="0" Grid.Row="2" Margin="10" Orientation="Horizontal" VerticalAlignment="Top">
+                    <CheckBox  IsChecked="{Binding IsImageQuestion, Mode=TwoWay}" Content="Is Image?"></CheckBox>
+                    <CheckBox Margin="20 0 0 0"  IsChecked="{Binding RandomizeAnswers, Mode=TwoWay}" Content="Randomize"></CheckBox>
+                    <Button Background="SkyBlue" Foreground="White" Margin="30 0 0 0" Command="{Binding AddImageCommand}" Content="Add Image" Visibility="{Binding Path= IsImageQuestion, Converter= {StaticResource BoolToVis}}"></Button>
 
-            </xctk:RichTextBox>
-            <Image Source="{Binding Image, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Grid.Row="1" Grid.Column="0" Visibility="{Binding Path=IsImageQuestion, Converter ={StaticResource BoolToVis}}"  Width="300" Height="500"></Image>
-            <StackPanel Grid.Column="1" Grid.Row="1" Margin="10" Orientation="Vertical" VerticalAlignment="Bottom">
-                <CheckBox  IsChecked="{Binding IsImageQuestion, Mode=TwoWay}" Content="Is Question in image format?"></CheckBox>
-                <CheckBox Margin="0 20 0 0"  IsChecked="{Binding RandomizeAnswers, Mode=TwoWay}" Content="Randomize Answers?"></CheckBox>
-                <Button Margin="0 20 0 0" Command="{Binding AddImageCommand}" Content="Add Image" Visibility="{Binding Path= IsImageQuestion, Converter= {StaticResource BoolToVis}}"></Button>
-
-            </StackPanel>
-        </Grid>
+                </StackPanel>
+            </Grid>
+        </Border>
+      
         <Grid Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="250"/>
@@ -50,18 +55,19 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
-                <RowDefinition Height="500"/>
+                <RowDefinition Height="300"/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <TextBlock Text="Answer" Grid.Row="0" Grid.Column="0" FontSize="20"></TextBlock>
-            <xctk:RichTextBox Grid.Row="1" Text="{Binding AnswerText,Mode=TwoWay}" MinWidth="300" MinHeight="500" Grid.Column="0" HorizontalScrollBarVisibility="Visible"
+            <xctk:RichTextBox Grid.Row="1" Text="{Binding AnswerText,Mode=TwoWay}" MinWidth="300" VerticalAlignment="Top" Height="300" Grid.Column="0" HorizontalScrollBarVisibility="Visible"
               VerticalScrollBarVisibility="Visible" MaxHeight="500" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" >
                 <xctk:RichTextBox.TextFormatter>
                     <xctk:PlainTextFormatter />
                 </xctk:RichTextBox.TextFormatter>
             </xctk:RichTextBox>
-            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Bottom">
-                <CheckBox Grid.Row="1" Margin="0 20 0 40" HorizontalAlignment="Right" Visibility="{Binding ShowIsCorrectAnswer, Converter={StaticResource BoolToVis}}" IsChecked="{Binding IsCorrect}" Content="Is Correct?"></CheckBox>
-                <Button Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Command="{Binding AddAnswerCommand}" Content="Add Answer"></Button>
+            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center">
+                <CheckBox Width="160" Grid.Row="1" Margin="0 20 0 10" HorizontalAlignment="Right" Visibility="{Binding ShowIsCorrectAnswer, Converter={StaticResource BoolToVis}}" IsChecked="{Binding IsCorrect}" Content="Correct Answer?"></CheckBox>
+                <Button  Grid.Row="2" Margin="0 0 0 0" HorizontalAlignment="Right" Foreground="White" VerticalAlignment="Bottom" Background="SkyBlue" Command="{Binding AddAnswerCommand}" Content="Add Answer"></Button>
             </StackPanel>
         
 
@@ -78,20 +84,23 @@
                 <RowDefinition Height="500"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <TextBlock Text="List of answers" Grid.Row="0" Grid.Column="0" FontSize="20"></TextBlock>
-            <ListBox Grid.Row="1" Grid.Column="0" Width="400" Height="600" ItemsSource="{Binding Answers}" SelectedItem="{Binding SelectedAnswer}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" MinHeight="500"
+            <ListBox Grid.Row="1" Grid.Column="0" Width="400" VerticalAlignment="Top" Height="300" ItemsSource="{Binding Answers}" SelectedItem="{Binding SelectedAnswer}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" 
 DisplayMemberPath="Text">
 
             </ListBox>
-            <StackPanel VerticalAlignment="Bottom" Grid.Row="3" Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="2">
-                <Button Command="{Binding AddAnotherQuestionCommand}" Width="150" Content="Add Another Question"></Button>
-                <Button HorizontalAlignment="Right" Command="{Binding SaveQuestionCommand}" Grid.Row="1"  Width="100" Content="Save Question"></Button>
+        
+            <StackPanel VerticalAlignment="Top" Grid.Row="4" Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="2">
+                <Button Margin="0 0 20 0" Foreground="White" Background="SkyBlue" Command="{Binding AddAnotherQuestionCommand}" Width="100" Content="Add More"></Button>
+                <Button Foreground="White" Background="LightGreen"  HorizontalAlignment="Right" Command="{Binding SaveQuestionCommand}" Grid.Row="1"  Width="100" Content="Save"></Button>
             </StackPanel>
             <TextBlock Grid.Row="2" Foreground="Red" Text="This is currently set as correct answer" Visibility="{Binding TextVisible,Converter={StaticResource BoolToVis}}"></TextBlock>
 
         </Grid>
-
+        
+     
 
 
 

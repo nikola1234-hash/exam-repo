@@ -1,4 +1,5 @@
 ﻿using EasyTestMaker.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -91,26 +92,32 @@ namespace EasyTestMaker.Services
             {
                 Directory.CreateDirectory(Path);
             }
-            List<Test> tests= new List<Test>();
             if (File.Exists(Path + "/tests.json"))
             {
                 string json = File.ReadAllText(Path + "/tests.json");
-                if(json == null)
-                {
-                   tests = new List<Test> { test };
-                }
-                else
-                {
-                    tests = System.Text.Json.JsonSerializer.Deserialize<List<Test>>(json);
 
-                    if (!tests.Any(s => s.Id == test.Id))
-                    {
-                        tests.Add(test);
-                    }
+                List<Test> exams = null;
+                try
+                {
+                    // Try to deserialize the JSON as an array of Test objects
+                    exams = JsonConvert.DeserializeObject<List<Test>>(json);
                 }
-         
+                catch
+                {
+                    // If deserialization fails, assume the JSON file contains a single Test object
+                    Test exam = JsonConvert.DeserializeObject<Test>(json);
+                    exams = new List<Test> { exam };
+                }
 
-                json = System.Text.Json.JsonSerializer.Serialize(tests);
+                if (exams.Where(s => s.Id == test.Id).FirstOrDefault() == null)
+                {
+                    exams.Add(test);
+                }
+
+                // Serialize the updated list of exams to JSON
+                json = JsonConvert.SerializeObject(exams, Formatting.Indented);
+
+                // Write the JSON back to the file
                 File.WriteAllText(Path + "/tests.json", json);
             }
             else

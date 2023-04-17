@@ -135,7 +135,7 @@ namespace Server.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "IsLector", "Password", "Username" },
-                values: new object[] { 1, true, "123", "Lector" });
+                values: new object[] { 1, true, "123456", "Prof" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_QuestionId",

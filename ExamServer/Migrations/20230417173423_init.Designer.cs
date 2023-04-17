@@ -12,7 +12,7 @@ using Server.EntityFramework;
 namespace Server.Migrations
 {
     [DbContext(typeof(TestDbContext))]
-    [Migration("20230417000839_init")]
+    [Migration("20230417173423_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -192,8 +192,8 @@ namespace Server.Migrations
                         {
                             Id = 1,
                             IsLector = true,
-                            Password = "123",
-                            Username = "Lector"
+                            Password = "123456",
+                            Username = "Prof"
                         });
                 });
 
