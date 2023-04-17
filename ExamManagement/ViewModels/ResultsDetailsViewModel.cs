@@ -45,7 +45,7 @@ namespace EasyTestMaker.ViewModels
                 var results = await _testService.GetTestResultsById(Const.UserId);
                 TestResults = new ObservableCollection<TestResult>(results);
                 
-              MapResultName();
+                MapResultName();
             }
             catch (Exception ex)
             {
