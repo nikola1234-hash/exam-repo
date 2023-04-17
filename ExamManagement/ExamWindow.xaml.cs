@@ -24,9 +24,6 @@ namespace EasyTestMaker
         private int _i = 0;
         private int unsolvedQuestions;
         private int solvedQuestions;
-
-
-        public Student Student { get; set; }
         private bool _isChecked;
 
         public bool IsChecked
@@ -121,18 +118,18 @@ namespace EasyTestMaker
                 SetField(ref unsolvedQuestions, value, nameof(UnsolvedQuestions));
             }
         }
-        public Test Exam { get; set; }
-        private readonly TestService examService;
-        private readonly TestResult examResult;
+        public Test Test { get; set; }
+        private readonly TestService testService;
+        private readonly TestResult testResult;
         private readonly StudentService studentService;
         private readonly ImageService imageService;
 
         public Dictionary<int, Answer> SelectedAnswers { get; set;}
         
-        private StudentTest studentExam;
-        public ExamWindow(Test exam, Student student)
+        private StudentTest studentTest;
+        public ExamWindow(Test text)
         {
-            if(student == null)
+            if(Const.UserId == 0)
             {
                 HandyControl.Controls.MessageBox.Show("Student is not registered", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 this.DialogResult = false;
@@ -140,7 +137,7 @@ namespace EasyTestMaker
 
             }
 
-            if (exam is null)
+            if (text is null)
             {
 
                 HandyControl.Controls.MessageBox.Show("Exam is not registered", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -148,20 +145,20 @@ namespace EasyTestMaker
                 return;
             }
             
-            Student = student;
 
-            examService = new TestService();
-            examResult = new TestResult();
+
+            testService = new TestService();
+            testResult = new TestResult();
             studentService = new StudentService();
-            studentExam = new StudentTest();
+            studentTest = new StudentTest();
             imageService = new ImageService();
             SelectedAnswers = new Dictionary<int, Answer>();
             InitializeComponent();
-            Exam = exam;
+            Test = text;
             InitializeTimer();
-            studentExam.StudentName = student.Name;
+            studentTest.StudentName = Const.Username;
             previousButton.IsEnabled = false;
-            if(Exam.Questions.Count == 1)
+            if(Test.Questions.Count == 1)
             {
                 nextButton.IsEnabled = false;
             }
@@ -171,23 +168,23 @@ namespace EasyTestMaker
             }
 
             CurrentQuestion = _i + 1;
-            NumberOfQuestions = exam.Questions.Count();
+            NumberOfQuestions = text.Questions.Count();
             SolvedQuestions = 0;
             UnsolvedQuestions = NumberOfQuestions;
             submitExam.Visibility = Visibility.Hidden;
 
-            if (exam.RandomSorting)
+            if (text.RandomSorting)
             {
                 var random = new Random();
-                exam.Questions.OrderBy(x => random.Next()).ToList();
+                text.Questions.OrderBy(x => random.Next()).ToList();
             
             }
             
 
-            if (!string.IsNullOrEmpty(exam.Questions[_i].ImageUrl))
+            if (!string.IsNullOrEmpty(text.Questions[_i].ImageUrl))
             {
-                ImageQuestion = imageService.GetMedia(exam.Questions[_i].ImageUrl);
-                radioListBoxEdit.ItemsSource = exam.Questions[_i].Answers;
+                ImageQuestion = imageService.GetMedia(text.Questions[_i].ImageUrl);
+                radioListBoxEdit.ItemsSource = text.Questions[_i].Answers;
                 IsImageQuestion = true;
                 IsTextQuestion = false;
             }
@@ -195,8 +192,8 @@ namespace EasyTestMaker
             {
                 IsImageQuestion = false;
                 IsTextQuestion = true;
-                question.Text = exam.Questions[_i].Text;
-                radioListBoxEdit.ItemsSource = exam.Questions[_i].Answers;
+                question.Text = text.Questions[_i].Text;
+                radioListBoxEdit.ItemsSource = text.Questions[_i].Answers;
             }
 
         }
@@ -217,7 +214,7 @@ namespace EasyTestMaker
 
         public void InitializeTimer()
         {
-            TimeSpan totalTime = Exam.TotalTime;
+            TimeSpan totalTime = Test.TotalTime;
             DispatcherTimer timer = new DispatcherTimer();
             timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
             {
@@ -239,7 +236,7 @@ namespace EasyTestMaker
         {
             
             SelectedAnswer = new Answer();
-            if (_i <= Exam.Questions.Count - 1 && _i > 0)
+            if (_i <= Test.Questions.Count - 1 && _i > 0)
             {
                 _i--;
 
@@ -247,7 +244,7 @@ namespace EasyTestMaker
                 {
                     previousButton.IsEnabled = false;
                 }
-                if(_i < Exam.Questions.Count - 1)
+                if(_i < Test.Questions.Count - 1)
                 {
                     nextButton.IsEnabled = true;
                 }
@@ -259,13 +256,13 @@ namespace EasyTestMaker
                 return;
             }
 
-            if (!string.IsNullOrEmpty(Exam.Questions[_i].ImageUrl))
+            if (!string.IsNullOrEmpty(Test.Questions[_i].ImageUrl))
             {
-                ImageQuestion = imageService.GetMedia(Exam.Questions[_i].ImageUrl);
-                if (Exam.Questions[_i].AnswersSortedRandomly)
+                ImageQuestion = imageService.GetMedia(Test.Questions[_i].ImageUrl);
+                if (Test.Questions[_i].AnswersSortedRandomly)
                 {
                     var random = new Random();
-                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers.OrderBy(x => random.Next()).ToList();
+                    radioListBoxEdit.ItemsSource = Test.Questions[_i].Answers.OrderBy(x => random.Next()).ToList();
                     if (SelectedAnswers.ContainsKey(_i))
                     {
                         radioListBoxEdit.SelectedItem = SelectedAnswers[_i];
@@ -273,7 +270,7 @@ namespace EasyTestMaker
                 }
                 else
                 {
-                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers;
+                    radioListBoxEdit.ItemsSource = Test.Questions[_i].Answers;
                     if (SelectedAnswers.ContainsKey(_i))
                     {
                         radioListBoxEdit.SelectedItem = SelectedAnswers[_i];
@@ -290,9 +287,9 @@ namespace EasyTestMaker
                 IsTextQuestion = true;
                 SetField(ref _isImageQuestion, IsImageQuestion, nameof(IsImageQuestion));
                 SetField(ref _isTextQuestion, IsTextQuestion, nameof(IsTextQuestion));
-                question.Text = Exam.Questions[_i].Text;
+                question.Text = Test.Questions[_i].Text;
 
-                radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers;
+                radioListBoxEdit.ItemsSource = Test.Questions[_i].Answers;
                 if (SelectedAnswers.ContainsKey(_i))
                 {
                     radioListBoxEdit.SelectedItem = SelectedAnswers[_i];
@@ -308,10 +305,10 @@ namespace EasyTestMaker
         public void NextQuestion_Click(object sender, RoutedEventArgs e)
         {
             SelectedAnswer = new Answer();
-            if (_i <= Exam.Questions.Count - 1)
+            if (_i <= Test.Questions.Count - 1)
             {
                 _i++;
-                if(_i == Exam.Questions.Count - 1)
+                if(_i == Test.Questions.Count - 1)
                 {
                     nextButton.IsEnabled = false;
                 }
@@ -329,15 +326,15 @@ namespace EasyTestMaker
                 return;
             }
 
-            if (!string.IsNullOrEmpty(Exam.Questions[_i].ImageUrl))
+            if (!string.IsNullOrEmpty(Test.Questions[_i].ImageUrl))
             {
-                ImageQuestion = imageService.GetMedia(Exam.Questions[_i].ImageUrl);
+                ImageQuestion = imageService.GetMedia(Test.Questions[_i].ImageUrl);
 
-                if (Exam.Questions[_i].AnswersSortedRandomly)
+                if (Test.Questions[_i].AnswersSortedRandomly)
                 {
 
                     var random = new Random();
-                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers.OrderBy(x => random.Next()).ToList();
+                    radioListBoxEdit.ItemsSource = Test.Questions[_i].Answers.OrderBy(x => random.Next()).ToList();
                     if (SelectedAnswers.ContainsKey(_i))
                     {
                         radioListBoxEdit.SelectedItem = SelectedAnswers[_i];
@@ -345,7 +342,7 @@ namespace EasyTestMaker
                 }
                 else
                 {
-                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers;
+                    radioListBoxEdit.ItemsSource = Test.Questions[_i].Answers;
                     if (SelectedAnswers.ContainsKey(_i))
                     {
                         radioListBoxEdit.SelectedItem = SelectedAnswers[_i];
@@ -362,13 +359,13 @@ namespace EasyTestMaker
                 IsTextQuestion = true;
                 SetField(ref _isImageQuestion, IsImageQuestion, nameof(IsImageQuestion));
                 SetField(ref _isTextQuestion, IsTextQuestion, nameof(IsTextQuestion));
-                question.Text = Exam.Questions[_i].Text;
+                question.Text = Test.Questions[_i].Text;
 
 
-                if (Exam.Questions[_i].AnswersSortedRandomly)
+                if (Test.Questions[_i].AnswersSortedRandomly)
                 {
                     var random = new Random();
-                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers.OrderBy(x => random.Next()).ToList();
+                    radioListBoxEdit.ItemsSource = Test.Questions[_i].Answers.OrderBy(x => random.Next()).ToList();
                     if (SelectedAnswers.ContainsKey(_i))
                     {
                         radioListBoxEdit.SelectedItem = SelectedAnswers[_i];
@@ -376,7 +373,7 @@ namespace EasyTestMaker
                 }
                 else
                 {
-                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers;
+                    radioListBoxEdit.ItemsSource = Test.Questions[_i].Answers;
                     if (SelectedAnswers.ContainsKey(_i))
                     {
                         radioListBoxEdit.SelectedItem = SelectedAnswers[_i];
@@ -400,7 +397,7 @@ namespace EasyTestMaker
         {
             SolvedQuestions++;
             UnsolvedQuestions--;
-            studentExam.SelectedAnswers.Add(Exam.Questions[_i].Answers.IndexOf(SelectedAnswer));
+            studentTest.SelectedAnswers.Add(Test.Questions[_i].Answers.IndexOf(SelectedAnswer));
          
             if (SelectedAnswers.ContainsKey(_i))
             {
@@ -411,7 +408,7 @@ namespace EasyTestMaker
                 SelectedAnswers.Add(_i, SelectedAnswer);
             }
             SelectedAnswer = new Answer();
-            if (_i < Exam.Questions.Count - 1)
+            if (_i < Test.Questions.Count - 1)
             {
                 
                 _i++;
@@ -423,17 +420,17 @@ namespace EasyTestMaker
                 return;
             }
 
-            if (!string.IsNullOrEmpty(Exam.Questions[_i].ImageUrl))
+            if (!string.IsNullOrEmpty(Test.Questions[_i].ImageUrl))
             {
-                ImageQuestion = imageService.GetMedia(Exam.Questions[_i].ImageUrl);
-                if (Exam.Questions[_i].AnswersSortedRandomly)
+                ImageQuestion = imageService.GetMedia(Test.Questions[_i].ImageUrl);
+                if (Test.Questions[_i].AnswersSortedRandomly)
                 {
                     var random = new Random();
-                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers.OrderBy(x => random.Next()).ToList();
+                    radioListBoxEdit.ItemsSource = Test.Questions[_i].Answers.OrderBy(x => random.Next()).ToList();
                 }
                 else
                 {
-                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers;
+                    radioListBoxEdit.ItemsSource = Test.Questions[_i].Answers;
                     if (SelectedAnswers.ContainsKey(_i))
                     {
                         radioListBoxEdit.SelectedItem = SelectedAnswers[_i];
@@ -450,15 +447,15 @@ namespace EasyTestMaker
                 IsTextQuestion = true;
                 SetField(ref _isImageQuestion, IsImageQuestion, nameof(IsImageQuestion));
                 SetField(ref _isTextQuestion, IsTextQuestion, nameof(IsTextQuestion));
-                question.Text = Exam.Questions[_i].Text;
-                if (Exam.Questions[_i].AnswersSortedRandomly)
+                question.Text = Test.Questions[_i].Text;
+                if (Test.Questions[_i].AnswersSortedRandomly)
                 {
                     var random = new Random();
-                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers.OrderBy(x => random.Next()).ToList();
+                    radioListBoxEdit.ItemsSource = Test.Questions[_i].Answers.OrderBy(x => random.Next()).ToList();
                 }
                 else
                 {
-                    radioListBoxEdit.ItemsSource = Exam.Questions[_i].Answers;
+                    radioListBoxEdit.ItemsSource = Test.Questions[_i].Answers;
                     if (SelectedAnswers.ContainsKey(_i))
                     {
                         radioListBoxEdit.SelectedItem = SelectedAnswers[_i];
@@ -477,11 +474,11 @@ namespace EasyTestMaker
         /// <param name="e"></param>
         public async void SubmitExam_Click(object sender, RoutedEventArgs e)
         {
-            await studentService.SubmitTestAnswers(Exam, Const.UserId, studentExam);
+            await studentService.SubmitTestAnswers(Test, Const.UserId, studentTest);
             bool success = true;
             if (success)
             {
-                HandyControl.Controls.MessageBox.Show($"Successfully submited, you can check your results on Results area with an your student ID:{Student.Id}");
+                HandyControl.Controls.MessageBox.Show($"Successfully submited, you can check your results on Results area");
                 this.Close();
 
             }

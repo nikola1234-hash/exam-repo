@@ -2,15 +2,16 @@
 {
     public class GradingData
     {
-        public GradingData(StudentTest studentExam, int studentId, Test test)
+        public GradingData(StudentTest studentTest, int userId, Test test)
         {
-            StudentExam = studentExam;
-            StudentId = studentId;
+            StudentTest = studentTest;
+            UserId = userId;
             Test = test;
         }
 
-        public StudentTest StudentExam { get; set; }
-        public int StudentId { get; set; }
+        public StudentTest StudentTest 
+            { get; set; }
+        public int UserId { get; set; }
         public Test Test { get; set; }
     }
 }

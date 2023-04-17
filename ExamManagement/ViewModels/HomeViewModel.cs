@@ -38,12 +38,16 @@ namespace EasyTestMaker.ViewModels
                 switch (view)
                 {
                     case Views.Test:
+                        RightViewModel = new TestViewModel();
                         break;
                     case Views.CreateStudent:
                         RightViewModel = new CreateStudentViewModel();
                         break;
                     case Views.CreateTest:
                         RightViewModel = new CreateTestViewModel();
+                        break;
+                    case Views.ResultsDetails:
+                        RightViewModel = new ResultsDetailsViewModel();
                         break;
                     case Views.Results:
                         RightViewModel = new ResultsViewModel();

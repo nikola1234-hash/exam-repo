@@ -55,6 +55,7 @@ namespace EasyTestMaker
             service.AddTransient<CreateStudentViewModel>();
             service.AddTransient<ResultsViewModel>();
             service.AddTransient<StudentMenuViewModel>();
+            service.AddTransient<TestViewModel>();
 
         }
 

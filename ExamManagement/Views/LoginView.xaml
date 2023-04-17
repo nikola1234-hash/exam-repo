@@ -22,7 +22,7 @@
             <Border.Effect>
                 <DropShadowEffect Color="White"/>
             </Border.Effect>
-            <Grid Width="400" Height="400" HorizontalAlignment="Center" VerticalAlignment="Center" ShowGridLines="True">
+            <Grid Width="400" Height="400" HorizontalAlignment="Center" VerticalAlignment="Center" ShowGridLines="False">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="80"></RowDefinition>
                     <RowDefinition Height="80"></RowDefinition>

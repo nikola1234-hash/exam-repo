@@ -51,6 +51,19 @@
             <DataTemplate DataType="{x:Type viewModels:TestsAreaViewModel}">
                 <views:TestAreaView />
             </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModels:TestViewModel}">
+                <views:TestView />
+            </DataTemplate>
+
+
+            <DataTemplate DataType="{x:Type viewModels:StudentMenuViewModel}">
+                <views:StudentMenuView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModels:ResultsDetailsViewModel}">
+                <views:ResultsDetailsView />
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 

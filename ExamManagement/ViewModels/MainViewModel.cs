@@ -52,6 +52,11 @@ namespace EasyTestMaker.ViewModels
             CurrentViewModel = new LoginViewModel();
         }
 
+        private void Change(StudentMenuViewSelection obj)
+        {
+            throw new NotImplementedException();
+        }
+
         private void Logout()
         {
             CurrentViewModel = new LoginViewModel();
