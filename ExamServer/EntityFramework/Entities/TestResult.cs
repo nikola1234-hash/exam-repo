@@ -4,8 +4,8 @@
     {
         public Guid TestId { get; set; }
         public Test Test { get; set; }
-        public int StudentId { get; set; }
-        public Student Student { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
         public int Grade { get; set; }
         public ICollection<Error> Errors { get; set; }
         public TestResult()
@@ -16,7 +16,7 @@
         public TestResult(int studentId, Guid testId, int grade,  ICollection<Error> errors)
         {
             TestId = testId;
-            StudentId = studentId;
+            UserId = studentId;
             Grade = grade;
             Errors = errors;
         }

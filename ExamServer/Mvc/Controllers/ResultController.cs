@@ -37,7 +37,7 @@ namespace Server.Mvc.Controllers
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
-            var result = _context.TestResults.Where(s => s.Student.Id == id).Include(s => s.Errors).Include(s=> s.Test);
+            var result = _context.TestResults.Where(s => s.User.Id == id).Include(s => s.Errors).Include(s=> s.Test);
             return Ok(result);
         }
 

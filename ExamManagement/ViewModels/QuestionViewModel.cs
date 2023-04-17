@@ -11,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using System.Windows.Input;
 using Prism.Commands;
+using Newtonsoft.Json.Linq;
 
 namespace EasyTestMaker.ViewModels
 {
@@ -150,6 +151,14 @@ namespace EasyTestMaker.ViewModels
             }
         }
 
+        private Answer _selectedAnswer;
+
+        public Answer SelectedAnswer
+        {
+            get { return _selectedAnswer; }
+            set => SetProperty(ref _selectedAnswer, value);
+        }
+
 
         private bool _isCorrect;
 
@@ -159,9 +168,33 @@ namespace EasyTestMaker.ViewModels
             get { return _isCorrect; }
             set
             {
-                SetProperty(ref _isCorrect, value);
+                if (IsEditMode)
+                {
+                    if (value == true)
+                    {
+                        Question.CorrectAnswerIndex = Question.Answers.IndexOf(SelectedAnswer);
+                        TextVisible = true;
+                        value = false;
+                        ShowIsCorrectAnswer = value;
+                        SetProperty(ref _isCorrect, value);
+                    }
+                }
+                else
+                {
+                    SetProperty(ref _isCorrect, value);
+                }
+             
             }
         }
+
+        private bool _textVisible;
+
+        public bool TextVisible
+        {
+            get { return _textVisible; }
+            set => SetProperty(ref _textVisible, value);
+        }
+
         private bool _showIsCorrectAnswer;
 
         public bool ShowIsCorrectAnswer
@@ -174,7 +207,14 @@ namespace EasyTestMaker.ViewModels
             }
         }
 
-      
+        private bool _isEditMode;
+
+        public bool IsEditMode
+        {
+            get { return _isEditMode; }
+            set => SetProperty(ref _isEditMode, value);
+        }
+
         private readonly IImageService _imageService = App.GetService<IImageService>();
         private readonly IEventAggregator @event = App.GetService<IEventAggregator>();
 
@@ -200,6 +240,34 @@ namespace EasyTestMaker.ViewModels
             IsImageQuestion = false;
             AddAnswerCommand = new DelegateCommand(AddAnswer);
 
+        }
+        public QuestionViewModel(CreateTestViewModel model, Question question)
+        {
+
+            Question = question;
+            Questions = model.ObservableQuestions;
+            Answers = new ObservableCollection<Answer>();
+            Answer = new Answer();
+            Test = model.Test;
+            IsEditMode = true;
+
+            SelectedAnswer = question.Answers[question.CorrectAnswerIndex];
+            IsCorrect = true;
+            ShowIsCorrectAnswer = false;
+            CreateTestViewModel = model;
+            AddImageCommand = new DelegateCommand(AddImage);
+            AddAnotherQuestionCommand = new DelegateCommand(AddAnotherQuestion);
+            SaveQuestionCommand = new DelegateCommand(SaveQuestion);
+            IsTextQuestion = !string.IsNullOrEmpty(question.ImageUrl);
+            IsImageQuestion = !IsTextQuestion;
+            AddAnswerCommand = new DelegateCommand(AddAnswer);
+            if (IsImageQuestion)
+            {
+               Image = _imageService.GetMedia(question.ImageUrl);
+            }
+            RandomizeAnswers = question.AnswersSortedRandomly;
+            QuestionText = question.Text;
+            Answers = new ObservableCollection<Answer>(question.Answers);
         }
         private void AddImage()
         {
@@ -244,6 +312,11 @@ namespace EasyTestMaker.ViewModels
             }
         }
         private void AddAnswer() {
+            if (IsEditMode)
+            {
+                ShowIsCorrectAnswer = true;
+                TextVisible = false;
+            }
             if (IsCorrect)
             {
                 Answer.Text = AnswerText;

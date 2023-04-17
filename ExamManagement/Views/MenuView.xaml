@@ -11,9 +11,11 @@
         <StackPanel Orientation="Vertical" >
             <Button Margin="0 0 0 5" Width="300" Background="#607B7D" Foreground="White" FontSize="24" Height="80" Content="Create Student" Command="{Binding MenuCommand}" CommandParameter="{x:Static v:Views.CreateStudent}"></Button>
             <Button  Margin="0 0 0 5" Width="300" Background="#607B7D" Foreground="White" FontSize="24" Height="80" Content="Create Test" Command="{Binding MenuCommand}" CommandParameter="{x:Static v:Views.CreateTest}"></Button>
+            <Button  Margin="0 0 0 5" Width="300" Background="#607B7D" Foreground="White" FontSize="24" Height="80" Content="List of Tests" Command="{Binding MenuCommand}" CommandParameter="{x:Static v:Views.TestArea}"></Button>
             <Button  Margin="0 0 0 5" Width="300" Background="#607B7D" Foreground="White" FontSize="24" Height="80" Content="See results" Command="{Binding MenuCommand}" CommandParameter="{x:Static v:Views.Results}"></Button>
+
         
         </StackPanel>
-        <Button VerticalAlignment="Bottom"  Margin="0 0 0 5" Width="300" Background="#607B7D" Foreground="White" FontSize="24" Height="80" Content="Exit" Command="{Binding MenuCommand}" CommandParameter="{x:Static v:Views.Results}"></Button>
+        <Button VerticalAlignment="Bottom"  Margin="0 0 0 5" Width="300" Background="#607B7D" Foreground="White" FontSize="24" Height="80" Content="Exit" Command="{Binding MenuCommand}" CommandParameter="{x:Static v:Views.Logout}"></Button>
     </Grid>
 </UserControl>

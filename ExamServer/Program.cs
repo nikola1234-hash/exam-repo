@@ -1,6 +1,7 @@
 using Server.EntityFramework;
 using Server.Services;
 using Microsoft.EntityFrameworkCore;
+using Server.Properties;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,7 +40,7 @@ app.UseStaticFiles(new StaticFileOptions
     }
 });
 app.UseCors("ApiCorsPolicy");
-
+Soap.Initialize();
 app.UseRouting();
 app.UseEndpoints(endpoints =>
 {

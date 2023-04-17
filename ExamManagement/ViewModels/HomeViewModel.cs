@@ -1,4 +1,5 @@
-﻿using EasyTestMaker.PubSub;
+﻿using EasyTestMaker.Constants;
+using EasyTestMaker.PubSub;
 using Prism.Events;
 using System;
 
@@ -39,13 +40,19 @@ namespace EasyTestMaker.ViewModels
                     case Views.Test:
                         break;
                     case Views.CreateStudent:
+                        RightViewModel = new CreateStudentViewModel();
                         break;
                     case Views.CreateTest:
                         RightViewModel = new CreateTestViewModel();
                         break;
                     case Views.Results:
+                        RightViewModel = new ResultsViewModel();
                         break;
-                    case Views.ResultsDetails:
+                    case Views.Logout:
+                        @event.GetEvent<LogoutEvent>().Publish();
+                        break;
+                    case Views.TestArea:
+                        RightViewModel = new TestsAreaViewModel();
                         break;
                 }
             }
@@ -53,7 +60,7 @@ namespace EasyTestMaker.ViewModels
 
         private void Initialize()
 		{
-			LeftViewModel = new MenuViewModel();
+			LeftViewModel = Const.IsLector ? new MenuViewModel() : new StudentMenuViewModel();
 		}
 
         public void Dispose()

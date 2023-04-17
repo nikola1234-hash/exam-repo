@@ -33,11 +33,11 @@ namespace EasyTestMaker.Services
         }
 
         // Validate if the exam can be started based on the start date and time
-        public async Task<Test> StartExam(Test exam)
+        public async Task<Test> StartExam(Test test)
         {
             var currentDate = DateTime.Now;
-            var examDate = exam.StartDateTime.Date;
-            var examHour = exam.StartDateTime.Hour;
+            var examDate = test.StartDateTime.Date;
+            var examHour = test.StartDateTime.Hour;
             var currentHour = currentDate.Hour;
 
             if (examDate != currentDate.Date || examHour != currentHour)
@@ -45,13 +45,13 @@ namespace EasyTestMaker.Services
                 throw new InvalidOperationException("Your exam is not yet active or has expired");
             }
 
-            return exam;
+            return test;
         }
 
         // Submit exam answers and return true if successful, false otherwise
-        public async Task<bool> SubmitExamAnswers(Test exam, int studentId, StudentTest studentExam)
+        public async Task<bool> SubmitTestAnswers(Test exam, int userId, StudentTest studentExam)
         {
-            var gradingData = new GradingData(studentExam, studentId, exam);
+            var gradingData = new GradingData(studentExam, userId, exam);
             var response = await _httpClient.PostAsJsonAsync("https://localhost:7129/api/result/", gradingData);
             return response.IsSuccessStatusCode;
         }

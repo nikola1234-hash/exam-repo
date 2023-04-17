@@ -51,6 +51,11 @@ namespace EasyTestMaker
             service.AddTransient<MainViewModel>();
             service.AddTransient<LoginViewModel>();
             service.AddTransient<QuestionViewModel>();
+            service.AddTransient<CreateTestViewModel>();
+            service.AddTransient<CreateStudentViewModel>();
+            service.AddTransient<ResultsViewModel>();
+            service.AddTransient<StudentMenuViewModel>();
+
         }
 
         // Method to get the registered service of the specified type

@@ -1,11 +1,13 @@
-﻿using EasyTestMaker.PubSub;
+﻿using EasyTestMaker.Constants;
+using EasyTestMaker.PubSub;
 using Prism.Commands;
 using Prism.Events;
+using System;
 using System.Windows.Input;
 
 namespace EasyTestMaker.ViewModels
 {
-	public class MainViewModel : ViewModelBase
+	public class MainViewModel : ViewModelBase, IDisposable
     {
 		private ViewModelBase _currentViewModel;
 
@@ -46,9 +48,15 @@ namespace EasyTestMaker.ViewModels
 		{
 			@event.GetEvent<ViewChangeEvent>().Subscribe(ViewChange);
             Loaded = new DelegateCommand(OnLoaded);
-
-			//TODO: Change to LoginViewModel
+			@event.GetEvent<LogoutEvent>().Subscribe(Logout);
             CurrentViewModel = new LoginViewModel();
+        }
+
+        private void Logout()
+        {
+            CurrentViewModel = new LoginViewModel();
+			Const.Username = string.Empty;
+			Const.UserId = 0;
         }
 
         private void ViewChange(object obj)
@@ -67,6 +75,12 @@ namespace EasyTestMaker.ViewModels
         private void OnLoaded()
         {
           InitializeModel();
+        }
+
+        public void Dispose()
+        {
+            @event.GetEvent<ViewChangeEvent>().Unsubscribe(ViewChange);
+            @event.GetEvent<LogoutEvent>().Unsubscribe(Logout);
         }
     }
 }

@@ -39,6 +39,18 @@
             <DataTemplate DataType="{x:Type viewModels:QuestionViewModel}">
                 <views:QuestionView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:CreateStudentViewModel}">
+                <views:CreateStudentView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:ResultsViewModel}">
+                <views:ResultsView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:TestListViewModel}">
+                <views:TestListView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:TestsAreaViewModel}">
+                <views:TestAreaView />
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 

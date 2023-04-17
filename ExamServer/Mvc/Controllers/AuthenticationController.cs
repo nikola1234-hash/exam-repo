@@ -32,5 +32,21 @@ namespace Server.Mvc.Controllers
             }
             return Ok(dbUser);
         }
+
+
+        [HttpPut]
+        public ActionResult Create(User user)
+        {
+
+            var dbUser = _context.Users.Where(s=> s.Username == user.Username).FirstOrDefault();
+            if (dbUser == null)
+            {
+               _context.Users.Add(user);
+               _context.SaveChanges();
+               return Ok();
+            }
+           return BadRequest();
+        }
+
     }
 }

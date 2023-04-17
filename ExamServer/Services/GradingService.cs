@@ -49,7 +49,7 @@ namespace Server.Services
             int grade = (int)Math.Round((double)correctAnswers / totalQuestions * 100);
 
             // Generate and return an ExamResult object containing the student's grade and any errors
-            return GetExamResult(data.StudentId, data.Test.Id, grade, errors);
+            return GetExamResult(data.UserId, data.Test.Id, grade, errors);
         }
 
         public TestResult GetExamResult(int studentId, Guid id, int grade, List<Error> errors)

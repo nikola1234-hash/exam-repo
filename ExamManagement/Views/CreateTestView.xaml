@@ -74,11 +74,15 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="2" Text="Added Questions" FontSize="21"></TextBlock>
-                <ListBox Grid.Column="1" Grid.Row="2" ItemsSource="{Binding ObservableQuestions, Mode=TwoWay}" SelectedItem="{Binding Question}" DisplayMemberPath="Text" >
+                <ListBox Grid.Column="1" Grid.Row="2" ItemsSource="{Binding ObservableQuestions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Question}" DisplayMemberPath="Text" >
                     <ListBox.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Edit"
                         Command="{Binding Path=Parent.DataContext.EditCommand, 
+                                    RelativeSource={RelativeSource Self}}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                            <MenuItem Header="Delete"
+                        Command="{Binding Path=Parent.DataContext.Delete, 
                                     RelativeSource={RelativeSource Self}}"
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
                         </ContextMenu>

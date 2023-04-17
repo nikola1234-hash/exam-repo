@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace Server.Migrations
 {
     /// <inheritdoc />
@@ -13,19 +11,6 @@ namespace Server.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Students",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Students", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Tests",
                 columns: table => new
@@ -49,7 +34,8 @@ namespace Server.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsLector = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,22 +72,22 @@ namespace Server.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TestId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     Grade = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TestResults", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TestResults_Students_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "Students",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_TestResults_Tests_TestId",
                         column: x => x.TestId,
                         principalTable: "Tests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TestResults_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -148,12 +134,8 @@ namespace Server.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Password", "Username" },
-                values: new object[,]
-                {
-                    { 1, "123", "Lector" },
-                    { 2, "123", "Student" }
-                });
+                columns: new[] { "Id", "IsLector", "Password", "Username" },
+                values: new object[] { 1, true, "123", "Lector" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_QuestionId",
@@ -171,14 +153,14 @@ namespace Server.Migrations
                 column: "TestId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TestResults_StudentId",
-                table: "TestResults",
-                column: "StudentId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TestResults_TestId",
                 table: "TestResults",
                 column: "TestId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TestResults_UserId",
+                table: "TestResults",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -191,19 +173,16 @@ namespace Server.Migrations
                 name: "Errors");
 
             migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
                 name: "Questions");
 
             migrationBuilder.DropTable(
                 name: "TestResults");
 
             migrationBuilder.DropTable(
-                name: "Students");
+                name: "Tests");
 
             migrationBuilder.DropTable(
-                name: "Tests");
+                name: "Users");
         }
     }
 }

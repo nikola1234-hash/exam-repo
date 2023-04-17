@@ -6,6 +6,8 @@
         CreateStudent,
         CreateTest,
         Results,
-        ResultsDetails
+        ResultsDetails,
+        Logout,
+        TestArea
     }
 }

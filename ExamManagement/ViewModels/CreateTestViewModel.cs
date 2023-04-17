@@ -72,13 +72,13 @@ namespace EasyTestMaker.ViewModels
                
             }
         }
-
+        public bool IsEditMode { get; set; }
         public ICommand CreateCommand { get;}
         public ICommand UpdateServerCommand { get;}
         public ICommand CreateQuestions { get;}
       
         public ICommand EditCommand { get;}
-
+        public ICommand Delete { get;}
         public CreateTestViewModel()
         {
 
@@ -87,32 +87,44 @@ namespace EasyTestMaker.ViewModels
             UpdateServerCommand = new Prism.Commands.DelegateCommand(Update);
             CreateQuestions = new Prism.Commands.DelegateCommand(OpenQuestionsWindow);
             EditCommand = new Prism.Commands.DelegateCommand(EditQuestion);
+            Delete = new Prism.Commands.DelegateCommand(DeleteQuestion);
             ObservableQuestions = new ObservableCollection<Question>();
             IsVisible = true;
          
         }
 
-        private void EditQuestion()
+        private void DeleteQuestion()
         {
-            if(Question == null)
-            {
-                return;
-            }
-            EditQuestionWindow editQuestionWindow = new EditQuestionWindow(Question);
-            editQuestionWindow.RiseQuestionAddedEvent += EditQuestionEvent;
-            editQuestionWindow.Show();
-        }
-
-        private void EditQuestionEvent(object? sender, QuestionCustomEvent e)
-        {
-            if (e.Arg is Question question)
+            var result = HandyControl.Controls.MessageBox.Show("Are you sure you want to remove this Question from exam?", "Error", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
             {
                 Test.Questions.Remove(Question);
-                Test.Questions.Add(question);
                 ObservableQuestions.Remove(Question);
-                ObservableQuestions.Add(question);
+                Question = null;
+             
             }
         }
+
+        public CreateTestViewModel(Test test)
+        {
+            Test = test;
+            ObservableQuestions = new ObservableCollection<Question>(Test.Questions);
+            CreateCommand = new Prism.Commands.DelegateCommand(CreateTest);
+            UpdateServerCommand = new Prism.Commands.DelegateCommand(Update);
+            CreateQuestions = new Prism.Commands.DelegateCommand(OpenQuestionsWindow);
+            EditCommand = new Prism.Commands.DelegateCommand(EditQuestion);
+            IsVisible = true;
+            Delete = new Prism.Commands.DelegateCommand(DeleteQuestion);
+            IsEditMode = true;
+        }
+        private void EditQuestion()
+        {
+         
+            IsVisible = false;
+            QuestionViewModel = new QuestionViewModel(this, Question);
+        }
+
+    
         private void OpenQuestionsWindow()
         {
             IsVisible = false;
@@ -137,7 +149,7 @@ namespace EasyTestMaker.ViewModels
         private void Initialize()
         {
            Test = new Test();
-            ObservableQuestions = new ObservableCollection<Question>();
+           ObservableQuestions = new ObservableCollection<Question>();
 
         }
    
@@ -162,7 +174,16 @@ namespace EasyTestMaker.ViewModels
         }
         private void CreateTest()
         {
-            _service.AddTest(Test);
+            if (IsEditMode)
+            {
+                _service.UpdateTest(Test, true);
+            }
+            else
+            {
+                _service.AddTest(Test);
+            }
+
+           
             var result = HandyControl.Controls.MessageBox.Show("Would you like to create another test?", "", MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
             {

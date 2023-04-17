@@ -10,7 +10,7 @@ namespace EasyTestMaker.Services
         Task<List<Student>> GetStudentsAsync();
         Task SaveExamResult(int studentId, string studentName, Guid id, int grade, List<Error> errors);
         Task<Test> StartExam(Test exam);
-        Task<bool> SubmitExamAnswers(Test exam, int studentId, StudentTest studentExam);
+        Task<bool> SubmitTestAnswers(Test exam, int studentId, StudentTest studentExam);
         Task<Student> UpdateStudentInformation(Student student);
     }
 }

@@ -33,6 +33,24 @@ namespace EasyTestMaker.Services
             {
                 Const.UserId = responseUser.Id;
                 Const.Username = responseUser.Username;
+                Const.IsLector = responseUser.IsLector;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> CreateUser(User user)
+        {
+            var response = await _httpClient.PutAsJsonAsync<User>($"https://localhost:7129/api/Authentication", user);
+            var json = await response.Content.ReadAsStringAsync();
+            var responseUser = JsonConvert.DeserializeObject<User>(json);
+
+            if (response.IsSuccessStatusCode)
+            {
+               
                 return true;
             }
             else

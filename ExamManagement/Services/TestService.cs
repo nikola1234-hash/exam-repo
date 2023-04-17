@@ -91,16 +91,24 @@ namespace EasyTestMaker.Services
             {
                 Directory.CreateDirectory(Path);
             }
-
+            List<Test> tests= new List<Test>();
             if (File.Exists(Path + "/tests.json"))
             {
                 string json = File.ReadAllText(Path + "/tests.json");
-                List<Test> tests = System.Text.Json.JsonSerializer.Deserialize<List<Test>>(json);
-
-                if (!tests.Any(s => s.Id == test.Id))
+                if(json == null)
                 {
-                    tests.Add(test);
+                   tests = new List<Test> { test };
                 }
+                else
+                {
+                    tests = System.Text.Json.JsonSerializer.Deserialize<List<Test>>(json);
+
+                    if (!tests.Any(s => s.Id == test.Id))
+                    {
+                        tests.Add(test);
+                    }
+                }
+         
 
                 json = System.Text.Json.JsonSerializer.Serialize(tests);
                 File.WriteAllText(Path + "/tests.json", json);

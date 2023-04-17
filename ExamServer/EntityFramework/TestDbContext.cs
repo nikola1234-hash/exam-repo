@@ -16,7 +16,7 @@ namespace Server.EntityFramework
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Error> Errors { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Student> Students { get; set; }
+      
         public DbSet<TestResult> TestResults { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -33,6 +33,7 @@ namespace Server.EntityFramework
                Id = 1,
                Username = "Lector",
                Password = "123",
+               IsLector = true
            });
          
         }

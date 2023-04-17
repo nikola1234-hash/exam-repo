@@ -7,6 +7,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using EasyTestMaker.Constants;
 using EasyTestMaker.Models;
 using EasyTestMaker.Services;
 using EasyTestMaker.Storage;
@@ -476,7 +477,7 @@ namespace EasyTestMaker
         /// <param name="e"></param>
         public async void SubmitExam_Click(object sender, RoutedEventArgs e)
         {
-            await studentService.SubmitExamAnswers(Exam, Student.Id, studentExam);
+            await studentService.SubmitTestAnswers(Exam, Const.UserId, studentExam);
             bool success = true;
             if (success)
             {

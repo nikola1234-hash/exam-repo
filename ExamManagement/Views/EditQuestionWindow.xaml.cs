@@ -222,6 +222,7 @@ namespace EasyTestMaker
             ShowIsCorrectAnswer = false;
             IsImageQuestion = !string.IsNullOrEmpty(question.ImageUrl);
             imageService = new ImageService();
+
             IsTextQuestion = !IsImageQuestion;
             if (IsImageQuestion)
             {
