@@ -8,7 +8,7 @@ namespace Server.Properties
         public static void Initialize()
         {
             string registryKeyPath = "HKEY_CURRENT_USER\\Software\\Server";
-            string registryValueName = "FirstRunDate";
+            string registryValueName = "NewRun";
 
            
             DateTime firstRunDate;
