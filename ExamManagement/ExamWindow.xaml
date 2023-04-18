@@ -5,6 +5,7 @@
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     WindowStartupLocation="CenterScreen"
      WindowState="Maximized" 
+           Background="#B1D4E0"
     xmlns:hc="https://handyorg.github.io/handycontrol"
       DataContext="{Binding RelativeSource={RelativeSource Self}}"
     >
@@ -15,16 +16,15 @@
 
     </hc:Window.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
+        <!--<Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="400"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
+        </Grid.ColumnDefinitions>-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -36,40 +36,19 @@
             
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <GroupBox Header="Question:" Grid.RowSpan="7" Margin="50" MinWidth="600" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-            <GroupBox.Content>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <ScrollViewer Grid.Row="0">
-                        <TextBlock TextWrapping="Wrap" Background="White" MinHeight="600" MinWidth="200" MaxWidth="600" x:Name="question" FontSize="16" Visibility="{Binding IsTextQuestion, Converter={StaticResource BoolToVis}}"></TextBlock>
-
-                    </ScrollViewer>
-
-                    <Image Grid.Row="0" Width="200" Height="600" Source="{Binding ImageQuestion}" Visibility="{Binding IsImageQuestion, Converter={StaticResource BoolToVis}}"></Image>
-                    <hc:ButtonGroup Grid.Row="1" Orientation="Horizontal">
-                        <Button Width="200" x:Name="previousButton" Click="PreviousQUestion_Click" Content="Previous Question"></Button>
-                        <Button Width="200" x:Name="nextButton" Click="NextQuestion_Click" Content="Next Question"></Button>
-                    </hc:ButtonGroup>
-                </Grid>
-            </GroupBox.Content>
-        </GroupBox>
 
 
-        <GroupBox Margin="0 50 0 0" MinWidth="800" Grid.Row="0" Grid.Column="3" Background="AliceBlue">
+        <GroupBox Margin="0 50 0 0" MinWidth="800" Grid.Row="0" Background="AliceBlue">
             <GroupBox.Header>
-                EXAM STATS
+                TEST
             </GroupBox.Header>
             <GroupBox.Content>
 
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
 
                     <StackPanel Margin="10"  Orientation="Vertical">
-                        <TextBlock Foreground="Red" Text="Time left:"></TextBlock>
-                        <TextBlock FontWeight="Bold" FontSize="16" Foreground="Red" x:Name="tbTime"></TextBlock>
+                        <TextBlock Foreground="Blue" Text="Time left:"></TextBlock>
+                        <TextBlock FontWeight="Bold" FontSize="16" Foreground="Blue" x:Name="tbTime"></TextBlock>
                     </StackPanel>
                     <StackPanel Margin="10" Orientation="Vertical">
                         <TextBlock Text="Current Question:"></TextBlock>
@@ -91,25 +70,82 @@
                 </StackPanel>
             </GroupBox.Content>
         </GroupBox>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="Question:" Margin="100 0 0 0"  MinWidth="600" Height="500" Grid.Row="0" Grid.Column="1">
+                <GroupBox.BorderBrush>
+                    #0C2D48
+                </GroupBox.BorderBrush>
+                <GroupBox.Background>
+                    #145DA0
+                </GroupBox.Background>
+                <GroupBox.Content>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <ScrollViewer Grid.Row="0">
+                            <Grid>
+                                <TextBlock TextWrapping="Wrap" Background="White" MinHeight="600" MinWidth="200" MaxWidth="600" x:Name="question" FontSize="16" Visibility="{Binding IsTextQuestion, Converter={StaticResource BoolToVis}}"></TextBlock>
+                                <Image Grid.Row="0" Width="200" Height="500" Source="{Binding ImageQuestion}" Visibility="{Binding IsImageQuestion, Converter={StaticResource BoolToVis}}"></Image>
+                            </Grid>
+                          
+                        </ScrollViewer>
 
-        <GroupBox Grid.Row="1" MaxWidth="700" Grid.RowSpan="2" Grid.Column="3" Grid.ColumnSpan="4" Header="SELECT ANSWER:">
-            <GroupBox.Content>
+                     
+                      
+                    </Grid>
+                </GroupBox.Content>
+            </GroupBox>
 
-                <ListBox MinWidth="200" Height="300" Name="radioListBoxEdit" Margin="10" Grid.Row="3" Grid.Column="2" SelectedItem="{Binding SelectedAnswer}" ScrollViewer.CanContentScroll="True"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <RadioButton Content="{Binding Path=Text, UpdateSourceTrigger=PropertyChanged}" IsChecked="{Binding Path=IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"></RadioButton>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                </ListBox>
-            </GroupBox.Content>
-        </GroupBox>
 
-        <hc:ButtonGroup Grid.Row="6" Grid.Column="3" >
-            <Button Margin="20"  Width="200" Height="40" Content="Submit Question" Click="SubmitQuestion_Click" Background="#5cb85c" Foreground="White"></Button>
-            <Button Margin="20"  Width="200" Height="40" x:Name="submitExam" Content="Submit Exam" Click="SubmitExam_Click" Background="#00a2ed" Foreground="White"></Button>
-           
-        </hc:ButtonGroup>
+
+
+            <GroupBox Margin="40 0 0 0" MaxWidth="700" Grid.Row="0" Grid.Column="0" Width="800" Header="ANSWER">
+                <GroupBox.BorderBrush>
+                    #0C2D48
+                </GroupBox.BorderBrush>
+                <GroupBox.Background>
+                    #145DA0
+                </GroupBox.Background>
+
+                <GroupBox.Content>
+
+                    <ListBox MinWidth="200" Height="400" Name="radioListBoxEdit" Margin="10" Grid.Row="3" Grid.Column="2" SelectedItem="{Binding SelectedAnswer}" ScrollViewer.CanContentScroll="True"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <RadioButton Content="{Binding Path=Text, UpdateSourceTrigger=PropertyChanged}" IsChecked="{Binding Path=IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"></RadioButton>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </GroupBox.Content>
+            </GroupBox>
+
+            <hc:ButtonGroup Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                <Button Margin="20"  Width="200" Height="40" Content="Submit Question" Click="SubmitQuestion_Click" Background="#5cb85c" Foreground="White"></Button>
+                <Button Margin="20"  Width="200" Height="40" x:Name="submitExam" Content="Submit Test" Click="SubmitExam_Click" Background="Red" Foreground="White"></Button>
+
+            </hc:ButtonGroup>
+            <hc:ButtonGroup Margin="50 20 0 0" Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                <Button Width="200" Background="LightSalmon" Foreground="White" x:Name="previousButton" Click="PreviousQUestion_Click">
+                    <Button.Content>
+                        Previous
+                    </Button.Content>
+                </Button>
+                <Button Width="200" HorizontalAlignment="Right" Background="LightSalmon" Foreground="White" x:Name="nextButton" Click="NextQuestion_Click" Content="Next"></Button>
+            </hc:ButtonGroup>
+        </Grid>
+   
 
        
     </Grid>

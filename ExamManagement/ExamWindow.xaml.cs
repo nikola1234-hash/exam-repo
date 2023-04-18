@@ -326,7 +326,7 @@ namespace EasyTestMaker
                 return;
             }
 
-            if (!string.IsNullOrEmpty(Test.Questions[_i].ImageUrl))
+            if (_i <= Test.Questions.Count - 1 &&!string.IsNullOrEmpty(Test.Questions[_i].ImageUrl))
             {
                 ImageQuestion = imageService.GetMedia(Test.Questions[_i].ImageUrl);
 
@@ -395,6 +395,10 @@ namespace EasyTestMaker
       
         public void SubmitQuestion_Click(object sender, RoutedEventArgs e)
         {
+            //if(_i == Test.Questions.Count() - 1 )
+            //{
+            //    return;
+            //}
             SolvedQuestions++;
             UnsolvedQuestions--;
             studentTest.SelectedAnswers.Add(Test.Questions[_i].Answers.IndexOf(SelectedAnswer));
