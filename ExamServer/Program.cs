@@ -40,7 +40,6 @@ app.UseStaticFiles(new StaticFileOptions
     }
 });
 app.UseCors("ApiCorsPolicy");
-Soap.Initialize();
 app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
